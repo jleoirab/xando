@@ -1,0 +1,14 @@
+apply plugin: 'application'
+
+application {
+    mainClass = 'com.jleoirab.xando.XandOApplication'
+}
+
+dependencies {
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
