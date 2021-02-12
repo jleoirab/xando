@@ -1,13 +1,13 @@
 package com.jleoirab.xando.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.jleoirab.xando.domain.Game;
 import com.jleoirab.xando.domain.GameState;
 import com.jleoirab.xando.domain.Player;
 import com.jleoirab.xando.domain.PlayerTag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /** Created by jleoirab on 2021-02-12 */
 class GameServiceImplTest {

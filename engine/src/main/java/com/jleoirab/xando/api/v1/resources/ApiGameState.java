@@ -2,9 +2,7 @@ package com.jleoirab.xando.api.v1.resources;
 
 import com.jleoirab.xando.domain.GameState;
 
-/**
- * Created by jleoirab on 2021-02-12
- */
+/** Created by jleoirab on 2021-02-12 */
 public enum ApiGameState {
     CREATED,
     IN_PROGRESS,
