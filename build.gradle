@@ -73,6 +73,11 @@ subprojects {
 	}
 	integrationTest.mustRunAfter test
 
+	task allTests {
+		dependsOn tasks.test
+		dependsOn tasks.integrationTest
+	}
+
 	check.dependsOn integrationTest
 
 }
