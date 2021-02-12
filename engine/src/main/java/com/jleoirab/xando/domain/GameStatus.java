@@ -8,6 +8,6 @@ import lombok.Value;
 @Builder
 public class GameStatus {
     @Builder.Default PlayerTag currentPlayerTurn = PlayerTag.PLAYER_X;
-    @Builder.Default boolean isFinished = false;
+    @Builder.Default GameState state = GameState.CREATED;
     @Builder.Default PlayerTag winner = null;
 }

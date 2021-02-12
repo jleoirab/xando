@@ -9,7 +9,7 @@ import lombok.Value;
 @Builder
 public class ApiGameStatus {
     ApiPlayerTag currentPlayerTurn;
-    boolean isFinished;
+    ApiGameState state;
     ApiPlayerTag winner;
 
     public static ApiGameStatus from(GameStatus gameStatus) {
@@ -17,7 +17,7 @@ public class ApiGameStatus {
 
         return ApiGameStatus.builder()
                 .currentPlayerTurn(ApiPlayerTag.from(gameStatus.getCurrentPlayerTurn()))
-                .isFinished(gameStatus.isFinished())
+                .state(ApiGameState.from(gameStatus.getState()))
                 .winner(ApiPlayerTag.from(gameStatus.getWinner()))
                 .build();
     }
