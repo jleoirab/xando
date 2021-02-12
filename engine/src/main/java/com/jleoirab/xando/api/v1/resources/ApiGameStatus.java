@@ -22,7 +22,7 @@ public class ApiGameStatus {
         return ApiGameStatus.builder()
                 .currentPlayerTurn(ApiPlayerTag.from(gameStatus.getCurrentPlayerTurn()))
                 .isFinished(gameStatus.isFinished())
-                .winner(ApiPlayerTag.from(gameStatus.getWinnner()))
+                .winner(ApiPlayerTag.from(gameStatus.getWinner()))
                 .build();
     }
 }

@@ -4,7 +4,10 @@ import com.jleoirab.xando.api.v1.request.CreatePlayerRequest;
 import com.jleoirab.xando.api.v1.resources.ApiPlayer;
 import com.jleoirab.xando.domain.Player;
 import com.jleoirab.xando.service.PlayerService;
+import com.jleoirab.xando.service.errors.PlayerCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +28,15 @@ public class PlayerController {
     }
 
     @PostMapping(value = "")
-    ApiPlayer createPlayer(@RequestBody CreatePlayerRequest request) {
-        String playerName = request.getPlayerName();
+    ResponseEntity<ApiPlayer> createPlayer(@RequestBody CreatePlayerRequest request) {
+        try {
+            String playerName = request.getPlayerName();
 
-        Player player = playerService.createPlayer(playerName);
+            Player player = playerService.createPlayer(playerName);
 
-        return ApiPlayer.from(player);
+            return new ResponseEntity<>(ApiPlayer.from(player), HttpStatus.OK);
+        } catch (PlayerCreationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

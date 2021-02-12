@@ -3,7 +3,10 @@ package com.jleoirab.xando.api.v1.controller;
 import com.jleoirab.xando.api.v1.resources.ApiGame;
 import com.jleoirab.xando.domain.Game;
 import com.jleoirab.xando.service.GameService;
+import com.jleoirab.xando.service.errors.GameCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +26,12 @@ public class GameController {
     }
 
     @GetMapping(value = "/new")
-    ApiGame createGame() {
-        Game game = gameService.createGame(null);
-
-        return ApiGame.from(game);
+    ResponseEntity<ApiGame> createGame() {
+        try {
+            Game game = gameService.createGame(null);
+            return new ResponseEntity<>(ApiGame.from(game), HttpStatus.OK);
+        } catch (GameCreationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

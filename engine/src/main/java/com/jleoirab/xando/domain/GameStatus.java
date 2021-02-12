@@ -13,5 +13,5 @@ import lombok.Value;
 public class GameStatus {
     @Builder.Default PlayerTag currentPlayerTurn = PlayerTag.PLAYER_X;
     @Builder.Default boolean isFinished = false;
-    @Builder.Default PlayerTag winnner = null;
+    @Builder.Default PlayerTag winner = null;
 }
