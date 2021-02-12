@@ -1,5 +1,6 @@
 package com.jleoirab.xando.api.v1.request;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Value;
 
@@ -8,6 +9,7 @@ import lombok.Value;
  */
 @Data
 @Value
+@Builder
 public class CreatePlayerRequest {
     String playerName;
 }

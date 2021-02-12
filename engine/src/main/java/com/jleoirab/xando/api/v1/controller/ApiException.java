@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
  * Created by jleoirab on 2021-02-11
  */
 public class ApiException extends RuntimeException {
-    private final String message;
+    private final String errorMessage;
     private final HttpStatus status;
 
     ApiException() {
@@ -17,16 +17,15 @@ public class ApiException extends RuntimeException {
         this("", status);
     }
 
-    ApiException(String message, HttpStatus status) {
-        super(message);
+    ApiException(String errorMessage, HttpStatus status) {
+        super(errorMessage);
 
-        this.message = message;
+        this.errorMessage = errorMessage;
         this.status = status;
     }
 
-    @Override
-    public String getMessage() {
-        return message;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     public HttpStatus getStatus() {

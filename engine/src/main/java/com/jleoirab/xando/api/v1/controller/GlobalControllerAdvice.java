@@ -13,7 +13,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(ApiException.class)
     ResponseEntity<ApiError> handleApiException(ApiException exception) {
         ApiError error = ApiError.builder()
-                .message(exception.getMessage())
+                .message(exception.getErrorMessage())
                 .build();
 
         return new ResponseEntity<>(error, exception.getStatus());

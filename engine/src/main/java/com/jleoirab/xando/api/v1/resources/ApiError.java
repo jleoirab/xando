@@ -2,6 +2,7 @@ package com.jleoirab.xando.api.v1.resources;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -11,5 +12,5 @@ import lombok.Value;
 @Value
 @Builder
 public class ApiError {
-    String message;
+    @NonNull String message;
 }
