@@ -58,7 +58,7 @@ public class GameController {
             Game game = gameService.createGame(null);
             return ApiGame.from(game);
         } catch (GameCreationException e) {
-            throw new ApiException("Could not create game", HttpStatus.BAD_REQUEST);
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Could not create game");
         }
     }
 }

@@ -35,7 +35,44 @@ subprojects {
 		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 	}
 
+	sourceSets {
+		integrationTest {
+			java {
+				compileClasspath += main.output + test.output
+				runtimeClasspath += main.output + test.output
+				srcDir "src/integrationTest/java"
+			}
+			resources {
+				srcDir "src/integrationTest/resources"
+			}
+		}
+	}
+
+	configurations {
+		integrationTestCompileOnly.extendsFrom testCompileOnly
+		integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+		integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
+		integrationTestImplementation.extendsFrom testImplementation
+		integrationTestRuntime.extendsFrom testRuntime
+	}
+
+	idea {
+		module {
+			testSourceDirs += file('src/integrationTest/java')
+		}
+	}
+
 	test {
 		useJUnitPlatform()
 	}
+
+	task integrationTest(type: Test) {
+		testClassesDirs = sourceSets.integrationTest.output.classesDirs
+		classpath = sourceSets.integrationTest.runtimeClasspath
+		useJUnitPlatform()
+	}
+	integrationTest.mustRunAfter test
+
+	check.dependsOn integrationTest
+
 }

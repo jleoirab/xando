@@ -31,7 +31,7 @@ class GlobalControllerAdviceTest {
         String errorMessage = "Error message";
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        ResponseEntity<ApiError> response = sut.handleApiException(new ApiException(errorMessage, status));
+        ResponseEntity<ApiError> response = sut.handleApiException(new ApiException(status, errorMessage));
         ApiError error = response.getBody();
 
         assertNotNull(error);

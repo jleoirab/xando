@@ -6,18 +6,18 @@ import org.springframework.http.HttpStatus;
  * Created by jleoirab on 2021-02-11
  */
 public class ApiException extends RuntimeException {
-    private final String errorMessage;
     private final HttpStatus status;
+    private final String errorMessage;
 
     ApiException() {
-        this("", HttpStatus.BAD_REQUEST);
+        this(HttpStatus.BAD_REQUEST, "");
     }
 
     ApiException(HttpStatus status) {
-        this("", status);
+        this(status, "");
     }
 
-    ApiException(String errorMessage, HttpStatus status) {
+    ApiException(HttpStatus status, String errorMessage) {
         super(errorMessage);
 
         this.errorMessage = errorMessage;

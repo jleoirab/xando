@@ -61,7 +61,7 @@ public class PlayerController {
 
             return ApiPlayer.from(player);
         } catch (PlayerCreationException e) {
-            throw new ApiException("Could not create player", HttpStatus.BAD_REQUEST);
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Could not create player");
         }
     }
 }
