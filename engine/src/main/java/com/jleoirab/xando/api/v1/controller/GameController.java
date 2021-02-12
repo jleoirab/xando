@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by jleoirab on 2021-02-09
- */
+/** Created by jleoirab on 2021-02-09 */
 @RestController
 @RequestMapping(value = "/v1/game")
 public class GameController {
@@ -33,25 +31,24 @@ public class GameController {
     }
 
     @Operation(summary = "Create a new game resource")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    content = {
+    @ApiResponses(
+            value = {
+                @ApiResponse(
+                        responseCode = "201",
+                        content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ApiGame.class)
-                            )
-            }),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Error creating game",
-                    content = {
+                                    schema = @Schema(implementation = ApiGame.class))
+                        }),
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Error creating game",
+                        content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ApiError.class)
-                            )
-                    }),
-    })
+                                    schema = @Schema(implementation = ApiError.class))
+                        }),
+            })
     @PostMapping(value = "")
     ApiGame createGame(@RequestBody CreateGameRequest gameRequest) {
         try {

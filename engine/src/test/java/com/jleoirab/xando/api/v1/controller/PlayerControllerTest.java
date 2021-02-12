@@ -1,5 +1,9 @@
 package com.jleoirab.xando.api.v1.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
 import com.jleoirab.xando.api.v1.request.CreatePlayerRequest;
 import com.jleoirab.xando.api.v1.resources.ApiPlayer;
 import com.jleoirab.xando.domain.Player;
@@ -12,27 +16,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
-
-/**
- * Created by jleoirab on 2021-02-12
- */
+/** Created by jleoirab on 2021-02-12 */
 @ExtendWith(MockitoExtension.class)
 class PlayerControllerTest {
     // Static variable declaration
-    private static final ApiPlayer API_PLAYER = ApiPlayer.builder()
-            .id("player-id")
-            .playerName("playerName")
-            .build();
+    private static final ApiPlayer API_PLAYER =
+            ApiPlayer.builder().id("player-id").playerName("playerName").build();
 
     // System under test
     private PlayerController sut;
 
     // Collaborators
-    @Mock
-    private PlayerService playerService;
+    @Mock private PlayerService playerService;
     private ApiPlayer createPlayerResponse;
 
     // Helpers
@@ -42,20 +37,22 @@ class PlayerControllerTest {
     }
 
     private void givenNoErrorInPlayerCreation() throws PlayerCreationException {
-        when(playerService.createPlayer(API_PLAYER.getPlayerName())).thenReturn(Player.builder()
-                .id(API_PLAYER.getId())
-                .playerName(API_PLAYER.getPlayerName())
-                .build());
+        when(playerService.createPlayer(API_PLAYER.getPlayerName()))
+                .thenReturn(
+                        Player.builder()
+                                .id(API_PLAYER.getId())
+                                .playerName(API_PLAYER.getPlayerName())
+                                .build());
     }
 
     private void givenErrorInPlayerCreation() throws PlayerCreationException {
-        when(playerService.createPlayer(API_PLAYER.getPlayerName())).thenThrow(PlayerCreationException.class);
+        when(playerService.createPlayer(API_PLAYER.getPlayerName()))
+                .thenThrow(PlayerCreationException.class);
     }
 
     private void whenCreatePlayer() {
-        CreatePlayerRequest request = CreatePlayerRequest.builder()
-                .playerName(API_PLAYER.getPlayerName())
-                .build();
+        CreatePlayerRequest request =
+                CreatePlayerRequest.builder().playerName(API_PLAYER.getPlayerName()).build();
 
         createPlayerResponse = sut.createPlayer(request);
     }
@@ -65,18 +62,18 @@ class PlayerControllerTest {
     }
 
     @Test
-    void test_Given_NoErrorInPlayerCreation_When_CreatePlayer_then_ShouldReturnApiPlayer() throws PlayerCreationException {
+    void test_Given_NoErrorInPlayerCreation_When_CreatePlayer_then_ShouldReturnApiPlayer()
+            throws PlayerCreationException {
         givenNoErrorInPlayerCreation();
         whenCreatePlayer();
         thenShouldReturnApiPlayer();
     }
 
     @Test
-    void test_Given_ErrorInPlayerCreation_When_CreatePlayer_then_ShouldThrowApiException() throws PlayerCreationException {
+    void test_Given_ErrorInPlayerCreation_When_CreatePlayer_then_ShouldThrowApiException()
+            throws PlayerCreationException {
         givenErrorInPlayerCreation();
         ApiException exception = assertThrows(ApiException.class, this::whenCreatePlayer);
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
     }
-
-
 }

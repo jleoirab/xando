@@ -6,9 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class XAndOApplicationTests {
 
-	@Test
-	void contextLoads() {
-		// Ensure that application starts up successfully
-	}
-
+    @Test
+    void contextLoads() {
+        // Ensure that application starts up successfully
+    }
 }

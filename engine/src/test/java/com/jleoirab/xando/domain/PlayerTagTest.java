@@ -1,13 +1,11 @@
 package com.jleoirab.xando.domain;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * Created by jleoirab on 2021-02-12
- */
+import org.junit.jupiter.api.Test;
+
+/** Created by jleoirab on 2021-02-12 */
 class PlayerTagTest {
     // Static variable declaration
 
@@ -44,6 +42,4 @@ class PlayerTagTest {
     void test_Given_InvalidValue_When_From_then_ShouldReturnPlayerO() {
         assertThrows(IllegalArgumentException.class, () -> PlayerTag.from("A"));
     }
-
-
 }

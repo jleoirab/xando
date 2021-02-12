@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by jleoirab on 2021-02-09
- */
+/** Created by jleoirab on 2021-02-09 */
 @RestController
 @RequestMapping(value = "/v1/player")
 public class PlayerController {
@@ -33,25 +31,24 @@ public class PlayerController {
     }
 
     @Operation(summary = "Create a new player resource")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    content = {
+    @ApiResponses(
+            value = {
+                @ApiResponse(
+                        responseCode = "201",
+                        content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ApiPlayer.class)
-                            )
-                    }),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Error creating player",
-                    content = {
+                                    schema = @Schema(implementation = ApiPlayer.class))
+                        }),
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Error creating player",
+                        content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ApiError.class)
-                            )
-                    }),
-    })
+                                    schema = @Schema(implementation = ApiError.class))
+                        }),
+            })
     @PostMapping(value = "")
     ApiPlayer createPlayer(@RequestBody CreatePlayerRequest request) {
         try {

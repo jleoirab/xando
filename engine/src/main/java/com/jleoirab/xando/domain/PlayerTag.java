@@ -1,8 +1,6 @@
 package com.jleoirab.xando.domain;
 
-/**
- * Created by jleoirab on 2021-02-09
- */
+/** Created by jleoirab on 2021-02-09 */
 public enum PlayerTag {
     PLAYER_X("X"),
     PLAYER_O("O");

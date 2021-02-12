@@ -2,9 +2,7 @@ package com.jleoirab.xando.api.v1.resources;
 
 import com.jleoirab.xando.domain.PlayerTag;
 
-/**
- * Created by jleoirab on 2021-02-09
- */
+/** Created by jleoirab on 2021-02-09 */
 public enum ApiPlayerTag {
     X,
     O;

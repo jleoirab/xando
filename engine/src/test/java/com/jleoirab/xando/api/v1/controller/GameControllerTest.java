@@ -1,5 +1,10 @@
 package com.jleoirab.xando.api.v1.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.jleoirab.xando.api.v1.request.CreateGameRequest;
 import com.jleoirab.xando.api.v1.resources.ApiGame;
 import com.jleoirab.xando.domain.Game;
@@ -12,26 +17,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-/**
- * Created by jleoirab on 2021-02-11
- */
+/** Created by jleoirab on 2021-02-11 */
 @ExtendWith(MockitoExtension.class)
 class GameControllerTest {
-    private static final ApiGame API_GAME = ApiGame.builder()
-            .id("game-id")
-            .gameBoard(",,,,,,,,")
-            .build();
-
+    private static final ApiGame API_GAME =
+            ApiGame.builder().id("game-id").gameBoard(",,,,,,,,").build();
 
     private GameController sut;
 
-    @Mock
-    private GameService gameService;
+    @Mock private GameService gameService;
     private ApiGame createGameResponse;
 
     @BeforeEach
@@ -40,10 +34,12 @@ class GameControllerTest {
     }
 
     private void givenNoErrorInCreation() throws GameCreationException {
-        when(gameService.createGame(any())).thenReturn(Game.builder()
-                .id(API_GAME.getId())
-                .gameBoard(API_GAME.getGameBoard())
-                .build());
+        when(gameService.createGame(any()))
+                .thenReturn(
+                        Game.builder()
+                                .id(API_GAME.getId())
+                                .gameBoard(API_GAME.getGameBoard())
+                                .build());
     }
 
     private void givenErrorInCreation() throws GameCreationException {
@@ -51,8 +47,7 @@ class GameControllerTest {
     }
 
     private void whenCreateGame() {
-        CreateGameRequest createGameRequest = CreateGameRequest.builder()
-                .build();
+        CreateGameRequest createGameRequest = CreateGameRequest.builder().build();
 
         createGameResponse = sut.createGame(createGameRequest);
     }
@@ -62,17 +57,18 @@ class GameControllerTest {
     }
 
     @Test
-    void test_Given_RequestAndNoErrorInCreation_When_CreateGame_then_ShouldReturnApiGame() throws GameCreationException {
+    void test_Given_RequestAndNoErrorInCreation_When_CreateGame_then_ShouldReturnApiGame()
+            throws GameCreationException {
         givenNoErrorInCreation();
         whenCreateGame();
         thenShouldReturnApiGame();
     }
 
     @Test
-    void test_Given_RequestAndErrorInCreation_When_CreateGame_then_ShouldThrowApiException() throws GameCreationException {
+    void test_Given_RequestAndErrorInCreation_When_CreateGame_then_ShouldThrowApiException()
+            throws GameCreationException {
         givenErrorInCreation();
         ApiException exception = assertThrows(ApiException.class, this::whenCreateGame);
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
     }
-
 }

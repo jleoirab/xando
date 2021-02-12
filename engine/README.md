@@ -1,6 +1,6 @@
 # Engine
 
-The X and O engine. This provides the API for the creating, and playing this game. 
+The X and O engine. This provides the API for the creating, and playing this game.
 
 ### API Documentation
 The Engine provides a REST API that conforms to the OpenAPI spec and can be found at

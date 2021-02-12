@@ -1,22 +1,17 @@
 package com.jleoirab.xando.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.jleoirab.xando.domain.Game;
 import com.jleoirab.xando.domain.Player;
 import com.jleoirab.xando.domain.PlayerTag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Created by jleoirab on 2021-02-12
- */
+/** Created by jleoirab on 2021-02-12 */
 class GameServiceImplTest {
     // Static variable declaration
-    private final Player PLAYER_X = Player.builder()
-            .id("player-id")
-            .playerName("player-x")
-            .build();
+    private final Player PLAYER_X = Player.builder().id("player-id").playerName("player-x").build();
 
     // System under test
     private GameServiceImpl sut;
@@ -41,6 +36,4 @@ class GameServiceImplTest {
         assertNull(game.getGameStatus().getWinner());
         assertFalse(game.getGameStatus().isFinished());
     }
-
-
 }

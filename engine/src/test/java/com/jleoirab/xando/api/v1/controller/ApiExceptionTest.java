@@ -1,14 +1,11 @@
 package com.jleoirab.xando.api.v1.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-/**
- * Created by jleoirab on 2021-02-12
- */
+/** Created by jleoirab on 2021-02-12 */
 class ApiExceptionTest {
     // Static variable declaration
 
@@ -19,7 +16,6 @@ class ApiExceptionTest {
 
     // Helpers
 
-
     @Test
     void test_Given_NoConstructorParams_When_Creating_then_ShouldUseDefaultValues() {
         sut = new ApiException();
@@ -29,7 +25,8 @@ class ApiExceptionTest {
     }
 
     @Test
-    void test_Given_OnlyHttpStatus_When_Creating_then_ShouldUseDefaultErrorMessageAndProvidedHttpStatus() {
+    void
+            test_Given_OnlyHttpStatus_When_Creating_then_ShouldUseDefaultErrorMessageAndProvidedHttpStatus() {
         HttpStatus status = HttpStatus.FORBIDDEN;
 
         sut = new ApiException(status);
@@ -48,6 +45,4 @@ class ApiExceptionTest {
         assertEquals(status, sut.getStatus());
         assertEquals(errorMessage, sut.getErrorMessage());
     }
-
-
 }

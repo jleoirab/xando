@@ -4,9 +4,7 @@ import com.jleoirab.xando.domain.Player;
 import lombok.Builder;
 import lombok.Value;
 
-/**
- * Created by jleoirab on 2021-02-09
- */
+/** Created by jleoirab on 2021-02-09 */
 @Value
 @Builder
 public class ApiPlayer {
@@ -16,9 +14,6 @@ public class ApiPlayer {
     public static ApiPlayer from(Player player) {
         if (player == null) return null;
 
-        return ApiPlayer.builder()
-                .id(player.getId())
-                .playerName(player.getPlayerName())
-                .build();
+        return ApiPlayer.builder().id(player.getId()).playerName(player.getPlayerName()).build();
     }
 }

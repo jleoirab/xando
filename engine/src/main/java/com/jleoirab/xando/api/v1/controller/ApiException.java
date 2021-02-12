@@ -2,9 +2,7 @@ package com.jleoirab.xando.api.v1.controller;
 
 import org.springframework.http.HttpStatus;
 
-/**
- * Created by jleoirab on 2021-02-11
- */
+/** Created by jleoirab on 2021-02-11 */
 public class ApiException extends RuntimeException {
     private final HttpStatus status;
     private final String errorMessage;
