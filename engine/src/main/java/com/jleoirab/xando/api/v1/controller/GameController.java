@@ -50,7 +50,7 @@ public class GameController {
                         }),
             })
     @PostMapping(value = "")
-    ApiGame createGame(@RequestBody CreateGameRequest gameRequest) {
+    public ApiGame createGame(@RequestBody CreateGameRequest gameRequest) {
         try {
             Game game = gameService.createGame(null);
             return ApiGame.from(game);

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
     @ExceptionHandler(ApiException.class)
-    ResponseEntity<ApiError> handleApiException(ApiException exception) {
+    public ResponseEntity<ApiError> handleApiException(ApiException exception) {
         ApiError error = ApiError.builder().message(exception.getErrorMessage()).build();
 
         return new ResponseEntity<>(error, exception.getStatus());

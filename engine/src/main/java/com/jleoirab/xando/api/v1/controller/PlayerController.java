@@ -50,7 +50,7 @@ public class PlayerController {
                         }),
             })
     @PostMapping(value = "")
-    ApiPlayer createPlayer(@RequestBody CreatePlayerRequest request) {
+    public ApiPlayer createPlayer(@RequestBody CreatePlayerRequest request) {
         try {
             String playerName = request.getPlayerName();
 
