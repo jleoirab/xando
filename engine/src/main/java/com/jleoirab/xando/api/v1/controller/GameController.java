@@ -4,6 +4,7 @@ import com.jleoirab.xando.api.v1.request.CreateGameRequest;
 import com.jleoirab.xando.api.v1.resources.ApiError;
 import com.jleoirab.xando.api.v1.resources.ApiGame;
 import com.jleoirab.xando.domain.Game;
+import com.jleoirab.xando.domain.Player;
 import com.jleoirab.xando.service.GameService;
 import com.jleoirab.xando.service.errors.GameCreationException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,10 +14,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 /** Created by jleoirab on 2021-02-09 */
 @RestController
@@ -50,9 +49,13 @@ public class GameController {
                         }),
             })
     @PostMapping(value = "")
-    public ApiGame createGame(@RequestBody CreateGameRequest gameRequest) {
+    @GetMapping(value = "") // TODO: For debugging on the browser. Should remove once custom error controller has been added
+    public ApiGame createGame(@AuthenticationPrincipal Player player, @RequestBody CreateGameRequest gameRequest) {
+        if (player == null) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "Request forbidden");
+        }
         try {
-            Game game = gameService.createGame(null);
+            Game game = gameService.createGame(player);
             return ApiGame.from(game);
         } catch (GameCreationException e) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Could not create game");

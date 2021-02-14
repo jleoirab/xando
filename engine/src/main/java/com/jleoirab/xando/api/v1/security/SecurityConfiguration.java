@@ -1,6 +1,5 @@
 package com.jleoirab.xando.api.v1.security;
 
-import javax.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.servlet.Filter;
 
 /** Created by jleoirab on 2021-02-13 */
 @EnableWebSecurity
@@ -39,6 +40,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .denyAll()
                 .and()
-                .addFilterBefore(tokenBasedAuthenticationFilter, BasicAuthenticationFilter.class);
+                .addFilterBefore(tokenBasedAuthenticationFilter, BasicAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new Http401UnauthorizedEntryPoint())
+                .and()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .logout().disable();
     }
 }
