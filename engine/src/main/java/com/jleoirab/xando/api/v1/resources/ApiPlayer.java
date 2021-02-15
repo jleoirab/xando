@@ -8,12 +8,13 @@ import lombok.Value;
 @Value
 @Builder
 public class ApiPlayer {
+    String uid;
     String id;
     String playerName;
 
     public static ApiPlayer from(Player player) {
         if (player == null) return null;
 
-        return ApiPlayer.builder().id(player.getId()).playerName(player.getPlayerName()).build();
+        return ApiPlayer.builder().uid(player.getUid()).id(player.getPlayerId()).playerName(player.getPlayerName()).build();
     }
 }

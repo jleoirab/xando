@@ -25,7 +25,7 @@ class GameControllerTest {
             ApiGame.builder().id("game-id").gameBoard(",,,,,,,,").build();
 
     private static final Player PLAYER = Player.builder()
-            .id("player-id")
+            .playerId("player-id")
             .playerName("player-name")
             .build();
 
@@ -45,7 +45,7 @@ class GameControllerTest {
         when(gameService.createGame(any()))
                 .thenReturn(
                         Game.builder()
-                                .id(API_GAME.getId())
+                                .gameId(API_GAME.getId())
                                 .gameBoard(API_GAME.getGameBoard())
                                 .build());
     }

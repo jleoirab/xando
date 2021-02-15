@@ -8,9 +8,10 @@ import lombok.Value;
 @Value
 @Builder
 public class ApiGame {
+    String uid;
     String id;
-    ApiPlayer playerX;
-    ApiPlayer playerO;
+    ApiGamePlayer playerX;
+    ApiGamePlayer playerO;
     String gameBoard;
     ApiGameStatus gameStatus;
 
@@ -18,9 +19,10 @@ public class ApiGame {
         if (game == null) return null;
 
         return ApiGame.builder()
-                .id(game.getId())
-                .playerX(ApiPlayer.from(game.getPlayerX()))
-                .playerO(ApiPlayer.from(game.getPlayerO()))
+                .uid(game.getUid())
+                .id(game.getGameId())
+                .playerX(ApiGamePlayer.from(game.getPlayerX()))
+                .playerO(ApiGamePlayer.from(game.getPlayerO()))
                 .gameBoard(game.getGameBoard())
                 .gameStatus(ApiGameStatus.from(game.getGameStatus()))
                 .build();

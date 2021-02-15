@@ -1,7 +1,6 @@
 package com.jleoirab.xando.api.v1.security.authentication.simplebearer;
 
 import com.jleoirab.xando.api.v1.security.authentication.BearerAuthenticationToken;
-import com.jleoirab.xando.domain.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,10 +42,8 @@ class SimpleAuthenticationTokenFactoryTest {
     }
 
     private void thenShouldReturnValidAuthentication() {
-        Player player = (Player) authentication.getPrincipal();
+        assertEquals(PLAYER_ID, authentication.getPrincipal());
         assertEquals(token, authentication.getCredentials().toString());
-        assertEquals(PLAYER_ID, player.getId());
-        assertEquals(PLAYER_NAME, player.getPlayerName());
     }
 
     private void testInvalidToken(String token) {

@@ -1,6 +1,7 @@
 package com.jleoirab.xando.service.impl;
 
 import com.jleoirab.xando.domain.Game;
+import com.jleoirab.xando.domain.GamePlayer;
 import com.jleoirab.xando.domain.GameStatus;
 import com.jleoirab.xando.domain.Player;
 import com.jleoirab.xando.service.GameService;
@@ -13,9 +14,9 @@ public class GameServiceImpl implements GameService {
     @Override
     public Game createGame(Player player) {
         return Game.builder()
-                .id(UUID.randomUUID().toString())
+                .gameId(UUID.randomUUID().toString())
                 .gameBoard(",,,,,,,,")
-                .playerX(player)
+                .playerX(GamePlayer.from(player))
                 .gameStatus(GameStatus.builder().build())
                 .build();
     }

@@ -25,7 +25,7 @@ class SimpleBearerTokenAuthenticatorTest {
     public static final String PLAYER_NAME = "player-name";
 
     private static final Player PLAYER = Player.builder()
-            .id(PLAYER_ID)
+            .playerId(PLAYER_ID)
             .playerName(PLAYER_NAME)
             .build();
 

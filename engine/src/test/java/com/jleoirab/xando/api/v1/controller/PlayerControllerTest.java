@@ -40,7 +40,7 @@ class PlayerControllerTest {
         when(playerService.createPlayer(API_PLAYER.getPlayerName()))
                 .thenReturn(
                         Player.builder()
-                                .id(API_PLAYER.getId())
+                                .playerId(API_PLAYER.getId())
                                 .playerName(API_PLAYER.getPlayerName())
                                 .build());
     }

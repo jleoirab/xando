@@ -27,7 +27,7 @@ class PlayerServiceImplTest {
     void test_Given_Player_When_CreateGame_then_ShouldCreateGame() {
         Player player = sut.createPlayer(PLAYER_NAME);
 
-        assertNotNull(player.getId());
+        assertNotNull(player.getPlayerId());
         assertEquals(PLAYER_NAME, player.getPlayerName());
     }
 }
