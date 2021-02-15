@@ -15,7 +15,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /** Created by jleoirab on 2021-02-09 */
 @RestController
@@ -49,7 +52,6 @@ public class GameController {
                         }),
             })
     @PostMapping(value = "")
-    @GetMapping(value = "") // TODO: For debugging on the browser. Should remove once custom error controller has been added
     public ApiGame createGame(@AuthenticationPrincipal Player player, @RequestBody CreateGameRequest gameRequest) {
         if (player == null) {
             throw new ApiException(HttpStatus.FORBIDDEN, "Request forbidden");

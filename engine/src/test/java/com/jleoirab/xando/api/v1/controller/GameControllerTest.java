@@ -1,13 +1,9 @@
 package com.jleoirab.xando.api.v1.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import com.jleoirab.xando.api.v1.request.CreateGameRequest;
 import com.jleoirab.xando.api.v1.resources.ApiGame;
 import com.jleoirab.xando.domain.Game;
+import com.jleoirab.xando.domain.Player;
 import com.jleoirab.xando.service.GameService;
 import com.jleoirab.xando.service.errors.GameCreationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,19 +13,31 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 /** Created by jleoirab on 2021-02-11 */
 @ExtendWith(MockitoExtension.class)
 class GameControllerTest {
     private static final ApiGame API_GAME =
             ApiGame.builder().id("game-id").gameBoard(",,,,,,,,").build();
 
+    private static final Player PLAYER = Player.builder()
+            .id("player-id")
+            .playerName("player-name")
+            .build();
+
     private GameController sut;
 
     @Mock private GameService gameService;
     private ApiGame createGameResponse;
+    private Player authenticatedPrincipal;
 
     @BeforeEach
     void setup() {
+        authenticatedPrincipal = PLAYER;
         sut = new GameController(gameService);
     }
 
@@ -46,10 +54,14 @@ class GameControllerTest {
         when(gameService.createGame(any())).thenThrow(GameCreationException.class);
     }
 
+    private void givenAuthenticatedPrincipalIsNull() {
+        authenticatedPrincipal = null;
+    }
+
     private void whenCreateGame() {
         CreateGameRequest createGameRequest = CreateGameRequest.builder().build();
 
-        createGameResponse = sut.createGame(createGameRequest);
+        createGameResponse = sut.createGame(authenticatedPrincipal, createGameRequest);
     }
 
     private void thenShouldReturnApiGame() {
@@ -71,4 +83,12 @@ class GameControllerTest {
         ApiException exception = assertThrows(ApiException.class, this::whenCreateGame);
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
     }
+
+    @Test
+    void test_Given_AuthenticatedPrincipalIsNull_When_CreateGame_then_ShouldThrowApiException() {
+        givenAuthenticatedPrincipalIsNull();
+        ApiException exception = assertThrows(ApiException.class, this::whenCreateGame);
+        assertEquals(HttpStatus.FORBIDDEN, exception.getStatus());
+    }
+
 }
