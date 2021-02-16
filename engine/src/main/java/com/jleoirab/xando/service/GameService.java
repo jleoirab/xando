@@ -2,7 +2,7 @@ package com.jleoirab.xando.service;
 
 import com.jleoirab.xando.domain.model.Game;
 import com.jleoirab.xando.domain.model.Player;
-import com.jleoirab.xando.domain.model.errors.XAndOGameError;
+import com.jleoirab.xando.domain.errors.XAndOGameError;
 import com.jleoirab.xando.service.errors.ServiceException;
 
 /** Created by jleoirab on 2021-02-09 */

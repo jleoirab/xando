@@ -1,4 +1,4 @@
-package com.jleoirab.xando.domain.model.errors;
+package com.jleoirab.xando.domain.errors;
 
 /**
  * Created by jleoirab on 2021-02-15

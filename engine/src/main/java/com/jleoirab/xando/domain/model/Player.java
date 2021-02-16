@@ -1,6 +1,6 @@
 package com.jleoirab.xando.domain.model;
 
-import com.jleoirab.xando.domain.model.errors.XAndOGameError;
+import com.jleoirab.xando.domain.errors.XAndOGameError;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;

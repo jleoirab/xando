@@ -4,7 +4,7 @@ import com.jleoirab.xando.domain.model.Game;
 import com.jleoirab.xando.domain.model.GamePlayer;
 import com.jleoirab.xando.domain.model.GameStatus;
 import com.jleoirab.xando.domain.model.Player;
-import com.jleoirab.xando.domain.model.errors.XAndOGameError;
+import com.jleoirab.xando.domain.errors.XAndOGameError;
 import com.jleoirab.xando.repository.GameRepository;
 import com.jleoirab.xando.service.GameService;
 import com.jleoirab.xando.service.errors.NoGameFoundException;
