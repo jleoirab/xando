@@ -3,10 +3,10 @@ package com.jleoirab.xando.api.v1.security.authentication.simplebearer;
 import com.jleoirab.xando.api.v1.security.authentication.AuthenticatedBearerAuthenticationToken;
 import com.jleoirab.xando.api.v1.security.authentication.BearerTokenAuthenticator;
 import com.jleoirab.xando.api.v1.security.authentication.PreAuthenticatedBearerAuthenticationToken;
-import com.jleoirab.xando.domain.Player;
 import com.jleoirab.xando.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 
@@ -34,12 +34,14 @@ public class SimpleBearerTokenAuthenticator implements BearerTokenAuthenticator 
         }
 
         try {
-            Player player = playerService.getPlayer(parts[1], parts[0]);
-            return AuthenticatedBearerAuthenticationToken.from(player, bearerToken);
+            return playerService.getPlayer(parts[1])
+                    .filter(player -> player.getPlayerName().equals(parts[0]))
+                    .map(player -> AuthenticatedBearerAuthenticationToken.from(player, bearerToken))
+                    .orElseThrow(() -> new BadCredentialsException("Invalid credentials passed"));
+        } catch (BadCredentialsException e) {
+            throw e;
         } catch (Exception e) {
-            String errorMessage = String.format("token %s is invalid. It does not belong to valid player", bearerToken);
-            LOG.error(errorMessage, e);
-            throw new BadCredentialsException(errorMessage);
+            throw new AuthenticationServiceException("Could not validate player", e);
         }
     }
 }

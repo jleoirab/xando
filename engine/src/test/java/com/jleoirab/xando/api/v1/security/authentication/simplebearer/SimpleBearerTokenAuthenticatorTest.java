@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -52,11 +54,11 @@ class SimpleBearerTokenAuthenticatorTest {
     }
 
     private void givenPlayerServiceThrowsAnException() {
-        when(playerService.getPlayer(PLAYER_ID, PLAYER_NAME)).thenThrow(NullPointerException.class);
+        when(playerService.getPlayer(PLAYER_ID)).thenThrow(NullPointerException.class);
     }
 
     private void givenPlayerServiceReturnsPlayer() {
-        when(playerService.getPlayer(PLAYER_ID, PLAYER_NAME)).thenReturn(PLAYER);
+        when(playerService.getPlayer(PLAYER_ID)).thenReturn(Optional.of(PLAYER));
     }
 
     private void whenAuthenticate() {
