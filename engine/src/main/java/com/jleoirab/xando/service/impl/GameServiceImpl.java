@@ -4,6 +4,7 @@ import com.jleoirab.xando.domain.model.Game;
 import com.jleoirab.xando.domain.model.GamePlayer;
 import com.jleoirab.xando.domain.model.GameStatus;
 import com.jleoirab.xando.domain.model.Player;
+import com.jleoirab.xando.domain.model.errors.XAndOGameError;
 import com.jleoirab.xando.repository.GameRepository;
 import com.jleoirab.xando.service.GameService;
 import com.jleoirab.xando.service.errors.NoGameFoundException;
@@ -38,7 +39,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game joinGame(String gameId, Player player) throws ServiceException {
+    public Game joinGame(String gameId, Player player) throws ServiceException, XAndOGameError {
         Optional<Game> gameOptional = gameRepository.findByGameId(gameId);
 
         if (gameOptional.isEmpty()) {

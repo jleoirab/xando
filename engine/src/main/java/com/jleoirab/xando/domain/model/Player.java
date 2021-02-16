@@ -1,6 +1,6 @@
 package com.jleoirab.xando.domain.model;
 
-import com.jleoirab.xando.service.errors.ServiceException;
+import com.jleoirab.xando.domain.model.errors.XAndOGameError;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -21,9 +21,9 @@ public class Player {
      * Used by a player to join a game.
      * see {@link Game}
      * @param game The game to join.
-     * @throws ServiceException This exception will be thrown if there was an issue attempting to join the game.
+     * @throws XAndOGameError This exception will be thrown if there was an issue attempting to join the game.
      */
-    public void joinGame(Game game) throws ServiceException {
+    public void joinGame(Game game) throws XAndOGameError {
         game.acceptPlayer(this);
     }
 
@@ -32,9 +32,9 @@ public class Player {
      * @param game The game the move is for
      * @param cellIndex The cell index the player is trying to play on
      * @param playerTag The player tag that the player is playing with.
-     * @throws ServiceException This will be thrown if there is an issue attempting to make this move.
+     * @throws XAndOGameError This will be thrown if there is an issue attempting to make this move.
      */
-    public void makeMove(Game game, int cellIndex, PlayerTag playerTag) throws ServiceException {
+    public void makeMove(Game game, int cellIndex, PlayerTag playerTag) throws XAndOGameError {
          game.acceptMove(Move.builder()
                  .player(this)
                  .playerTag(playerTag)

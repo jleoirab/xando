@@ -1,20 +1,21 @@
 package com.jleoirab.xando.api.v1.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
-
 import com.jleoirab.xando.api.v1.request.CreatePlayerRequest;
 import com.jleoirab.xando.api.v1.resources.ApiPlayer;
 import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.service.PlayerService;
 import com.jleoirab.xando.service.errors.PlayerCreationException;
+import com.jleoirab.xando.service.errors.ServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 /** Created by jleoirab on 2021-02-12 */
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +37,7 @@ class PlayerControllerTest {
         sut = new PlayerController(playerService);
     }
 
-    private void givenNoErrorInPlayerCreation() throws PlayerCreationException {
+    private void givenNoErrorInPlayerCreation() throws ServiceException {
         when(playerService.createPlayer(API_PLAYER.getPlayerName()))
                 .thenReturn(
                         Player.builder()
@@ -45,7 +46,7 @@ class PlayerControllerTest {
                                 .build());
     }
 
-    private void givenErrorInPlayerCreation() throws PlayerCreationException {
+    private void givenErrorInPlayerCreation() throws ServiceException {
         when(playerService.createPlayer(API_PLAYER.getPlayerName()))
                 .thenThrow(PlayerCreationException.class);
     }
@@ -63,7 +64,7 @@ class PlayerControllerTest {
 
     @Test
     void test_Given_NoErrorInPlayerCreation_When_CreatePlayer_then_ShouldReturnApiPlayer()
-            throws PlayerCreationException {
+            throws ServiceException {
         givenNoErrorInPlayerCreation();
         whenCreatePlayer();
         thenShouldReturnApiPlayer();
@@ -71,7 +72,7 @@ class PlayerControllerTest {
 
     @Test
     void test_Given_ErrorInPlayerCreation_When_CreatePlayer_then_ShouldThrowApiException()
-            throws PlayerCreationException {
+            throws ServiceException {
         givenErrorInPlayerCreation();
         ApiException exception = assertThrows(ApiException.class, this::whenCreatePlayer);
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());

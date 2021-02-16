@@ -5,7 +5,7 @@ import com.jleoirab.xando.api.v1.resources.ApiError;
 import com.jleoirab.xando.api.v1.resources.ApiPlayer;
 import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.service.PlayerService;
-import com.jleoirab.xando.service.errors.PlayerCreationException;
+import com.jleoirab.xando.service.errors.ServiceException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -57,7 +57,7 @@ public class PlayerController {
             Player player = playerService.createPlayer(playerName);
 
             return ApiPlayer.from(player);
-        } catch (PlayerCreationException e) {
+        } catch (ServiceException e) {
             throw new ApiException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

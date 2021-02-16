@@ -5,8 +5,9 @@ import com.jleoirab.xando.api.v1.resources.ApiError;
 import com.jleoirab.xando.api.v1.resources.ApiGame;
 import com.jleoirab.xando.domain.model.Game;
 import com.jleoirab.xando.domain.model.Player;
+import com.jleoirab.xando.domain.model.errors.GameAlreadyStartedException;
+import com.jleoirab.xando.domain.model.errors.XAndOGameError;
 import com.jleoirab.xando.service.GameService;
-import com.jleoirab.xando.service.errors.GameAlreadyStartedException;
 import com.jleoirab.xando.service.errors.ServiceException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -103,7 +104,7 @@ public class GameController {
             return ApiGame.from(game);
         } catch (GameAlreadyStartedException e) {
             throw new ApiException(HttpStatus.FORBIDDEN, e.getMessage());
-        } catch (ServiceException e) {
+        } catch (ServiceException | XAndOGameError  e) {
             throw new ApiException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

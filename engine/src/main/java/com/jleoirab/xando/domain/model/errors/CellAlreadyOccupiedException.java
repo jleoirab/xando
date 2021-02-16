@@ -1,9 +1,9 @@
-package com.jleoirab.xando.service.errors;
+package com.jleoirab.xando.domain.model.errors;
 
 /**
  * Created by jleoirab on 2021-02-15
  */
-public class CellAlreadyOccupiedException extends ServiceException {
+public class CellAlreadyOccupiedException extends XAndOGameError {
     public CellAlreadyOccupiedException() {
         super("Cannot play in cell position because it is already occupied.");
     }

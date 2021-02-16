@@ -1,6 +1,6 @@
 package com.jleoirab.xando.domain.model;
 
-import com.jleoirab.xando.service.errors.*;
+import com.jleoirab.xando.domain.model.errors.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -30,12 +30,12 @@ public class Game {
 
     /**
      * Used to accept a player into the game. If the player is already in the game, this will
-     * throw a {@link ServiceException}. The player cannot be the creator of the
+     * throw a {@link XAndOGameError}. The player cannot be the creator of the
      * game because they are already in the game.
      * @param player The play attempting to join the game.
-     * @throws ServiceException Exception thrown if there was a problem accepting the player into the game.
+     * @throws XAndOGameError Exception thrown if there was a problem accepting the player into the game.
      */
-    public void acceptPlayer(Player player) throws ServiceException {
+    public void acceptPlayer(Player player) throws XAndOGameError {
         if (gameStatus.getState() != GameState.CREATED) {
             throw new GameAlreadyStartedException();
         }
@@ -66,16 +66,16 @@ public class Game {
      * Accept a move from a player. Verifies that the move can actually be made before attempting to update the
      * board. If the move is successfully made, the game status is re-evaluated.
      * @param move The move to be accepted.
-     * @throws ServiceException Exception thrown if the move cannot be accepted.
+     * @throws XAndOGameError Exception thrown if the move cannot be accepted.
      */
-    public void acceptMove(Move move) throws ServiceException {
+    public void acceptMove(Move move) throws XAndOGameError {
         verifyMove(move);
         updateGameBoard(move);
         setNextPlayerTurn();
         evaluateGameStatus();
     }
 
-    private void verifyMove(Move move) throws ServiceException {
+    private void verifyMove(Move move) throws XAndOGameError {
         if (!currentPlayerTurn.equals(move.getPlayerTag())) {
             throw new PlayOutOfTurnException();
         }
