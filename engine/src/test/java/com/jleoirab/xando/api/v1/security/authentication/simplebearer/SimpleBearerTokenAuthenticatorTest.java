@@ -2,8 +2,10 @@ package com.jleoirab.xando.api.v1.security.authentication.simplebearer;
 
 import com.jleoirab.xando.api.v1.security.authentication.AuthenticatedBearerAuthenticationToken;
 import com.jleoirab.xando.api.v1.security.authentication.PreAuthenticatedBearerAuthenticationToken;
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.service.PlayerService;
+import com.jleoirab.xando.service.errors.PlayerCreationException;
+import com.jleoirab.xando.service.errors.ServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,11 +56,11 @@ class SimpleBearerTokenAuthenticatorTest {
         token = new PreAuthenticatedBearerAuthenticationToken(null, bearerToken);
     }
 
-    private void givenPlayerServiceThrowsAnException() {
-        when(playerService.getPlayer(PLAYER_ID)).thenThrow(NullPointerException.class);
+    private void givenPlayerServiceThrowsAnException() throws ServiceException {
+        when(playerService.getPlayer(PLAYER_ID)).thenThrow(PlayerCreationException.class);
     }
 
-    private void givenPlayerServiceReturnsPlayer() {
+    private void givenPlayerServiceReturnsPlayer() throws ServiceException {
         when(playerService.getPlayer(PLAYER_ID)).thenReturn(Optional.of(PLAYER));
     }
 
@@ -78,14 +80,14 @@ class SimpleBearerTokenAuthenticatorTest {
     }
 
     @Test
-    void test_Given_PlayerServiceThrowsException_When_Authenticate_Then_ShouldThrowBadCredentialsException() {
+    void test_Given_PlayerServiceThrowsException_When_Authenticate_Then_ShouldThrowBadCredentialsException() throws ServiceException {
         givenToken(TOKEN);
         givenPlayerServiceThrowsAnException();
         assertThrows(AuthenticationServiceException.class, this::whenAuthenticate);
     }
 
     @Test
-    void test_Given_PlayerService_When_Authenticate_Then_ShouldReturnValidAuthenticatedToken() {
+    void test_Given_PlayerService_When_Authenticate_Then_ShouldReturnValidAuthenticatedToken() throws ServiceException {
         givenToken(TOKEN);
         givenPlayerServiceReturnsPlayer();
         whenAuthenticate();

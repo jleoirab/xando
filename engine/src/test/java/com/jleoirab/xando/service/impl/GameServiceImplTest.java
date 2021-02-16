@@ -1,6 +1,6 @@
 package com.jleoirab.xando.service.impl;
 
-import com.jleoirab.xando.domain.*;
+import com.jleoirab.xando.domain.model.*;
 import com.jleoirab.xando.repository.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,8 @@ class GameServiceImplTest {
         assertEquals(GamePlayer.from(PLAYER_X), game.getPlayerX());
         assertNull(game.getPlayerO());
         assertEquals(",,,,,,,,", game.getGameBoard());
-        assertEquals(PlayerTag.PLAYER_X, game.getGameStatus().getCurrentPlayerTurn());
+        assertEquals(PLAYER_X.getPlayerId(), game.getGameCreatorPlayerId());
+        assertEquals(PlayerTag.PLAYER_X, game.getCurrentPlayerTurn());
         assertNull(game.getGameStatus().getWinner());
         assertEquals(GameState.CREATED, game.getGameStatus().getState());
     }

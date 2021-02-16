@@ -1,4 +1,4 @@
-package com.jleoirab.xando.domain;
+package com.jleoirab.xando.domain.model;
 
 import lombok.Builder;
 import lombok.Value;
@@ -7,7 +7,6 @@ import lombok.Value;
 @Value
 @Builder
 public class GameStatus {
-    @Builder.Default PlayerTag currentPlayerTurn = PlayerTag.PLAYER_X;
     @Builder.Default GameState state = GameState.CREATED;
     @Builder.Default PlayerTag winner = null;
 }

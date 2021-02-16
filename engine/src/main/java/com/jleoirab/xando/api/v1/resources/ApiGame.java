@@ -1,6 +1,6 @@
 package com.jleoirab.xando.api.v1.resources;
 
-import com.jleoirab.xando.domain.Game;
+import com.jleoirab.xando.domain.model.Game;
 import lombok.Builder;
 import lombok.Value;
 
@@ -10,9 +10,11 @@ import lombok.Value;
 public class ApiGame {
     String uid;
     String id;
+    String gameCreatorPlayerId;
     ApiGamePlayer playerX;
     ApiGamePlayer playerO;
     String gameBoard;
+    ApiPlayerTag currentPlayerTurn;
     ApiGameStatus gameStatus;
 
     public static ApiGame from(Game game) {
@@ -21,9 +23,11 @@ public class ApiGame {
         return ApiGame.builder()
                 .uid(game.getUid())
                 .id(game.getGameId())
+                .gameCreatorPlayerId(game.getGameCreatorPlayerId())
                 .playerX(ApiGamePlayer.from(game.getPlayerX()))
                 .playerO(ApiGamePlayer.from(game.getPlayerO()))
                 .gameBoard(game.getGameBoard())
+                .currentPlayerTurn(ApiPlayerTag.from(game.getCurrentPlayerTurn()))
                 .gameStatus(ApiGameStatus.from(game.getGameStatus()))
                 .build();
     }

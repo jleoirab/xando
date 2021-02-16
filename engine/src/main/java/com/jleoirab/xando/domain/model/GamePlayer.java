@@ -1,6 +1,7 @@
-package com.jleoirab.xando.domain;
+package com.jleoirab.xando.domain.model;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -9,8 +10,8 @@ import lombok.Value;
 @Value
 @Builder
 public class GamePlayer {
-    String playerId;
-    String playerName;
+    @NonNull String playerId;
+    @NonNull String playerName;
 
     public static GamePlayer from(Player player) {
         return GamePlayer.builder()

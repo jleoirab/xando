@@ -1,6 +1,6 @@
 package com.jleoirab.xando.service.impl;
 
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.repository.PlayerRepository;
 import com.jleoirab.xando.service.PlayerService;
 import org.springframework.stereotype.Service;

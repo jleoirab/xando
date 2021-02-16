@@ -1,6 +1,6 @@
 package com.jleoirab.xando.api.v1.resources;
 
-import com.jleoirab.xando.domain.GameState;
+import com.jleoirab.xando.domain.model.GameState;
 
 /** Created by jleoirab on 2021-02-12 */
 public enum ApiGameState {

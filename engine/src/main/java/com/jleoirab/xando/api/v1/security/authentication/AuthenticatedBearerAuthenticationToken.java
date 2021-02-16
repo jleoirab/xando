@@ -1,6 +1,6 @@
 package com.jleoirab.xando.api.v1.security.authentication;
 
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.GrantedAuthority;
 

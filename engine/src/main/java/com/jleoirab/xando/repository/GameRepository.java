@@ -1,6 +1,6 @@
 package com.jleoirab.xando.repository;
 
-import com.jleoirab.xando.domain.Game;
+import com.jleoirab.xando.domain.model.Game;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

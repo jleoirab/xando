@@ -3,6 +3,7 @@ package com.jleoirab.xando.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.jleoirab.xando.domain.model.PlayerTag;
 import org.junit.jupiter.api.Test;
 
 /** Created by jleoirab on 2021-02-12 */

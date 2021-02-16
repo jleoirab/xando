@@ -1,6 +1,6 @@
 package com.jleoirab.xando.api.v1.resources;
 
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import lombok.Builder;
 import lombok.Value;
 

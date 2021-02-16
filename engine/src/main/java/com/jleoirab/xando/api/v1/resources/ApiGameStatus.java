@@ -1,6 +1,6 @@
 package com.jleoirab.xando.api.v1.resources;
 
-import com.jleoirab.xando.domain.GameStatus;
+import com.jleoirab.xando.domain.model.GameStatus;
 import lombok.Builder;
 import lombok.Value;
 
@@ -8,7 +8,6 @@ import lombok.Value;
 @Value
 @Builder
 public class ApiGameStatus {
-    ApiPlayerTag currentPlayerTurn;
     ApiGameState state;
     ApiPlayerTag winner;
 
@@ -16,7 +15,6 @@ public class ApiGameStatus {
         if (gameStatus == null) return null;
 
         return ApiGameStatus.builder()
-                .currentPlayerTurn(ApiPlayerTag.from(gameStatus.getCurrentPlayerTurn()))
                 .state(ApiGameState.from(gameStatus.getState()))
                 .winner(ApiPlayerTag.from(gameStatus.getWinner()))
                 .build();

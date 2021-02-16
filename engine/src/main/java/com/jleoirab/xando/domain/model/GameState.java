@@ -1,4 +1,4 @@
-package com.jleoirab.xando.domain;
+package com.jleoirab.xando.domain.model;
 
 /** Created by jleoirab on 2021-02-12 */
 public enum GameState {

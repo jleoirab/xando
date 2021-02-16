@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.jleoirab.xando.api.v1.request.CreatePlayerRequest;
 import com.jleoirab.xando.api.v1.resources.ApiPlayer;
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.service.PlayerService;
 import com.jleoirab.xando.service.errors.PlayerCreationException;
 import org.junit.jupiter.api.BeforeEach;

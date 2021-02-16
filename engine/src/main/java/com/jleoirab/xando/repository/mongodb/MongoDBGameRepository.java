@@ -1,6 +1,6 @@
 package com.jleoirab.xando.repository.mongodb;
 
-import com.jleoirab.xando.domain.Game;
+import com.jleoirab.xando.domain.model.Game;
 import com.jleoirab.xando.repository.GameRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

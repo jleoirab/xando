@@ -1,6 +1,6 @@
 package com.jleoirab.xando.service.impl;
 
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.repository.PlayerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,7 @@ class PlayerServiceImplTest {
     // Static variable declaration
     private static final String PLAYER_NAME = "player-name";
     private static final Player PLAYER = Player.builder()
+            .playerId("player-id")
             .playerName(PLAYER_NAME)
             .build();
 

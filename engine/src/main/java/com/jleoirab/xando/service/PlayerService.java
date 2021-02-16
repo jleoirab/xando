@@ -1,7 +1,8 @@
 package com.jleoirab.xando.service;
 
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.service.errors.PlayerCreationException;
+import com.jleoirab.xando.service.errors.ServiceException;
 
 import java.util.Optional;
 
@@ -15,5 +16,5 @@ public interface PlayerService {
      * @param playerId The player ID
      * @return
      */
-    Optional<Player> getPlayer(String playerId);
+    Optional<Player> getPlayer(String playerId) throws ServiceException;
 }

@@ -3,7 +3,7 @@ package com.jleoirab.xando.api.v1.controller;
 import com.jleoirab.xando.api.v1.request.CreatePlayerRequest;
 import com.jleoirab.xando.api.v1.resources.ApiError;
 import com.jleoirab.xando.api.v1.resources.ApiPlayer;
-import com.jleoirab.xando.domain.Player;
+import com.jleoirab.xando.domain.model.Player;
 import com.jleoirab.xando.service.PlayerService;
 import com.jleoirab.xando.service.errors.PlayerCreationException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Created by jleoirab on 2021-02-09 */
 @RestController
-@RequestMapping(value = "/v1/player")
+@RequestMapping(value = "/v1/players")
 public class PlayerController {
 
     private final PlayerService playerService;
@@ -58,7 +58,7 @@ public class PlayerController {
 
             return ApiPlayer.from(player);
         } catch (PlayerCreationException e) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "Could not create player");
+            throw new ApiException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 }
