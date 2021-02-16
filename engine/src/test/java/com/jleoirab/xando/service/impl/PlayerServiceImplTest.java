@@ -10,12 +10,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /** Created by jleoirab on 2021-02-12 */
 @ExtendWith(MockitoExtension.class)
 class PlayerServiceImplTest {
     // Static variable declaration
     private static final String PLAYER_NAME = "player-name";
+    private static final Player PLAYER = Player.builder()
+            .playerName(PLAYER_NAME)
+            .build();
 
     // System under test
     private PlayerServiceImpl sut;
@@ -32,9 +37,8 @@ class PlayerServiceImplTest {
 
     @Test
     void test_Given_Player_When_CreateGame_then_ShouldCreateGame() {
+        when(playerRepository.save(any(Player.class))).thenReturn(PLAYER);
         Player player = sut.createPlayer(PLAYER_NAME);
-
-        assertNotNull(player.getPlayerId());
         assertEquals(PLAYER_NAME, player.getPlayerName());
     }
 }

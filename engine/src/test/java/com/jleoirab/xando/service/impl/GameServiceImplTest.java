@@ -8,7 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /** Created by jleoirab on 2021-02-12 */
 @ExtendWith(MockitoExtension.class)
@@ -31,9 +35,11 @@ class GameServiceImplTest {
 
     @Test
     void test_Given_Player_When_CreateGame_then_ShouldCreateGame() {
+        when(gameRepository.save(any(Game.class))).thenAnswer(i -> i.getArgument(0));
+
         Game game = sut.createGame(PLAYER_X);
 
-        assertNotNull(game.getGameId());
+        verify(gameRepository).save(any(Game.class));
         assertEquals(GamePlayer.from(PLAYER_X), game.getPlayerX());
         assertNull(game.getPlayerO());
         assertEquals(",,,,,,,,", game.getGameBoard());
