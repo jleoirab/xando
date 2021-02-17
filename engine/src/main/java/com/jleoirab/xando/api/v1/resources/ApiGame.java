@@ -13,7 +13,7 @@ public class ApiGame {
     String gameCreatorPlayerId;
     ApiGamePlayer playerX;
     ApiGamePlayer playerO;
-    String gameBoard;
+    char[] gameBoard;
     ApiPlayerTag currentPlayerTurn;
     ApiGameStatus gameStatus;
 

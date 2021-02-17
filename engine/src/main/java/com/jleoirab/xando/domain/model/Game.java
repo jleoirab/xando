@@ -1,10 +1,7 @@
 package com.jleoirab.xando.domain.model;
 
 import com.jleoirab.xando.domain.errors.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
-import org.apache.logging.log4j.util.Strings;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -16,6 +13,7 @@ import java.util.Optional;
 public class Game {
     // Max number of chars that can be in the gameBoard string.
     private static final int MAX_BOARD_CHARS = 17;
+    static final char EMPTY_CELL = Character.MIN_VALUE;
 
     @Id
     private String uid;
@@ -24,7 +22,8 @@ public class Game {
     @NonNull private String gameCreatorPlayerId;
     private GamePlayer playerX;
     private GamePlayer playerO;
-    @NonNull @Builder.Default private String gameBoard = ",,,,,,,,";
+    @Setter(AccessLevel.PACKAGE)
+    @NonNull @Builder.Default private char[] gameBoard = new char[9];
     @Builder.Default PlayerTag currentPlayerTurn = PlayerTag.PLAYER_X;
     @NonNull @Builder.Default private GameStatus gameStatus = GameStatus.builder().build();
 
@@ -48,10 +47,12 @@ public class Game {
 
         GamePlayer gamePlayer = GamePlayer.from(player);
 
-        if (playerX != null) {
+        if (playerX == null) {
             playerX = gamePlayer;
-        } else if (playerO != null) {
+        } else if (playerO == null) {
             playerO = gamePlayer;
+        } else {
+            throw new IllegalStateException("All spots are taken but game has not started. This is weird.");
         }
 
         GameStatus currentStatus = getGameStatus();
@@ -69,13 +70,13 @@ public class Game {
      * @throws XAndOGameError Exception thrown if the move cannot be accepted.
      */
     public void acceptMove(Move move) throws XAndOGameError {
-        verifyMove(move);
-        updateGameBoard(move);
+        verifyPlayerMove(move);
+        applyMove(move.getCellIndex(), move.getPlayerTag());
         setNextPlayerTurn();
         evaluateGameStatus();
     }
 
-    private void verifyMove(Move move) throws XAndOGameError {
+    private void verifyPlayerMove(Move move) throws XAndOGameError {
         if (!currentPlayerTurn.equals(move.getPlayerTag())) {
             throw new PlayOutOfTurnException();
         }
@@ -87,17 +88,20 @@ public class Game {
         if (!player.getPlayerId().equals(gamePlayer.getPlayerId())) {
             throw new IllegalPlayerMoveException();
         }
-    }
 
-    private void updateGameBoard(Move move) throws CellAlreadyOccupiedException {
-        String[] cells = gameBoard.split(",");
-        PlayerTag playerTag = move.getPlayerTag();
-        if (!Strings.isEmpty(cells[move.getCellIndex()])) {
-            throw new CellAlreadyOccupiedException();
+        int cellIndex = move.getCellIndex();
+
+        if (cellIndex < 0 || cellIndex >= 9) {
+            throw new InvalidCellIndex();
         }
 
-        cells[move.getCellIndex()] = playerTag.toString();
-        gameBoard = String.join(",", cells);
+        if (gameBoard[cellIndex] != EMPTY_CELL) {
+            throw new CellAlreadyOccupiedException();
+        }
+    }
+
+    private void applyMove(int cellIndex, PlayerTag playerTag) {
+        gameBoard[cellIndex] = playerTag.getChar();
     }
 
     private void setNextPlayerTurn() {
@@ -120,7 +124,11 @@ public class Game {
      * @return True if spots are left on the board otherwise, false.
      */
     public boolean spotsLeftOnBoard() {
-        return gameBoard.length() < MAX_BOARD_CHARS;
+        for (char c : gameBoard) {
+            if (c == EMPTY_CELL) return true;
+        }
+        
+        return false;
     }
 
     /**
@@ -138,50 +146,44 @@ public class Game {
     }
 
     private Optional<PlayerTag> checkForWinnerInRows() {
-        String[] cells = gameBoard.split(",");
-
-        if (Strings.isNotEmpty(cells[0]) && cells[0].equals(cells[1]) && cells[0].equals(cells[2])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[0] != EMPTY_CELL && gameBoard[0] == gameBoard[1] && gameBoard[0] == gameBoard[2]) {
+            return Optional.of(PlayerTag.from(gameBoard[0]));
         }
 
-        if (Strings.isNotEmpty(cells[3]) && cells[3].equals(cells[4]) && cells[3].equals(cells[5])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[3] != EMPTY_CELL && gameBoard[3] == gameBoard[4] && gameBoard[3] == gameBoard[5]) {
+            return Optional.of(PlayerTag.from(gameBoard[3]));
         }
 
-        if (Strings.isNotEmpty(cells[6]) && cells[6].equals(cells[7]) && cells[6].equals(cells[8])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[6] != EMPTY_CELL && gameBoard[6] == gameBoard[7] && gameBoard[6] == gameBoard[8]) {
+            return Optional.of(PlayerTag.from(gameBoard[6]));
         }
 
         return Optional.empty();
     }
 
     private Optional<PlayerTag> checkForWinnerInColumns() {
-        String[] cells = gameBoard.split(",");
-
-        if (Strings.isNotEmpty(cells[0]) && cells[0].equals(cells[3]) && cells[0].equals(cells[6])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[0] != EMPTY_CELL && gameBoard[0] == gameBoard[3] && gameBoard[0] == gameBoard[6]) {
+            return Optional.of(PlayerTag.from(gameBoard[0]));
         }
 
-        if (Strings.isNotEmpty(cells[1]) && cells[1].equals(cells[4]) && cells[1].equals(cells[7])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[1] != EMPTY_CELL && gameBoard[1] == gameBoard[4] && gameBoard[1] == gameBoard[7]) {
+            return Optional.of(PlayerTag.from(gameBoard[1]));
         }
 
-        if (Strings.isNotEmpty(cells[2]) && cells[2].equals(cells[5]) && cells[2].equals(cells[8])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[2] != EMPTY_CELL && gameBoard[2] == gameBoard[5] && gameBoard[2] == gameBoard[8]) {
+            return Optional.of(PlayerTag.from(gameBoard[2]));
         }
 
         return Optional.empty();
     }
 
     private Optional<PlayerTag> checkForWinnerInDiagonals() {
-        String[] cells = gameBoard.split(",");
-
-        if (Strings.isNotEmpty(cells[0]) && cells[0].equals(cells[1]) && cells[0].equals(cells[2])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[0] != EMPTY_CELL && gameBoard[0] == gameBoard[4] && gameBoard[0] == gameBoard[8]) {
+            return Optional.of(PlayerTag.from(gameBoard[0]));
         }
 
-        if (Strings.isNotEmpty(cells[3]) && cells[3].equals(cells[4]) && cells[3].equals(cells[5])) {
-            return Optional.of(PlayerTag.from(cells[0]));
+        if (gameBoard[2] != EMPTY_CELL && gameBoard[2] == gameBoard[4] && gameBoard[2] == gameBoard[6]) {
+            return Optional.of(PlayerTag.from(gameBoard[2]));
         }
 
         return Optional.empty();

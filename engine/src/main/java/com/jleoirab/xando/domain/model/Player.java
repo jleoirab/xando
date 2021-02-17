@@ -30,11 +30,11 @@ public class Player {
     /**
      * Used by a player to attempt a move in a game.
      * @param game The game the move is for
-     * @param cellIndex The cell index the player is trying to play on
      * @param playerTag The player tag that the player is playing with.
+     * @param cellIndex The cell index the player is trying to play on
      * @throws XAndOGameError This will be thrown if there is an issue attempting to make this move.
      */
-    public void makeMove(Game game, int cellIndex, PlayerTag playerTag) throws XAndOGameError {
+    public void makeMove(Game game, PlayerTag playerTag, int cellIndex) throws XAndOGameError {
          game.acceptMove(Move.builder()
                  .player(this)
                  .playerTag(playerTag)
