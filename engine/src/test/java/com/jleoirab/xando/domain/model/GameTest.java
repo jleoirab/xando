@@ -1,6 +1,7 @@
 package com.jleoirab.xando.domain.model;
 
 import com.jleoirab.xando.domain.errors.*;
+import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class GameTest {
     // Static variable declaration
-    private static final char X = PlayerTag.PLAYER_X.getChar();
-    private static final char O = PlayerTag.PLAYER_O.getChar();
-    private static final char E = Game.EMPTY_CELL;
+    private static final @NonNull String X = PlayerTag.PLAYER_X.toString();
+    private static final @NonNull String O = PlayerTag.PLAYER_O.toString();
+    private static final @NonNull String E = null;
 
     private static final Player PLAYER1 = Player.builder()
             .playerId("player-1")
@@ -59,7 +60,7 @@ class GameTest {
         sut.setCurrentPlayerTurn(tag);
     }
 
-    private void givenGameBoardIs(char[] board) {
+    private void givenGameBoardIs(@NonNull String[] board) {
         sut.setGameBoard(board);
     }
 
@@ -137,7 +138,7 @@ class GameTest {
     void test_Given_CellIsAlreadyOccupied_When_AcceptMove_Then_ShouldThrowCellAlreadyOccupiedException() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
         givenCurrentPlayerTurnIs(PlayerTag.PLAYER_O);
-        givenGameBoardIs(new char[]{X, E, E, E, E, E, E, E, E});
+        givenGameBoardIs(new @NonNull String[]{X, E, E, E, E, E, E, E, E});
         assertThrows(CellAlreadyOccupiedException.class, () -> sut.acceptMove(Move.builder()
                 .player(PLAYER2)
                 .playerTag(PlayerTag.PLAYER_O)
@@ -149,7 +150,7 @@ class GameTest {
     void test_Given_CellIndexIsInvalid_When_AcceptMove_Then_ShouldThrowCellAlreadyOccupiedException() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
         givenCurrentPlayerTurnIs(PlayerTag.PLAYER_O);
-        givenGameBoardIs(new char[]{X, E, E, E, E, E, E, E, E});
+        givenGameBoardIs(new @NonNull String[]{X, E, E, E, E, E, E, E, E});
         assertThrows(InvalidCellIndex.class, () -> sut.acceptMove(Move.builder()
                 .player(PLAYER2)
                 .playerTag(PlayerTag.PLAYER_O)
@@ -161,7 +162,7 @@ class GameTest {
     void test_Given_PlayerMakesValidMoveToWinGame_When_AcceptMove_Then_ShouldUpdateGameStatusToIndicateWin() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_O);
         givenCurrentPlayerTurnIs(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[]{X, X, E, E, E, E, E, E, E});
+        givenGameBoardIs(new @NonNull String[]{X, X, E, E, E, E, E, E, E});
 
         sut.acceptMove(Move.builder()
                 .player(PLAYER2)
@@ -169,7 +170,7 @@ class GameTest {
                 .cellIndex(2)
                 .build());
 
-        assertArrayEquals(new char[]{X, X, X, E, E, E, E, E, E}, sut.getGameBoard());
+        assertArrayEquals(new @NonNull String[]{X, X, X, E, E, E, E, E, E}, sut.getGameBoard());
         assertEquals(GameState.FINISHED, sut.getGameStatus().getState());
         assertEquals(PlayerTag.PLAYER_X, sut.getGameStatus().getWinner());
     }
@@ -178,7 +179,7 @@ class GameTest {
     void test_Given_PlayerMakesValidMoveToDrawGame_When_AcceptMove_Then_ShouldUpdateGameStatusToIndicateDraw() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
         givenCurrentPlayerTurnIs(PlayerTag.PLAYER_O);
-        givenGameBoardIs(new char[] {X,E,X,X,O,O,O,X,X});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,E,X,X,O,O,O,X,X});
 
         sut.acceptMove(Move.builder()
                 .player(PLAYER2)
@@ -186,7 +187,7 @@ class GameTest {
                 .cellIndex(1)
                 .build());
 
-        assertArrayEquals(new char[] {X,O,X,X,O,O,O,X,X}, sut.getGameBoard());
+        assertArrayEquals(new @lombok.NonNull String[] {X,O,X,X,O,O,O,X,X}, sut.getGameBoard());
         assertEquals(GameState.FINISHED, sut.getGameStatus().getState());
         assertNull(sut.getGameStatus().getWinner());
     }
@@ -195,7 +196,7 @@ class GameTest {
     void test_Given_PlayerMakesValidMove_When_AcceptMove_Then_ShouldUpdateGameStatusToIndicateInProgress() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
         givenCurrentPlayerTurnIs(PlayerTag.PLAYER_O);
-        givenGameBoardIs(new char[] {E,E,E,E,X,E,E,E,E});
+        givenGameBoardIs(new @NonNull String[] {E,E,E,E,X,E,E,E,E});
 
         sut.acceptMove(Move.builder()
                 .player(PLAYER2)
@@ -203,7 +204,7 @@ class GameTest {
                 .cellIndex(0)
                 .build());
 
-        assertArrayEquals(new char[] {O,E,E,E,X,E,E,E,E}, sut.getGameBoard());
+        assertArrayEquals(new @lombok.NonNull String[] {O,E,E,E,X,E,E,E,E}, sut.getGameBoard());
         assertEquals(GameState.IN_PROGRESS, sut.getGameStatus().getState());
         assertNull(sut.getGameStatus().getWinner());
     }
@@ -211,70 +212,70 @@ class GameTest {
     @Test
     void test_Given_SpotsLeftOnBoard_When_SpotsLeftOnBoard_Then_ShouldReturnTrue() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {X,O,X,O,O,X,E,X,O});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,O,X,O,O,X,E,X,O});
         assertTrue(sut.spotsLeftOnBoard());
     }
 
     @Test
     void test_Given_NoSpotsLeftOnBoard_When_SpotsLeftOnBoard_Then_ShouldReturnFalse() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {X,O,X,O,O,X,X,X,O});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,O,X,O,O,X,X,X,O});
         assertFalse(sut.spotsLeftOnBoard());
     }
 
     @Test
     void test_Given_PlayerXWinOnRow1_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {X,X,X,O,E,E,O,E,E});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,X,X,O,E,E,O,E,E});
         assertEquals(PlayerTag.PLAYER_X, sut.checkForWinner().orElse(null));
     }
 
     @Test
     void test_Given_PlayerOWinOnRow2_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {E,X,X,O,O,O,E,X,E});
+        givenGameBoardIs(new @lombok.NonNull String[] {E,X,X,O,O,O,E,X,E});
         assertEquals(PlayerTag.PLAYER_O, sut.checkForWinner().orElse(null));
     }
 
     @Test
     void test_Given_PlayerOWinOnRow3_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {X,X,E,E,X,E,O,O,O});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,X,E,E,X,E,O,O,O});
         assertEquals(PlayerTag.PLAYER_O, sut.checkForWinner().orElse(null));
     }
 
     @Test
     void test_Given_PlayerXWinOnCol1_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {X,O,E,X,O,E,X,E,E});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,O,E,X,O,E,X,E,E});
         assertEquals(PlayerTag.PLAYER_X, sut.checkForWinner().orElse(null));
     }
 
     @Test
     void test_Given_PlayerOWinOnCol2_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {X,O,E,E,O,E,X,O,X});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,O,E,E,O,E,X,O,X});
         assertEquals(PlayerTag.PLAYER_O, sut.checkForWinner().orElse(null));
     }
 
     @Test
     void test_Given_PlayerOWinOnCol3_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {X,E,O,X,X,O,E,E,O});
+        givenGameBoardIs(new @lombok.NonNull String[] {X,E,O,X,X,O,E,E,O});
         assertEquals(PlayerTag.PLAYER_O, sut.checkForWinner().orElse(null));
     }
 
     @Test
     void test_Given_PlayerOWinOnDiag1_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {O,E,X,O,O,X,X,O,O});
+        givenGameBoardIs(new @lombok.NonNull String[] {O,E,X,O,O,X,X,O,O});
         assertEquals(PlayerTag.PLAYER_O, sut.checkForWinner().orElse(null));
     }
 
     @Test
     void test_Given_PlayerXWinOnDiag2_When_CheckForWinner_Then_ShouldReturnPlayerTag() throws XAndOGameError {
         givenGameIsInProgress(PlayerTag.PLAYER_X);
-        givenGameBoardIs(new char[] {O,O,X,O,X,X,X,O,E});
+        givenGameBoardIs(new @lombok.NonNull String[] {O,O,X,O,X,X,X,O,E});
         assertEquals(PlayerTag.PLAYER_X, sut.checkForWinner().orElse(null));
     }
 

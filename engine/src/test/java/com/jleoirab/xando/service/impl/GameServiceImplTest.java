@@ -80,7 +80,7 @@ class GameServiceImplTest {
         verify(gameRepository).save(any(Game.class));
         assertEquals(GamePlayer.from(PLAYER_X), game.getPlayerX());
         assertNull(game.getPlayerO());
-        assertArrayEquals(new char[9], game.getGameBoard());
+        assertArrayEquals(new String[9], game.getGameBoard());
         assertEquals(PLAYER_X.getPlayerId(), game.getGameCreatorPlayerId());
         assertEquals(PlayerTag.PLAYER_X, game.getCurrentPlayerTurn());
         assertNull(game.getGameStatus().getWinner());
