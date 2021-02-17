@@ -12,9 +12,6 @@ import java.util.Optional;
 @Data
 @Builder
 public class Game {
-    // Max number of chars that can be in the gameBoard string.
-    private static final int MAX_BOARD_CHARS = 17;
-
     @Id
     private String uid;
     @Indexed
