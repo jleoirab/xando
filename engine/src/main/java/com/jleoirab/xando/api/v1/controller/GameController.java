@@ -70,7 +70,7 @@ public class GameController {
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            responseCode = "201",
+                            responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -96,8 +96,8 @@ public class GameController {
                             }),
             }
     )
-    @PostMapping(value = "/{gameId}/join")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping(value = "/{gameId}/join")
+    @ResponseStatus(HttpStatus.OK)
     public ApiGame joinGame(@AuthenticationPrincipal Player player, @PathVariable("gameId") String gameId) {
         if (player == null) {
             throw new ApiException(HttpStatus.FORBIDDEN, "Request forbidden");
