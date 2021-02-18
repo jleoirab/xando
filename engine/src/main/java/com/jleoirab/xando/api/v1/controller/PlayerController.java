@@ -13,10 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /** Created by jleoirab on 2021-02-09 */
 @RestController
@@ -50,6 +47,7 @@ public class PlayerController {
                         }),
             })
     @PostMapping(value = "")
+    @ResponseStatus(HttpStatus.CREATED)
     public ApiPlayer createPlayer(@RequestBody CreatePlayerRequest request) {
         try {
             String playerName = request.getPlayerName();

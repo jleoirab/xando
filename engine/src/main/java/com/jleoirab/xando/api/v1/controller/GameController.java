@@ -53,6 +53,7 @@ public class GameController {
                         }),
             })
     @PostMapping(value = "")
+    @ResponseStatus(HttpStatus.CREATED)
     public ApiGame createGame(@AuthenticationPrincipal Player player, @RequestBody CreateGameRequest gameRequest) {
         if (player == null) {
             throw new ApiException(HttpStatus.FORBIDDEN, "Request forbidden");
@@ -96,6 +97,7 @@ public class GameController {
             }
     )
     @PostMapping(value = "/{gameId}/join")
+    @ResponseStatus(HttpStatus.CREATED)
     public ApiGame joinGame(@AuthenticationPrincipal Player player, @PathVariable("gameId") String gameId) {
         if (player == null) {
             throw new ApiException(HttpStatus.FORBIDDEN, "Request forbidden");
@@ -142,6 +144,7 @@ public class GameController {
             }
     )
     @PostMapping(value = "/{gameId}/moves")
+    @ResponseStatus(HttpStatus.CREATED)
     public ApiGame makeMove(@AuthenticationPrincipal Player player, @PathVariable("gameId") String gameId, @RequestBody MakeMoveRequest moveRequest) {
         if (player == null) {
             throw new ApiException(HttpStatus.FORBIDDEN, "Request forbidden");
