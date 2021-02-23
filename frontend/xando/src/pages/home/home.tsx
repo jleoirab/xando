@@ -1,8 +1,5 @@
 import React from "react";
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
-
 import MainGameLobbySection from './mainGameLobbySection';
 import PlayerTagSettingSection from './playerTagSettingSection';
 
@@ -13,6 +10,7 @@ interface Props {}
 interface State {
   desiredPlayerName: string;
   desiredPlayerTag: string;
+  gameLobbyState: GameLobbyState;
 }
 
 const playerTagOptions = [
@@ -30,10 +28,18 @@ const playerTagOptions = [
   },
 ];
 
+enum GameLobbyState {
+  STARTING,
+  PLAYER_TAG_SELECTION,
+  JOINING,
+  COMPLETE,
+}
+
 export default class GameLobbyPage extends React.Component<Props, State> {
   state: State = {
     desiredPlayerName: "",
     desiredPlayerTag: "Random",
+    gameLobbyState: GameLobbyState.STARTING,
   };
 
   constructor(props: Props) {
@@ -43,10 +49,14 @@ export default class GameLobbyPage extends React.Component<Props, State> {
     this.joinAGame = this.joinAGame.bind(this);
     this.desiredPlayerTagSelected = this.desiredPlayerTagSelected.bind(this);
     this.playerNameChanged = this.playerNameChanged.bind(this);
+    this.onPlayerTagSelectionComplete = this.onPlayerTagSelectionComplete.bind(this);
   }
 
   createGame() {
     console.debug("creaate game clicked");
+    this.setState({
+      gameLobbyState: GameLobbyState.PLAYER_TAG_SELECTION,
+    });
   }
 
   joinAGame() {
@@ -61,25 +71,37 @@ export default class GameLobbyPage extends React.Component<Props, State> {
   }
 
   playerNameChanged(newName: string) {
-    console.debug("player name changed", newName)
+    console.debug("player name changed", newName);
     this.setState({
       desiredPlayerName: newName,
     });
   }
 
+  onPlayerTagSelectionComplete() {
+    console.debug("player selection complete");
+    this.setState({
+      gameLobbyState: GameLobbyState.COMPLETE,
+    });
+  }
+
   render() {
+    console.log("re-rendering game lobby");
+    console.log(this.state);
     return (
-      <Container fluid>
+      <Container fluid className="gameLobbySections">
         <MainGameLobbySection
+          display={this.state.gameLobbyState === GameLobbyState.STARTING}
           playerName={this.state.desiredPlayerName}
           onCreateGameClicked={this.createGame}
           onJoinGameClicked={this.joinAGame}
           playerNameChanged={this.playerNameChanged}
         />
         <PlayerTagSettingSection
+          display={this.state.gameLobbyState === GameLobbyState.PLAYER_TAG_SELECTION}
           playerTagOptions={playerTagOptions}
           desiredPlayerTag={this.state.desiredPlayerTag}
           desiredPlayerTagChanged={this.desiredPlayerTagSelected}
+          onComplete={this.onPlayerTagSelectionComplete}
         />
       </Container>
     );

@@ -13,7 +13,9 @@ interface PlayerTagOption {
 interface PlayerTagSettingSectionProps {
   desiredPlayerTag: string;
   desiredPlayerTagChanged(tag: string): void;
+  onComplete(): void;
   playerTagOptions: PlayerTagOption[];
+  display: boolean;
 }
 
 const PlayerTagSettingSection: React.FC<PlayerTagSettingSectionProps> = (props: PlayerTagSettingSectionProps) => {
@@ -29,14 +31,26 @@ const PlayerTagSettingSection: React.FC<PlayerTagSettingSectionProps> = (props: 
   ));
 
   return (
-    <section className="mainGameLobbySection">
+    <section className={`gameLobbySection ${props.display ? '' : 'd-none'}`}>
       <h1>XandO</h1>
       <Form>
         <Form.Group as={Row}>
-          <Col sm={10}>
+          <Col>
+            <Form.Label>Select your player tag</Form.Label>
             {playerOptions}
           </Col>
         </Form.Group>
+
+        <Form.Row>
+          <Col>
+            <Button
+              variant="primary"
+              onClick={props.onComplete}
+            >
+              Done
+          </Button>
+          </Col>
+        </Form.Row>
       </Form>
     </section>
   );

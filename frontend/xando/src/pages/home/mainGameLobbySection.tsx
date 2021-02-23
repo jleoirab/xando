@@ -8,13 +8,14 @@ interface MainGameLobbySectionProps {
   onCreateGameClicked(): void;
   onJoinGameClicked(): void;
   playerNameChanged(newName: string): void;
+  display: boolean;
 }
 
 const MainGameLobbySection: React.FC<MainGameLobbySectionProps> = (props: MainGameLobbySectionProps) => {
   return (
-    <section className="mainGameLobbySection">
+    <section className={`gameLobbySection ${props.display ? '' : 'd-none'}`}>
       <h1>XandO</h1>
-      <Form>
+      <Form className="mainLobbySectionForm">
         <Form.Group controlId="playerName">
           <Form.Control
             as="input"
@@ -28,7 +29,6 @@ const MainGameLobbySection: React.FC<MainGameLobbySectionProps> = (props: MainGa
           <Col>
             <Button
               variant="primary"
-              type="submit"
               onClick={props.onCreateGameClicked}
             >
               Create a Game
@@ -38,7 +38,6 @@ const MainGameLobbySection: React.FC<MainGameLobbySectionProps> = (props: MainGa
           <Col>
             <Button
               variant="info"
-              type="submit"
               onClick={props.onJoinGameClicked}
             >
               Join a Game

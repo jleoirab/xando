@@ -1,5 +1,28 @@
-.mainGameLobbySection {
+.sections {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.gameLobbySections {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow-y: hidden;
+}
+
+.gameLobbySection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
   margin: auto;
   max-width: 500px;
   text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainLobbySectionForm {
+  width: 100%;
 }
