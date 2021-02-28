@@ -1,28 +1,20 @@
 import React, { ChangeEvent } from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './index.css';
+import { store } from './store/store';
 import reportWebVitals from './reportWebVitals';
 import GameLobbyPage from './pages/home/home';
 import { GameCreationConfig, JoinGameConfig, PLAYER_TAG_OPTIONS } from './application/types'
 
-const onCreateGame = (config: GameCreationConfig) => {
-  console.log("Attempting to create game with config", config);
-}
-
-const onJoinGame = (config: JoinGameConfig) => {
-  console.log("Attempting to join a game with config", config);
-}
-
 ReactDOM.render(
   <React.StrictMode>
-    <GameLobbyPage
-      playerTagOptions={PLAYER_TAG_OPTIONS}
-      onCreateGame={onCreateGame}
-      onJoinGame={onJoinGame}
-      playerName=""
-    />
+    <Provider store={store}>
+      <GameLobbyPage/>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

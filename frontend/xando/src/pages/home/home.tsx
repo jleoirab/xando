@@ -1,4 +1,6 @@
-import React from "react";
+import React, { Dispatch } from "react";
+import { connect, ConnectedProps } from 'react-redux';
+
 import Container from 'react-bootstrap/Container';
 import MainGameLobbySection from './mainGameLobbySection';
 import PlayerTagSettingSection from './playerTagSettingSection';
@@ -6,6 +8,8 @@ import StatusToast from './statusToast';
 import { GameCreationConfig, JoinGameConfig, PlayerTagSelection, PlayerTagOption } from '../../application/types';
 
 import './home.css'
+import { Actions, RootState } from "../../store/store";
+import { createGame, joinGame } from "../../store/game/actions";
 
 interface State {
   desiredPlayerName: string;
@@ -14,12 +18,18 @@ interface State {
   errorMessage: string,
 }
 
-export interface GameLobbyPageProps {
-  playerTagOptions: PlayerTagOption[];
-  playerName?: string;
-  onCreateGame(config: GameCreationConfig): void;
-  onJoinGame(config: JoinGameConfig): void;
-}
+const mapStateToProps = (state: RootState) => ({
+  playerTagOptions: state.game.playerTagOptions,
+  playerName: state.system.systemPlayer,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onCreateGame: (config: GameCreationConfig) => dispatch(createGame(config)),
+  onJoinGame: (config: JoinGameConfig) => dispatch(joinGame(config)),
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type GameLobbyPageProps = ConnectedProps<typeof connector>
 
 enum GameLobbyState {
   STARTING,
@@ -28,7 +38,7 @@ enum GameLobbyState {
   COMPLETE,
 }
 
-export default class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
+class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
   state: State = {
     desiredPlayerName: "",
     desiredPlayerTag: PlayerTagSelection.RANDOM,
@@ -148,3 +158,5 @@ export default class GameLobbyPage extends React.Component<GameLobbyPageProps, S
     );
   }
 }
+
+export default connector(GameLobbyPage)

@@ -1,4 +1,4 @@
-import { GameCreationConfig, JoinGameConfig } from '../../application/types'
+import { GameCreationConfig, JoinGameConfig, PlayerTagOption } from '../../application/types'
 
 
 export const CREATE_GAME = 'CREATE_GAME'
@@ -17,5 +17,5 @@ interface JoinGameAction {
 export type GameActions = CreateGameAction | JoinGameAction;
 
 export interface GameState {
-
+  playerTagOptions: Array<PlayerTagOption>
 }
