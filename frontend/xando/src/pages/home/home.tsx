@@ -128,6 +128,7 @@ export default class GameLobbyPage extends React.Component<GameLobbyPageProps, S
         <h1>XandO</h1>
         <StatusToast
           message={this.state.errorMessage}
+          display={!!this.state.errorMessage || !!this.state.errorMessage?.trim().length}
         />
         <MainGameLobbySection
           display={this.state.gameLobbyState === GameLobbyState.STARTING}
