@@ -9,14 +9,18 @@
   width: 100%;
   position: relative;
   overflow-y: hidden;
+  margin: auto;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .gameLobbySection {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
-  margin: auto;
   max-width: 500px;
   text-align: center;
   align-items: center;
@@ -25,4 +29,54 @@
 
 .mainLobbySectionForm {
   width: 100%;
+}
+
+.playerTagItem {
+  padding: 8px;
+  color: black;
+  border: 1px solid #5d5d5d;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.playerTagItem + .playerTagItem {
+  margin-top: 4px;
+}
+
+.playerTagItem:hover {
+  background-color: #8261a7;
+  border: 1px solid #8261a7;
+}
+
+
+.playerTagItem_selected {
+  color: white;
+  background-color: #6e00ff;
+}
+
+.playerTagItem_selected:hover {
+  background-color: #6e00ff;
+}
+
+.statusToastContainer {
+  width: 500px;
+  display: none;
+  background-color: #dccc0d;
+  margin-bottom: 2px;
+  text-align: left;
+  padding: 4px
+}
+
+.statusToastContainer_visible {
+  display: flex;
+}
+
+.statusToast {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

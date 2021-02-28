@@ -14,12 +14,12 @@ interface MainGameLobbySectionProps {
 const MainGameLobbySection: React.FC<MainGameLobbySectionProps> = (props: MainGameLobbySectionProps) => {
   return (
     <section className={`gameLobbySection ${props.display ? '' : 'd-none'}`}>
-      <h1>XandO</h1>
       <Form className="mainLobbySectionForm">
         <Form.Group controlId="playerName">
           <Form.Control
             as="input"
             type=""
+            required
             placeholder="enter your username"
             value={props.playerName}
             onChange={(event: ChangeEvent<HTMLInputElement>) => props.playerNameChanged(event.target.value)}

@@ -3,14 +3,40 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import GameLobbyPage from './pages/home/home';
+import GameLobbyPage, { GameCreationConfig, JoinGameConfig } from './pages/home/home';
 
+const playerTagOptions = [
+  {
+    label: "Random",
+    value: "Random",
+  },
+  {
+    label: "X",
+    value: "X",
+  },
+  {
+    label: "O",
+    value: "O",
+  },
+];
+
+const onCreateGame = (config: GameCreationConfig) => {
+  console.log("Attempting to create game with config", config);
+}
+
+const onJoinGame = (config: JoinGameConfig) => {
+  console.log("Attempting to join a game with config", config);
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <GameLobbyPage />
+    <GameLobbyPage
+      playerTagOptions={playerTagOptions}
+      onCreateGame={onCreateGame}
+      onJoinGame={onJoinGame}
+      playerName=""
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );

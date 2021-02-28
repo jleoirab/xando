@@ -18,26 +18,37 @@ interface PlayerTagSettingSectionProps {
   display: boolean;
 }
 
+interface PlayerTagItemProp {
+  tag: PlayerTagOption;
+  selected: boolean;
+  onClick(playerTag: string): void;
+}
+
+const PlayerTagItem: React.FC<PlayerTagItemProp> = (props: PlayerTagItemProp) => {
+  return (
+    <div className={`playerTagItem ${props.selected ? 'playerTagItem_selected' : ''}`} onClick={() => props.onClick(props.tag.value)}>
+      <span>{props.tag.label}</span>
+    </div>
+  );
+}
+
 const PlayerTagSettingSection: React.FC<PlayerTagSettingSectionProps> = (props: PlayerTagSettingSectionProps) => {
   const playerOptions = props.playerTagOptions.map((option, index) => (
-    <Form.Check
+    <PlayerTagItem
       key={index}
-      type="radio"
-      label={option.label}
-      name={option.label}
-      onChange={() => props.desiredPlayerTagChanged(option.value)}
-      checked={props.desiredPlayerTag === option.value}
+      tag={option}
+      onClick={props.desiredPlayerTagChanged}
+      selected={props.desiredPlayerTag === option.value}
     />
   ));
 
   return (
     <section className={`gameLobbySection ${props.display ? '' : 'd-none'}`}>
-      <h1>XandO</h1>
       <Form>
         <Form.Group as={Row}>
           <Col>
             <Form.Label>Select your player tag</Form.Label>
-            {playerOptions}
+              {playerOptions}
           </Col>
         </Form.Group>
 
