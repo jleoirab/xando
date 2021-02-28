@@ -19,7 +19,7 @@ function handleCreateGame(state: GameState, action: GameActions): GameState {
 }
 
 function handleJoinGame(state: GameState, action: GameActions): GameState {
-  console.log("handling join game", state, action)
+  console.log("handling join game", state, action);
   return state;
 }
 
