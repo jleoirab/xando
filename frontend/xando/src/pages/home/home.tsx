@@ -3,31 +3,19 @@ import Container from 'react-bootstrap/Container';
 import MainGameLobbySection from './mainGameLobbySection';
 import PlayerTagSettingSection from './playerTagSettingSection';
 import StatusToast from './statusToast';
+import { GameCreationConfig, JoinGameConfig, PlayerTagSelection, PlayerTagOption } from '../../application/types';
 
 import './home.css'
 
 interface State {
   desiredPlayerName: string;
-  desiredPlayerTag: string;
+  desiredPlayerTag: PlayerTagSelection;
   gameLobbyState: GameLobbyState;
   errorMessage: string,
 }
 
-// TODO: Move this to where it should be
-export interface GameConfigOptions {
-  playerName: string;
-}
-
-export interface GameCreationConfig extends GameConfigOptions {
-  desiredPlayerTag: string;
-}
-
-export interface JoinGameConfig extends GameConfigOptions {
-  // gameId: string;
-}
-
 export interface GameLobbyPageProps {
-  playerTagOptions: Array<{label: string, value: string}>;
+  playerTagOptions: PlayerTagOption[];
   playerName?: string;
   onCreateGame(config: GameCreationConfig): void;
   onJoinGame(config: JoinGameConfig): void;
@@ -43,7 +31,7 @@ enum GameLobbyState {
 export default class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
   state: State = {
     desiredPlayerName: "",
-    desiredPlayerTag: "Random",
+    desiredPlayerTag: PlayerTagSelection.RANDOM,
     gameLobbyState: GameLobbyState.STARTING,
     errorMessage: "",
   };
@@ -83,7 +71,7 @@ export default class GameLobbyPage extends React.Component<GameLobbyPageProps, S
     });
   }
 
-  desiredPlayerTagSelected(tag: string) {
+  desiredPlayerTagSelected(tag: PlayerTagSelection) {
     console.debug("desired player tag selected", tag);
     this.setState({
       desiredPlayerTag: tag,

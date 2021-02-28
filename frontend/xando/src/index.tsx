@@ -4,22 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import GameLobbyPage, { GameCreationConfig, JoinGameConfig } from './pages/home/home';
-
-const playerTagOptions = [
-  {
-    label: "Random",
-    value: "Random",
-  },
-  {
-    label: "X",
-    value: "X",
-  },
-  {
-    label: "O",
-    value: "O",
-  },
-];
+import GameLobbyPage from './pages/home/home';
+import { GameCreationConfig, JoinGameConfig, PLAYER_TAG_OPTIONS } from './application/types'
 
 const onCreateGame = (config: GameCreationConfig) => {
   console.log("Attempting to create game with config", config);
@@ -32,7 +18,7 @@ const onJoinGame = (config: JoinGameConfig) => {
 ReactDOM.render(
   <React.StrictMode>
     <GameLobbyPage
-      playerTagOptions={playerTagOptions}
+      playerTagOptions={PLAYER_TAG_OPTIONS}
       onCreateGame={onCreateGame}
       onJoinGame={onJoinGame}
       playerName=""

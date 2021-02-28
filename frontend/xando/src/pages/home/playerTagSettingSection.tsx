@@ -3,16 +3,12 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { PlayerTagOption, PlayerTagSelection } from '../../application/types';
 
-
-interface PlayerTagOption {
-  label: string,
-  value: string,
-}
 
 interface PlayerTagSettingSectionProps {
-  desiredPlayerTag: string;
-  desiredPlayerTagChanged(tag: string): void;
+  desiredPlayerTag: PlayerTagSelection;
+  desiredPlayerTagChanged(tag: PlayerTagSelection): void;
   onComplete(): void;
   playerTagOptions: PlayerTagOption[];
   display: boolean;
@@ -21,7 +17,7 @@ interface PlayerTagSettingSectionProps {
 interface PlayerTagItemProp {
   tag: PlayerTagOption;
   selected: boolean;
-  onClick(playerTag: string): void;
+  onClick(tag: PlayerTagSelection): void;
 }
 
 const PlayerTagItem: React.FC<PlayerTagItemProp> = (props: PlayerTagItemProp) => {
