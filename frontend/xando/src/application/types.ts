@@ -35,3 +35,9 @@ export interface GameCreationConfig extends GameConfigOptions {
 export interface JoinGameConfig extends GameConfigOptions {
   // gameId: string;
 }
+
+export interface Player {
+  uid: string;
+  id: string;
+  playerName: string;
+}
