@@ -41,3 +41,14 @@ export interface Player {
   id: string;
   playerName: string;
 }
+
+export interface Game {
+
+}
+
+export interface GameService {
+  createPlayer(playerName: string): Promise<Player>;
+  createGame(player: Player): Promise<Game>;
+  joingGame(player: Player): Promise<Game>;
+  makeMove(game: Game, player: Player, cellIndex: number): Promise<Game>;
+}

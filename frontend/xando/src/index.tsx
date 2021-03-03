@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
@@ -8,7 +8,6 @@ import './index.css';
 import { store } from './store/store';
 import reportWebVitals from './reportWebVitals';
 import GameLobbyPage from './pages/home/home';
-import { GameCreationConfig, JoinGameConfig, PLAYER_TAG_OPTIONS } from './application/types'
 
 ReactDOM.render(
   <React.StrictMode>

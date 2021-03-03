@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    "babel-plugin-parameter-decorator",
+    [
+      "@babel/preset-typescript",
+      {
+        "onlyRemoveTypeImports": true
+      }
+    ]
+  ]
+}
