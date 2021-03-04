@@ -1,5 +1,6 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import { connect, ConnectedProps } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import Container from 'react-bootstrap/Container';
 import MainGameLobbySection from './mainGameLobbySection';
@@ -9,7 +10,8 @@ import { GameCreationConfig, JoinGameConfig, PlayerTagSelection, PlayerTagOption
 
 import './home.css'
 import { Actions, RootState } from "../../store/store";
-import { createGame, joinGame } from "../../store/game/actions";
+import { callCreateGame, GameThunk, joinGame } from "../../store/game/actions";
+import { Action } from "redux";
 
 interface State {
   desiredPlayerName: string;
@@ -23,8 +25,8 @@ const mapStateToProps = (state: RootState) => ({
   playerName: state.system.systemPlayer,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onCreateGame: (config: GameCreationConfig) => dispatch(createGame(config)),
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<string>>) => ({
+  onCreateGame: (config: GameCreationConfig) => dispatch(callCreateGame(config)),
   onJoinGame: (config: JoinGameConfig) => dispatch(joinGame(config)),
 });
 

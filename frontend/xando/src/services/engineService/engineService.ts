@@ -1,30 +1,35 @@
-import { toPlayer } from './mapper';
+import axios from 'axios';
+
+import { toPlayer, toGame } from './mapper';
 import { Game, GameService, Player } from "../../application/types";
-import { createEngineServiceV1 } from "./EngineServiceV1API";
+import { EngineServiceV1, Response } from "./EngineServiceV1API";
+import { ApiPlayer, ApiGame } from './type';
+
 
 const ENDPOINT = "http://localhost:8080";
 
 export class EngineServiceBackedGameService implements GameService {
-  private engineService;
+  private engineService: EngineServiceV1;
 
   constructor(endpoint = ENDPOINT) {
-    this.engineService = createEngineServiceV1(endpoint);
+    this.engineService = new EngineServiceV1({
+      host: endpoint,
+    });
   }
 
   async createPlayer(playerName: string): Promise<Player> {
-    // const response = await this.engineService.createPlayer({
-    //   playerName: playerName,
-    // });
+    const response: Response<ApiPlayer> = await this.engineService.createPlayer({
+      playerName: playerName,
+    });
 
-   return toPlayer({
-     id: "id",
-     uid: "uid",
-     playerName: playerName,
-   });
+   return toPlayer(response.data);
   }
 
   async createGame(player: Player): Promise<Game> {
-    throw new Error("Method not implemented.");
+    const authorization = `${player.playerName}:${player.id}`;
+    const response: Response<ApiGame> = await this.engineService.createGame(authorization, {});
+
+    return toGame(response.data);
   }
 
   async joingGame(player: Player): Promise<Game> {

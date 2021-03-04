@@ -3,6 +3,7 @@ package com.jleoirab.xando.api.v1.security;
 import com.jleoirab.xando.api.v1.security.authentication.Http401UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
 
@@ -18,6 +21,7 @@ import javax.servlet.Filter;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    public static final String API_PATH = "/v1/**";
 
     @Autowired
     @Qualifier("tokenBasedAuthenticationFilter")
@@ -38,7 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/swagger-ui/**").permitAll()
                     .antMatchers("/v3/api-docs/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/v1/players").permitAll()
-                    .antMatchers("/v1/**").authenticated()
+                    .antMatchers(HttpMethod.OPTIONS, API_PATH).permitAll()
+                    .antMatchers(API_PATH).authenticated()
                     .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(tokenBasedAuthenticationFilter, BasicAuthenticationFilter.class)
@@ -48,5 +53,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .logout().disable();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/v1/**")
+                        .allowedOrigins("*")
+                        .allowedHeaders("*")
+                        .allowedMethods("POST", "PUT", "GET", "OPTIONS", "DELETE");
+            }
+        };
     }
 }

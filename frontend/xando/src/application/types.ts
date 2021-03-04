@@ -1,3 +1,6 @@
+import { ApiGamePlayer, ApiGameStatus } from "../services/engineService/type";
+import { GameState } from "../store/game/types";
+
 export enum PlayerTagSelection {
   RANDOM,
   X,
@@ -36,14 +39,43 @@ export interface JoinGameConfig extends GameConfigOptions {
   // gameId: string;
 }
 
+
+export type PlayerTag = string;
+
+export const X_TAG: PlayerTag = "X";
+export const O_TAG: PlayerTag = "O";
+
 export interface Player {
   uid: string;
   id: string;
   playerName: string;
 }
 
-export interface Game {
+export interface GamePlayer {
+  id: string;
+  playerName: string;
+}
 
+export type GameStatusState = string;
+
+export const CREATED_STATE: GameStatusState = "CREATED"
+export const IN_PROGRESS_STATE: GameStatusState = "IN_PROGRESS"
+export const FINISHED_STATE: GameStatusState = "FINISHED"
+
+export interface GameStatus {
+  state: GameStatusState;
+  winner: PlayerTag | null;
+}
+
+export interface Game {
+  uid: string;
+  id: string;
+  gameCreatorPlayerId: string;
+  playerX: GamePlayer;
+  playerO: GamePlayer | null;
+  gameBoard: Array<PlayerTag | null>;
+  currentPlayerTurn: PlayerTag;
+  gameStatus: GameStatus;
 }
 
 export interface GameService {

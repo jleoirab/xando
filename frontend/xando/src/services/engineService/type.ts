@@ -21,7 +21,7 @@ export interface ApiGamePlayer {
 }
 
 export interface ApiGameStatus {
-    state: ApiGameStatus;
+    state: ApiGameState;
     winner: ApiPlayerTag | null;
 }
 
