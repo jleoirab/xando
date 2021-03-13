@@ -1,10 +1,10 @@
 import { ThunkAction } from 'redux-thunk';
-import { Game, GameCreationConfig, JoinGameConfig } from '../../application/types'
+import { Game, Move, GameCreationConfig, JoinGameConfig } from '../../application/types'
 import { Action } from 'redux';
 import { RootState } from '../store';
-import { CREATE_GAME, JOIN_GAME, CREATE_GAME_SUCCESS, GameActions } from './types'
+import { CREATE_GAME, JOIN_GAME, CREATE_GAME_SUCCESS, MAKE_MOVE, GameActions, MAKE_MOVE_SUCCESS } from './types'
 import { EngineServiceBackedGameService } from '../../services/engineService/engineService';
-import { updatePlayerInfo } from '../system/actions';
+import { updatePlayerInfo, } from '../system/actions';
 
 export function createGame(config: GameCreationConfig): GameActions {
   return {
@@ -16,6 +16,20 @@ export function createGame(config: GameCreationConfig): GameActions {
 export function createGameSuccess(game: Game): GameActions {
   return {
     type: CREATE_GAME_SUCCESS,
+    payload: game,
+  }
+}
+
+export function makeMove(move: Move): GameActions {
+  return {
+    type: MAKE_MOVE,
+    payload: move,
+  }
+}
+
+export function makeMoveSuccess(game: Game): GameActions {
+  return {
+    type: MAKE_MOVE_SUCCESS,
     payload: game,
   }
 }
@@ -47,4 +61,18 @@ export const callCreateGame = (config: GameCreationConfig): GameThunk<void> => a
 
   const game = await gameService.createGame(systemPlayer);
   dispatch(createGameSuccess(game));
+
+  // redirect to game page
+}
+
+export const callMakeMove = (move: Move): GameThunk<void> => async (dispatch, getState) => {
+  console.log("Doing callMakeMove thunk");
+
+  dispatch(makeMove(move));
+
+  const game = await gameService.makeMove(move);
+
+  dispatch(makeMoveSuccess(game));
+
+  console.log("Make a move request");
 }

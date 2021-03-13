@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { toPlayer, toGame } from './mapper';
-import { Game, GameService, Player } from "../../application/types";
+import { toPlayer, toGame, toApiPlayerTag } from './mapper';
+import { Game, Move, GameService, Player } from "../../application/types";
 import { EngineServiceV1, Response } from "./EngineServiceV1API";
 import { ApiPlayer, ApiGame } from './type';
 
@@ -26,9 +26,8 @@ export class EngineServiceBackedGameService implements GameService {
   }
 
   async createGame(player: Player): Promise<Game> {
-    const authorization = `${player.playerName}:${player.id}`;
+    const authorization = this.getAuthorization(player.id, player.playerName);
     const response: Response<ApiGame> = await this.engineService.createGame(authorization, {});
-
     return toGame(response.data);
   }
 
@@ -36,8 +35,18 @@ export class EngineServiceBackedGameService implements GameService {
     throw new Error("Method not implemented.");
   }
 
-  async makeMove(game: Game, player: Player, cellIndex: number): Promise<Game> {
-    throw new Error("Method not implemented.");
+  async makeMove(move: Move): Promise<Game> {
+    const authorization = this.getAuthorization(move.player.id, move.player.playerName);
+    const response: Response<ApiGame> = await this.engineService.makeMove(authorization, move.gameId, {
+      playerTag: toApiPlayerTag(move.playerTag),
+      cellIndex: move.cellIndex,
+    });
+
+    return toGame(response.data);
+  }
+
+  private getAuthorization(id: string, playerName: string) {
+    return `${playerName}:${id}`;
   }
 
 }

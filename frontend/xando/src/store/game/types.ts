@@ -1,9 +1,11 @@
-import { Game, GameCreationConfig, JoinGameConfig, PlayerTagOption } from '../../application/types'
+import { Game, GameCreationConfig, JoinGameConfig, Move, PlayerTagOption } from '../../application/types'
 
 
 export const CREATE_GAME = 'CREATE_GAME';
 export const CREATE_GAME_SUCCESS = 'CREATE_GAME_SUCCESS';
 export const JOIN_GAME = 'JOIN_GAME';
+export const MAKE_MOVE = 'MAKE_MOVE';
+export const MAKE_MOVE_SUCCESS = 'MAKE_MOVE_SUCCESS';
 
 interface CreateGameAction {
   type: typeof CREATE_GAME;
@@ -20,8 +22,20 @@ interface JoinGameAction {
   payload: JoinGameConfig;
 }
 
-export type GameActions = CreateGameAction | CreateGameSuccessAction | JoinGameAction;
+interface MakeMoveAction {
+  type: typeof MAKE_MOVE;
+  payload: Move;
+}
+
+interface MoveMoveSuccessAction {
+  type: typeof MAKE_MOVE_SUCCESS;
+  payload: Game;
+}
+
+export type GameActions = CreateGameAction | CreateGameSuccessAction | JoinGameAction | MakeMoveAction
+  | MoveMoveSuccessAction;
 
 export interface GameState {
   playerTagOptions: Array<PlayerTagOption>
+  currentGame?: Game;
 }

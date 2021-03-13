@@ -44,6 +44,10 @@ export function toPlayerTag(apiPlayerTag: ApiPlayerTag): PlayerTag {
   return <PlayerTag>apiPlayerTag;
 }
 
+export function toApiPlayerTag(playerTag: PlayerTag): ApiPlayerTag {
+  return <ApiPlayerTag>playerTag;
+}
+
 export function toGameStatus(apiGameStatus: ApiGameStatus): GameStatus {
   return {
     winner: apiGameStatus.winner ? toPlayerTag(apiGameStatus.winner) : null,

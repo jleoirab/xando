@@ -78,9 +78,16 @@ export interface Game {
   gameStatus: GameStatus;
 }
 
+export interface Move {
+  gameId: string;
+  player: GamePlayer;
+  playerTag: PlayerTag;
+  cellIndex: number;
+}
+
 export interface GameService {
   createPlayer(playerName: string): Promise<Player>;
   createGame(player: Player): Promise<Game>;
   joingGame(player: Player): Promise<Game>;
-  makeMove(game: Game, player: Player, cellIndex: number): Promise<Game>;
+  makeMove(move: Move): Promise<Game>;
 }

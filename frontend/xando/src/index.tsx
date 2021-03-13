@@ -8,11 +8,13 @@ import './index.css';
 import { store } from './store/store';
 import reportWebVitals from './reportWebVitals';
 import GameLobbyPage from './pages/home/home';
+import GamePage from './pages/game/game';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <GameLobbyPage/>
+      {/* <GameLobbyPage/> */}
+      <GamePage/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -9,8 +9,8 @@ import StatusToast from './statusToast';
 import { GameCreationConfig, JoinGameConfig, PlayerTagSelection, PlayerTagOption } from '../../application/types';
 
 import './home.css'
-import { Actions, RootState } from "../../store/store";
-import { callCreateGame, GameThunk, joinGame } from "../../store/game/actions";
+import { RootState } from "../../store/store";
+import { callCreateGame, joinGame } from "../../store/game/actions";
 import { Action } from "redux";
 
 interface State {
@@ -136,7 +136,7 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
 
   render() {
     return (
-      <Container fluid className="gameLobbySections">
+      <Container fluid className="page gameLobbyPage">
         <h1>XandO</h1>
         <StatusToast
           message={this.state.errorMessage}

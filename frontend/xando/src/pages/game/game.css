@@ -1,0 +1,59 @@
+.gamePage {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.gamePageSections {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.sidebar {
+  background-color: blueviolet;
+  height: 100%;
+  width: 300px;
+}
+
+.gameBoard {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameBoardTable {
+  background-color: white;
+}
+
+.gameBoardTable .cell {
+  height: 200px;
+  width: 200px;
+  font-size: 100px;
+  cursor: pointer;
+}
+
+.gameBoardTable .cell.free:hover {
+  background-color: grey;
+}
+
+.gameBoardTable .cell.disabled {
+  cursor: not-allowed;
+}
+
+.gameBoardTable .cell.free {
+  cursor: cursor-pointer;
+}
+
+.gameBoardTable tr:nth-child(2) {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+.gameBoardTable tr td:nth-child(2) {
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
