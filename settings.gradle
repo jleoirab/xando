@@ -1,4 +1,5 @@
 rootProject.name = 'xando'
 
 include 'engine'
+include 'router'
 
