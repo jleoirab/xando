@@ -19,3 +19,10 @@ services:
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=root
+
+  rabbitmq:
+    image: rabbitmq:3.8.14-management
+    restart: unless-stopped
+    ports:
+      - 5672:5672 # Node Port
+      - 15672:15672 # Management Port
