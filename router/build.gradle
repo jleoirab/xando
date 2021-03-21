@@ -1,6 +1,18 @@
-group 'com.jleoirab.xando'
-version '0.0.1-SNAPSHOT'
+apply plugin: 'application'
+
+application {
+    mainClass = 'com.jleoirab.xando.router.RouterApplication'
+}
 
 dependencies {
+    protobuf files('../protos/src/main/proto')
 
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    testImplementation ('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }

@@ -1,7 +1,6 @@
 package com.jleoirab.xando.engine.events.rabbitmq;
 
 import com.jleoirab.xando.engine.events.EventPublisher;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
@@ -31,12 +30,7 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
-    TopicExchange exchange() {
-        return new TopicExchange(EVENT_QUEUE_EXCHANGE_NAME);
-    }
-
-    @Bean
     EventPublisher rabbitMQEventPublisher() {
-        return new RabbitMQEventPublisher(exchange()::getName, rabbitTemplate());
+        return new RabbitMQEventPublisher(() -> EVENT_QUEUE_EXCHANGE_NAME, rabbitTemplate());
     }
 }
