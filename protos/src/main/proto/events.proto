@@ -11,12 +11,10 @@ message MoveEvent {
   com.jleoirab.xando.protos.GamePlayer game_player = 1;
   int32 cell_index = 2;
   com.jleoirab.xando.protos.PlayerTag player_tag = 3;
-  com.jleoirab.xando.protos.Game game = 4;
 }
 
 message JoinGameEvent {
   com.jleoirab.xando.protos.GamePlayer game_player = 1;
-  com.jleoirab.xando.protos.Game game = 2;
 }
 
 message GameEvent {
@@ -24,5 +22,7 @@ message GameEvent {
     MoveEvent move_event = 1;
     JoinGameEvent join_game_event = 2;
   }
+
+  com.jleoirab.xando.protos.Game game = 3;
 }
 

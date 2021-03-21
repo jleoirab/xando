@@ -34,8 +34,8 @@ public class PublishingGameService implements GameService {
         Game game = delegate.joinGame(gameId, player);
 
         GameEvent event = GameEvent.newBuilder()
+                .setGame(DomainToEventMapper.from(game))
                 .setJoinGameEvent(JoinGameEvent.newBuilder()
-                        .setGame(DomainToEventMapper.from(game))
                         .setGamePlayer(DomainToEventMapper.from(player))
                         .build())
                 .build();
@@ -50,8 +50,8 @@ public class PublishingGameService implements GameService {
         Game game = delegate.makeMove(gameId, player, playerTag, cellIndex);
 
         GameEvent event = GameEvent.newBuilder()
+                .setGame(DomainToEventMapper.from(game))
                 .setMoveEvent(MoveEvent.newBuilder()
-                        .setGame(DomainToEventMapper.from(game))
                         .setGamePlayer(DomainToEventMapper.from(player))
                         .setCellIndex(cellIndex)
                         .setPlayerTag(DomainToEventMapper.from(playerTag))

@@ -71,7 +71,7 @@ final class DomainToEventMapper {
         return builder.build();
     }
 
-    public static GameState from (com.jleoirab.xando.engine.domain.model.GameState state) {
+    public static GameState from(com.jleoirab.xando.engine.domain.model.GameState state) {
         switch (state) {
             case CREATED:
                 return GameState.GAME_STATE_CREATED;
