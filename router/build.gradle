@@ -1,4 +1,4 @@
-group 'com.github.jleoirab'
+group 'com.jleoirab.xando'
 version '0.0.1-SNAPSHOT'
 
 dependencies {

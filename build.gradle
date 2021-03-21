@@ -1,3 +1,12 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.15'
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -5,6 +14,7 @@ plugins {
 	id 'application'
 	id 'idea'
 	id "com.diffplug.spotless" version "5.10.1"
+	id "com.google.protobuf" version "0.8.15"
 }
 
 repositories {
@@ -18,6 +28,7 @@ subprojects {
 	apply plugin: 'application'
 	apply plugin: 'idea'
 	apply plugin: 'com.diffplug.spotless'
+	apply plugin: 'com.google.protobuf'
 
 	group = 'com.jleoirab'
 	version = '0.0.1-SNAPSHOT'
@@ -28,7 +39,8 @@ subprojects {
 	}
 
 	dependencies {
-		implementation("com.google.guava:guava:30.1-jre")
+		implementation "com.google.guava:guava:30.1-jre"
+		implementation 'com.google.protobuf:protobuf-java:3.15.6'
 		compileOnly 'org.projectlombok:lombok:1.18.16'
 		annotationProcessor 'org.projectlombok:lombok:1.18.16'
 
@@ -98,6 +110,21 @@ subprojects {
 
 			// apply a specific flavor of google-java-format
 			googleJavaFormat('1.8').aosp()
+		}
+	}
+
+	protobuf {
+		// Configure the protoc executable
+		protoc {
+			// Download from repositories
+			artifact = 'com.google.protobuf:protoc:3.0.0'
+		}
+		generateProtoTasks {
+			all().each { task ->
+				task.builtins {
+					java {}
+				}
+			}
 		}
 	}
 

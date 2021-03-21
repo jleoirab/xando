@@ -10,7 +10,11 @@ In the search tab, enter `/v3/api-docs` and click `explore`
 
 ### Steps to run Locally
 ```bash
+./scripts/start-deps
 ./gradlew engine:run
+
+# stop deps
+./scripts/stop-deps
 ```
 
 You can also run it via intellij

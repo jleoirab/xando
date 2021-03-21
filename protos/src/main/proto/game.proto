@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package com.jleoirab.xando.protos;
+
+option  java_multiple_files = true;
+option java_package = "com.jleoirab.xando.protos.models";
+
+message GamePlayer {
+  string player_id = 1;
+  string player_name = 2;
+}
+
+message GameBoard {
+  enum GameBoardCell {
+    UNKNOWN = 0;
+    UNOCCUPIED = 1;
+    X = 3;
+    O = 4;
+  }
+
+  repeated GameBoardCell cell = 1;
+}
+
+enum PlayerTag {
+  PLAYER_TAG_UNKNOWN = 0;
+  PLAYER_TAG_X = 1;
+  PLAYER_TAG_O = 2;
+}
+
+enum GameState {
+  GAME_STATE_UNKNOWN = 0;
+  GAME_STATE_CREATED = 1;
+  GAME_STATE_IN_PROGRESS = 2;
+  GAME_STATE_FINISHED = 3;
+}
+
+message GameStatus {
+  GameState state = 1;
+  PlayerTag winner = 2;
+}
+
+message Game {
+  string uid = 1;
+  string id = 2;
+  string game_creator_player_id = 3;
+  GamePlayer player_x = 4;
+  GamePlayer player_o = 5;
+  GameBoard game_board = 6;
+  PlayerTag current_player_turn = 7;
+  GameStatus game_status = 8;
+}
