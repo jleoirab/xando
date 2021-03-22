@@ -1,9 +1,10 @@
 package com.jleoirab.xando.router.websocket;
 
-import com.google.protobuf.util.JsonFormat;
 import com.jleoirab.xando.router.websocket.impl.WebSocketServiceImpl;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.converter.ProtobufMessageConverter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -18,7 +19,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/ws")
+                .setAllowedOrigins("*");
     }
 
     @Override
@@ -28,18 +30,13 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     }
 
     @Bean
-    EventConverter eventFormatter() {
-        return input -> {
-            String message = "";
-            JsonFormat.parser()
-                    .ignoringUnknownFields()
-                    .merge(message, input.toBuilder());
-
-            return message;
-        };
+    SimpMessagingTemplate messagingTemplate(/* This is gotten directly from spring boot web socket */ SimpMessagingTemplate simpMessagingTemplate) {
+        simpMessagingTemplate.setMessageConverter(new ProtobufMessageConverter());
+        return simpMessagingTemplate;
     }
+
     @Bean
-    WebSocketService webSocketService(/* This is gotten directly from spring boot websocket */ SimpMessagingTemplate template) {
-        return new WebSocketServiceImpl(template, eventFormatter());
+    WebSocketService webSocketService(@Qualifier("messagingTemplate") SimpMessagingTemplate template) {
+        return new WebSocketServiceImpl(template);
     }
 }

@@ -1,6 +1,8 @@
 package com.jleoirab.xando.router.events;
 
-import com.jleoirab.xando.router.events.impl.NoOpEventSubscriber;
+import com.jleoirab.xando.router.RouterService;
+import com.jleoirab.xando.router.events.impl.DefaultEventSubscriber;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EventsConfiguration {
     @Bean
-    EventSubscriber eventSubscriber() {
-        return new NoOpEventSubscriber();
+    EventSubscriber eventSubscriber(@Qualifier("routerService") RouterService routerService) {
+        return new DefaultEventSubscriber(routerService);
     }
 }

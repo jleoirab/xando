@@ -22,6 +22,6 @@ public class DefaultRouterService implements RouterService {
     @Override
     public void route(GameEvent event) {
         LOG.info("Event = {}", event);
-        webSocketService.sendToQueue(event.getGame().getUid(), event);
+        webSocketService.sendToQueue(event.getGame().getId(), event);
     }
 }

@@ -14,6 +14,7 @@ import ScoreBoardSection from "./scoreBoardSection";
 import TieHistorySection from "./tieHistorySection";
 import GameOptionsSection from "./gameOptionsSection";
 import GameBoardSection from "./gameBoardSection";
+import { Client } from '@stomp/stompjs';
 
 interface State {
 
