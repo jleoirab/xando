@@ -1,8 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
-import { Game, Move, GameCreationConfig, JoinGameConfig } from '../../application/types'
+import { Game, Move, GameCreationConfig, JoinGameConfig, GameEventsListener } from '../../application/types'
 import { Action } from 'redux';
 import { RootState } from '../store';
-import { CREATE_GAME, JOIN_GAME, CREATE_GAME_SUCCESS, MAKE_MOVE, GameActions, MAKE_MOVE_SUCCESS } from './types'
+import { CREATE_GAME, JOIN_GAME, CREATE_GAME_SUCCESS, MAKE_MOVE, GameActions, MAKE_MOVE_SUCCESS, GAME_SUBSCRIPTION_SUCCESS } from './types'
 import { EngineServiceBackedGameService } from '../../services/engineService/engineService';
 import { updatePlayerInfo, } from '../system/actions';
 
@@ -41,6 +41,13 @@ export function joinGame(config: JoinGameConfig): GameActions {
   };
 }
 
+export function gameSubscriptionSuccess(subscription: GameEventsListener): GameActions {
+  return {
+    type: GAME_SUBSCRIPTION_SUCCESS,
+    payload: subscription,
+  }
+}
+
 export type GameThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
 
 const gameService = new EngineServiceBackedGameService();
@@ -60,9 +67,31 @@ export const callCreateGame = (config: GameCreationConfig): GameThunk<void> => a
   }
 
   const game = await gameService.createGame(systemPlayer);
+
   dispatch(createGameSuccess(game));
 
   // redirect to game page
+}
+
+export const createGameSubscription = (config: GameCreationConfig): GameThunk<void> => async(dispatch, getState) => {
+  const game = getState().game.currentGame;
+  const systemPlayer = getState().system.systemPlayer;
+
+  if (!!systemPlayer) {
+    throw new Error("There is no system player. Weird");
+  }
+
+  if (!!game) {
+    throw new Error("There is no game. Weird");
+  }
+
+  const subscription = gameService.subscribeToGameEvents(game, systemPlayer);
+
+  subscription.onGameEvent(event => {
+    console.log("handling game event", event);
+  });
+
+  dispatch(gameSubscriptionSuccess(subscription));
 }
 
 export const callMakeMove = (move: Move): GameThunk<void> => async (dispatch, getState) => {

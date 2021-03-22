@@ -85,9 +85,29 @@ export interface Move {
   cellIndex: number;
 }
 
+export type EventType = string
+
+export const JoinGameEvent: EventType = "JoinGameEvent";
+export const MoveEvent: EventType = "MoveEvent";
+
+export interface GameEvent {
+  game: Game;
+  eventType: EventType;
+}
+
+export interface GameEventHandler {
+  (event: GameEvent): void;
+}
+
+export interface GameEventsListener {
+  disconnect(): void;
+  onGameEvent(handler: GameEventHandler): void;
+}
+
 export interface GameService {
   createPlayer(playerName: string): Promise<Player>;
   createGame(player: Player): Promise<Game>;
-  joingGame(player: Player): Promise<Game>;
+  joingGame(player: Player, gameId: string): Promise<Game>;
   makeMove(move: Move): Promise<Game>;
+  subscribeToGameEvents(game: Game, player: Player): GameEventsListener;
 }
