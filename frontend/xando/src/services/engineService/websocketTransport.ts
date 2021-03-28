@@ -10,6 +10,7 @@ const WEB_SOCKET_ENDPOINT = "ws://localhost:8082/ws";
 export const createStompClient = () => {
   const client = new Client({
     brokerURL: WEB_SOCKET_ENDPOINT,
+    debug: console.log,
   });
 
   return client;
@@ -32,9 +33,12 @@ export class WebSocketGameEventsListener implements GameEventsListener {
   }
 
   private subscribe(): void {
+
     this.client.onConnect = frame => {
       this.client.subscribe(`/queue/${this.game.id}`, this.handleGameEvent);
     }
+
+    this.client.activate();
   }
 
   disconnect(): void {

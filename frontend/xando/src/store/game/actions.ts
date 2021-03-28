@@ -1,8 +1,9 @@
 import { ThunkAction } from 'redux-thunk';
+import { push } from 'connected-react-router';
 import { Game, Move, GameCreationConfig, JoinGameConfig, GameEventsListener } from '../../application/types'
 import { Action } from 'redux';
 import { RootState } from '../store';
-import { CREATE_GAME, JOIN_GAME, CREATE_GAME_SUCCESS, MAKE_MOVE, GameActions, MAKE_MOVE_SUCCESS, GAME_SUBSCRIPTION_SUCCESS } from './types'
+import { CREATE_GAME, JOIN_GAME, CREATE_GAME_SUCCESS, MAKE_MOVE, GameActions, MAKE_MOVE_SUCCESS, GAME_SUBSCRIPTION_SUCCESS, LOAD_GAME_SUCCESS } from './types'
 import { EngineServiceBackedGameService } from '../../services/engineService/engineService';
 import { updatePlayerInfo, } from '../system/actions';
 
@@ -48,6 +49,13 @@ export function gameSubscriptionSuccess(subscription: GameEventsListener): GameA
   }
 }
 
+export function loadGameSuccess(game: Game): GameActions {
+  return {
+    type: LOAD_GAME_SUCCESS,
+    payload: game,
+  };
+}
+
 export type GameThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
 
 const gameService = new EngineServiceBackedGameService();
@@ -70,28 +78,9 @@ export const callCreateGame = (config: GameCreationConfig): GameThunk<void> => a
 
   dispatch(createGameSuccess(game));
 
+  dispatch(push(`/games/${game.id}`));
+
   // redirect to game page
-}
-
-export const createGameSubscription = (config: GameCreationConfig): GameThunk<void> => async(dispatch, getState) => {
-  const game = getState().game.currentGame;
-  const systemPlayer = getState().system.systemPlayer;
-
-  if (!!systemPlayer) {
-    throw new Error("There is no system player. Weird");
-  }
-
-  if (!!game) {
-    throw new Error("There is no game. Weird");
-  }
-
-  const subscription = gameService.subscribeToGameEvents(game, systemPlayer);
-
-  subscription.onGameEvent(event => {
-    console.log("handling game event", event);
-  });
-
-  dispatch(gameSubscriptionSuccess(subscription));
 }
 
 export const callMakeMove = (move: Move): GameThunk<void> => async (dispatch, getState) => {
@@ -104,4 +93,36 @@ export const callMakeMove = (move: Move): GameThunk<void> => async (dispatch, ge
   dispatch(makeMoveSuccess(game));
 
   console.log("Make a move request");
+}
+
+export const loadGame = (gameId: string): GameThunk<void> => async (dispatch, getState) => {
+  console.log("Loading game");
+
+  console.log(getState());
+
+  const systemPlayer = getState().system.systemPlayer;
+
+  if (!systemPlayer) {
+    throw new Error("There is no system player. Weird");
+  }
+
+  const game = await gameService.getGame(systemPlayer, gameId);
+
+  if (!game) {
+    throw new Error("There is no game. Weird");
+  }
+
+  console.log(game);
+
+  dispatch(loadGameSuccess(game));
+
+  const subscription = gameService.subscribeToGameEvents(game, systemPlayer);
+
+  subscription.onGameEvent(event => {
+    console.log("handling game event", event);
+  });
+
+  dispatch(gameSubscriptionSuccess(subscription));
+
+  console.log("Loaded game");
 }

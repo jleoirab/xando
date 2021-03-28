@@ -10,6 +10,7 @@ import com.jleoirab.xando.engine.domain.model.Game;
 import com.jleoirab.xando.engine.domain.model.Player;
 import com.jleoirab.xando.engine.domain.model.PlayerTag;
 import com.jleoirab.xando.engine.service.GameService;
+import com.jleoirab.xando.engine.service.errors.IllegalGameAccessException;
 import com.jleoirab.xando.engine.service.errors.ServiceException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,6 +64,48 @@ public class GameController {
             return ApiGame.from(game);
         } catch (ServiceException e) {
             throw new ApiException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Get a game resource")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ApiGame.class))
+                            }),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Game not found",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ApiError.class))
+                            }),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Illegal access to game.",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ApiError.class))
+                            }),
+            })
+    @GetMapping(value = "/{gameId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiGame getGame(@AuthenticationPrincipal Player player, @PathVariable("gameId") String gameId) {
+        if (player == null) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "Request forbidden");
+        }
+        try {
+            return gameService.getGameByIdForPlayer(gameId, player)
+                    .map(ApiGame::from)
+                    .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND));
+        } catch (IllegalGameAccessException e) {
+            throw new ApiException(HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
 

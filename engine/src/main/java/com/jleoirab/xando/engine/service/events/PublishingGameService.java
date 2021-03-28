@@ -5,11 +5,14 @@ import com.jleoirab.xando.engine.domain.model.Game;
 import com.jleoirab.xando.engine.domain.model.Player;
 import com.jleoirab.xando.engine.domain.model.PlayerTag;
 import com.jleoirab.xando.engine.events.EventPublisher;
+import com.jleoirab.xando.engine.service.errors.IllegalGameAccessException;
 import com.jleoirab.xando.protos.events.GameEvent;
 import com.jleoirab.xando.protos.events.JoinGameEvent;
 import com.jleoirab.xando.protos.events.MoveEvent;
 import com.jleoirab.xando.engine.service.GameService;
 import com.jleoirab.xando.engine.service.errors.ServiceException;
+
+import java.util.Optional;
 
 /**
  * Created by jleoirab on 2021-03-14
@@ -21,6 +24,11 @@ public class PublishingGameService implements GameService {
     public PublishingGameService(GameService delegate, EventPublisher publisher) {
         this.delegate = delegate;
         this.publisher = publisher;
+    }
+
+    @Override
+    public Optional<Game> getGameByIdForPlayer(String gameId, Player player) throws IllegalGameAccessException {
+        return delegate.getGameByIdForPlayer(gameId, player);
     }
 
     @Override

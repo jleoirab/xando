@@ -6,6 +6,7 @@ import {
   CREATE_GAME_SUCCESS,
   MAKE_MOVE,
   MAKE_MOVE_SUCCESS,
+  LOAD_GAME_SUCCESS,
 } from './types';
 
 import { createReducer } from '../util';
@@ -26,7 +27,7 @@ const initialState: GameState = {
       id: "id-o",
       playerName: "gameParticipant",
     },
-    gameBoard: [null, X_TAG, null, null, X_TAG, null, O_TAG, null, null,],
+    gameBoard: [null, null, null, null, null, null, null, null, null,],
     currentPlayerTurn: O_TAG,
     gameStatus: {
       state: IN_PROGRESS_STATE,
@@ -43,7 +44,7 @@ function handleCreateGame(state: GameState, action: GameActions): GameState {
 function handleCreateGameSuccess(state: GameState, action: GameActions): GameState {
   console.log("handling create game success", state, action);
   return Object.assign({}, state, {
-    game: action.payload,
+    currentGame: action.payload,
   });
 }
 
@@ -60,13 +61,26 @@ function handleMakeMove(state: GameState, action: GameActions): GameState {
 function handleMakeMoveSuccess(state: GameState, action: GameActions): GameState {
   console.log("handling make  move success");
   return Object.assign({}, state, {
-    game: action.payload,
+    currentGame: action.payload,
   });
 }
+
+function handleLoadGameSuccess(state: GameState, action: GameActions): GameState {
+  console.log("handling load game success");
+  const newState = Object.assign({}, state, {
+    currentGame: action.payload,
+  });
+
+  console.log("new state", newState);
+
+  return newState;
+}
+
 export const gameReducer = createReducer<string, GameState, GameActions>(initialState, [
   [CREATE_GAME, handleCreateGame],
   [CREATE_GAME_SUCCESS, handleCreateGameSuccess],
   [JOIN_GAME, handleJoinGame],
   [MAKE_MOVE, handleMakeMove],
   [MAKE_MOVE_SUCCESS, handleMakeMoveSuccess],
+  [LOAD_GAME_SUCCESS, handleLoadGameSuccess],
 ]);

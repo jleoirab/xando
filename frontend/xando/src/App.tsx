@@ -1,22 +1,22 @@
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import {
-  BrowserRouter as Router,
   Route,
   Switch
 } from 'react-router-dom';
-import { store } from './store/store';
+import { store, history } from './store/store';
 import GameLobbyPage from './pages/home/home';
 import GamePage from './pages/game/game';
 
 function App() {
   return (
     <Provider store={store}>
-      <Router>
+      <ConnectedRouter history={history}>
         <Switch>
           <Route path="/games/:gameId" component={GamePage} />
           <Route path="/" component={GameLobbyPage} />
         </Switch>
-      </Router>
+      </ConnectedRouter>
     </Provider>
   );
 }

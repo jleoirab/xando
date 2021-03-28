@@ -49,6 +49,13 @@ export class EngineServiceBackedGameService implements GameService {
     return toGame(response.data);
   }
 
+  async getGame(player: Player, gameId: string): Promise<Game> {
+    const authorization = this.getAuthorization(player.id, player.playerName);
+    const response: Response<ApiGame> = await this.engineService.getGame(authorization, gameId);
+
+    return toGame(response.data);
+  }
+
   subscribeToGameEvents(game: Game, player: Player): GameEventsListener {
     const client = createStompClient();
     return new WebSocketGameEventsListener(client, game, player);

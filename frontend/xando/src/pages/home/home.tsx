@@ -23,7 +23,7 @@ interface State {
 
 const mapStateToProps = (state: RootState) => ({
   playerTagOptions: state.game.playerTagOptions,
-  playerName: state.system.systemPlayer,
+  player: state.system.systemPlayer,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<string>>) => ({
@@ -57,6 +57,14 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
     this.desiredPlayerTagSelected = this.desiredPlayerTagSelected.bind(this);
     this.playerNameChanged = this.playerNameChanged.bind(this);
     this.onPlayerTagSelectionComplete = this.onPlayerTagSelectionComplete.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.player) {
+      this.setState({
+        desiredPlayerName: this.props.player.playerName,
+      });
+    }
   }
 
   createGame() {
@@ -110,7 +118,7 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
 
   validatePlayerName(): boolean {
     console.log(this.state.desiredPlayerName, !!!this.state.desiredPlayerName, this.state.desiredPlayerName.length === 0);
-    if (!!!this.state.desiredPlayerName || this.state.desiredPlayerName.length === 0) {
+    if (!this.state.desiredPlayerName || this.state.desiredPlayerName.length === 0) {
       return false;
     }
 
@@ -129,10 +137,6 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
       gameLobbyState: state,
       errorMessage: "",
     });
-  }
-
-  shouldComponentUpdate(nextProps: Readonly<GameLobbyPageProps>, nextState: Readonly<State>, nextContext: any): boolean {
-    return true;
   }
 
   render() {

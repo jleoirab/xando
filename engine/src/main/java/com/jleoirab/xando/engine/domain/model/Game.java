@@ -3,6 +3,7 @@ package com.jleoirab.xando.engine.domain.model;
 import com.jleoirab.xando.engine.domain.errors.*;
 import lombok.*;
 import org.apache.logging.log4j.util.Strings;
+import org.apache.logging.log4j.util.Supplier;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -32,9 +33,7 @@ public class Game {
      * @throws XAndOGameError Exception thrown if there was a problem accepting the player into the game.
      */
     public void acceptPlayer(Player player) throws XAndOGameError {
-        if (gameStatus.getState() != GameState.CREATED) {
-            throw new GameAlreadyStartedException();
-        }
+        verifyGameState(GameState.CREATED, GameAlreadyStartedException::new);
 
         String playerId = player.getPlayerId();
 
@@ -67,10 +66,19 @@ public class Game {
      * @throws XAndOGameError Exception thrown if the move cannot be accepted.
      */
     public void acceptMove(Move move) throws XAndOGameError {
+        verifyGameState(GameState.IN_PROGRESS, () -> new IllegalGameState(GameState.IN_PROGRESS));
         verifyPlayerMove(move);
         applyMove(move.getCellIndex(), move.getPlayerTag());
         setNextPlayerTurn();
         evaluateGameStatus();
+    }
+
+    private void verifyGameState(GameState expectedState, Supplier<XAndOGameError> errorSupplier) throws XAndOGameError {
+        if (gameStatus.getState() == expectedState) {
+            return;
+        }
+
+        throw errorSupplier.get();
     }
 
     private void verifyPlayerMove(Move move) throws XAndOGameError {

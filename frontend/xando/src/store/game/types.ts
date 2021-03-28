@@ -3,6 +3,8 @@ import { Game, GameCreationConfig, GameEventsListener, JoinGameConfig, Move, Pla
 
 export const CREATE_GAME = 'CREATE_GAME';
 export const CREATE_GAME_SUCCESS = 'CREATE_GAME_SUCCESS';
+export const LOAD_GAME = 'LOAD_GAME';
+export const LOAD_GAME_SUCCESS = 'LOAD_GAME_SUCCESS';
 export const JOIN_GAME = 'JOIN_GAME';
 export const MAKE_MOVE = 'MAKE_MOVE';
 export const MAKE_MOVE_SUCCESS = 'MAKE_MOVE_SUCCESS';
@@ -15,6 +17,16 @@ interface CreateGameAction {
 
 interface CreateGameSuccessAction {
   type: typeof CREATE_GAME_SUCCESS;
+  payload: Game;
+}
+
+interface LoadGameAction {
+  type: typeof LOAD_GAME;
+  payload: string;
+}
+
+interface LoadGameSuccessAction {
+  type: typeof LOAD_GAME_SUCCESS;
   payload: Game;
 }
 
@@ -39,7 +51,7 @@ interface GameSubscriptionSuccessAction {
 }
 
 export type GameActions = CreateGameAction | CreateGameSuccessAction | JoinGameAction | MakeMoveAction
-  | MoveMoveSuccessAction | GameSubscriptionSuccessAction;
+  | MoveMoveSuccessAction | GameSubscriptionSuccessAction | LoadGameAction | LoadGameSuccessAction;
 
 export interface GameState {
   playerTagOptions: Array<PlayerTagOption>

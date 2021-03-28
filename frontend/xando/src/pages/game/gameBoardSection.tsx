@@ -26,7 +26,7 @@ const Cell: React.FC<CellProps> = (props: CellProps) => {
 }
 
 interface Props {
-  game: Game;
+  game?: Game;
   canPlay: boolean;
   onMakeMove(index: number): void;
 }

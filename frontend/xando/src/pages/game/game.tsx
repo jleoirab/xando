@@ -1,14 +1,15 @@
 import React from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { RouteComponentProps } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
-import { Game, Move, Player, X_TAG } from '../../application/types';
+import { Game, IN_PROGRESS_STATE, Move, Player, X_TAG } from '../../application/types';
 
 import './game.css';
 
 import { RootState } from "../../store/store";
-import { callMakeMove } from "../../store/game/actions";
+import { callMakeMove, loadGame } from "../../store/game/actions";
 import { Action } from "redux";
 import ScoreBoardSection from "./scoreBoardSection";
 import TieHistorySection from "./tieHistorySection";
@@ -27,11 +28,13 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<string>>) => ({
   onMakeMove: (move: Move) => dispatch(callMakeMove(move)),
+  loadGame: (gameId: string) => dispatch(loadGame(gameId)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
-type GamePageProps = ConnectedProps<typeof connector>
+type GamePageProps = ConnectedProps<typeof connector> & RouteComponentProps;
 
+const defaultGameBoard = [null, null, null, null, null, null, null, null, null,];
 class GamePage extends React.Component<GamePageProps, State> {
   state: State = {};
 
@@ -54,10 +57,19 @@ class GamePage extends React.Component<GamePageProps, State> {
     });
   }
 
+  componentDidMount() {
+    const gameId = this.props.match.params["gameId"];
+    this.props.loadGame(gameId);
+  }
+
   private canPlay() {
+    const game = this.props.currentGame;
+
+    if (!game || game.gameStatus.state !== IN_PROGRESS_STATE) return false;
+
     const currentPlayer = this.props.playerInSession;
-    const playerTag = this.props.currentGame.currentPlayerTurn;
-    const playerToPlay = playerTag == X_TAG ? this.props.currentGame.playerX : this.props.currentGame.playerO;
+    const playerTag = game.currentPlayerTurn;
+    const playerToPlay = playerTag == X_TAG ? game.playerX : game.playerO;
 
     return currentPlayer.id === playerToPlay.id;
   }

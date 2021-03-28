@@ -28,7 +28,7 @@ export function toGamePlayer(apiGamePlayer?: ApiGamePlayer): GamePlayer | null {
   }
 
   return {
-    id: apiGamePlayer.playerName,
+    id: apiGamePlayer.id,
     playerName: apiGamePlayer.playerName,
   }
 }

@@ -43,6 +43,11 @@ const MAKE_MOVE_ENDPOINT: Endpoint = {
   path: "/games/{gameId}/moves",
 }
 
+const GET_GAME_ENDPOINT: Endpoint = {
+  method: GET,
+  path: "/games/{gameId}",
+}
+
 const BASE_PATH = "/v1"
 
 interface EndpointConfig {
@@ -96,6 +101,14 @@ export class EngineServiceV1 {
       pathFormatter: path => path.replace("{gameId}", gameId),
       authorization,
       data: makeMoveRequest,
+    });
+  };
+
+  async getGame(authorization: string, gameId: string): Promise<Response<ApiGame>> {
+    return await this.makeRequest({
+      endpoint: GET_GAME_ENDPOINT,
+      pathFormatter: path => path.replace("{gameId}", gameId),
+      authorization,
     });
   };
 

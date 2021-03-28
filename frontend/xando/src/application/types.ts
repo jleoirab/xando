@@ -110,4 +110,5 @@ export interface GameService {
   joingGame(player: Player, gameId: string): Promise<Game>;
   makeMove(move: Move): Promise<Game>;
   subscribeToGameEvents(game: Game, player: Player): GameEventsListener;
+  getGame(player: Player, gameId: string): Promise<Game>;
 }
