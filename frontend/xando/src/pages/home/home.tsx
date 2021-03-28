@@ -1,6 +1,7 @@
 import React from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { RouteComponentProps } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import MainGameLobbySection from './mainGameLobbySection';
@@ -31,7 +32,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<s
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
-type GameLobbyPageProps = ConnectedProps<typeof connector>
+type GameLobbyPageProps = ConnectedProps<typeof connector> & RouteComponentProps;
 
 enum GameLobbyState {
   STARTING,

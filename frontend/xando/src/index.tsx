@@ -1,21 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './index.css';
-import { store } from './store/store';
 import reportWebVitals from './reportWebVitals';
-import GameLobbyPage from './pages/home/home';
-import GamePage from './pages/game/game';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      {/* <GameLobbyPage/> */}
-      <GamePage/>
-    </Provider>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
