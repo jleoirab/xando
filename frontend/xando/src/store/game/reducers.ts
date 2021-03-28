@@ -15,25 +15,6 @@ import { IN_PROGRESS_STATE, PLAYER_TAG_OPTIONS, X_TAG, O_TAG } from '../../appli
 
 const initialState: GameState = {
   playerTagOptions: PLAYER_TAG_OPTIONS,
-  currentGame: {
-    uid: "uid",
-    id: "id",
-    gameCreatorPlayerId: "gameCreator",
-    playerX: {
-      id: "id-x",
-      playerName: "gameCreator",
-    },
-    playerO: {
-      id: "id-o",
-      playerName: "gameParticipant",
-    },
-    gameBoard: [null, null, null, null, null, null, null, null, null,],
-    currentPlayerTurn: O_TAG,
-    gameStatus: {
-      state: IN_PROGRESS_STATE,
-      winner: null,
-    }
-  }
 }
 
 function handleCreateGame(state: GameState, action: GameActions): GameState {

@@ -5,6 +5,9 @@ const playerTagHTML = (tag: PlayerTag) => {
   return tag == X_TAG ? "X" : "O";
 }
 
+const GAME_BOARD_GRID_SIZE = 3;
+const GAME_BOARD_SIZE = GAME_BOARD_GRID_SIZE * GAME_BOARD_GRID_SIZE;
+const EMPTY_BOARD = new Array(GAME_BOARD_SIZE).fill(null);
 
 interface CellProps {
   tag: PlayerTag | null;
@@ -32,7 +35,9 @@ interface Props {
 }
 
 const GameBoardSection: React.FC<Props> = (props: Props) => {
-  const cells = props.game.gameBoard.map((tag, i) => {
+  const gameBoard = props.game ? props.game.gameBoard : EMPTY_BOARD
+
+  const cells = gameBoard.map((tag, i) => {
     return (<Cell
       key={i}
       onClick={props.onMakeMove}
@@ -41,10 +46,11 @@ const GameBoardSection: React.FC<Props> = (props: Props) => {
       index={i}
     />)
   });
+
   const rows = [];
-  const numRows = cells.length / 3
-  for (let i = 0; i < numRows; ++i) {
-    const cellsInRow = cells.slice(i * numRows, (i + 1) * numRows);
+
+  for (let i = 0; i < GAME_BOARD_GRID_SIZE; ++i) {
+    const cellsInRow = cells.slice(i * GAME_BOARD_GRID_SIZE, (i + 1) * GAME_BOARD_GRID_SIZE);
     const row = (<tr key={i}>{cellsInRow}</tr>);
     rows.push(row);
   }
