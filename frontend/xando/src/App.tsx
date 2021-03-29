@@ -13,6 +13,7 @@ function App() {
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>
+          {/* <Route path="/games/:gameId/join" component={GamePage} /> */}
           <Route path="/games/:gameId" component={GamePage} />
           <Route path="/" component={GameLobbyPage} />
         </Switch>

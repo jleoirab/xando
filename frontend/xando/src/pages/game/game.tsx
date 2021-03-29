@@ -60,6 +60,7 @@ class GamePage extends React.Component<GamePageProps, State> {
 
   componentDidMount() {
     const gameId = this.props.match.params["gameId"];
+    console.log(this.props);
     console.log(this.props.currentGame);
 
     if (!this.props.currentGame) {

@@ -30,7 +30,7 @@ public class GameServiceImpl implements GameService {
         Game game = gameOptional.get();
         GamePlayer gamePlayer = GamePlayer.from(player);
 
-        if (game.getPlayerX().equals(gamePlayer) || game.getPlayerO().equals(gamePlayer)) {
+        if (gamePlayer.equals(game.getPlayerX()) || gamePlayer.equals(game.getPlayerO())) {
             return gameOptional;
         }
 

@@ -13,12 +13,14 @@ import './home.css'
 import { RootState } from "../../store/store";
 import { callCreateGame, joinGame } from "../../store/game/actions";
 import { Action } from "redux";
+import JoinGameSection from "./joinGameSection";
 
 interface State {
   desiredPlayerName: string;
   desiredPlayerTag: PlayerTagSelection;
   gameLobbyState: GameLobbyState;
-  errorMessage: string,
+  errorMessage: string;
+  desiredGameId: string;
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -47,16 +49,19 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
     desiredPlayerTag: PlayerTagSelection.RANDOM,
     gameLobbyState: GameLobbyState.STARTING,
     errorMessage: "",
+    desiredGameId: "",
   };
 
   constructor(props: GameLobbyPageProps) {
     super(props);
 
     this.createGame = this.createGame.bind(this);
-    this.joinAGame = this.joinAGame.bind(this);
+    this.joinGameIntended = this.joinGameIntended.bind(this);
+    this.joinGame = this.joinGame.bind(this);
     this.desiredPlayerTagSelected = this.desiredPlayerTagSelected.bind(this);
     this.playerNameChanged = this.playerNameChanged.bind(this);
     this.onPlayerTagSelectionComplete = this.onPlayerTagSelectionComplete.bind(this);
+    this.onGameIdChanged = this.onGameIdChanged.bind(this);
   }
 
   componentDidMount() {
@@ -78,17 +83,27 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
     this.showState(GameLobbyState.PLAYER_TAG_SELECTION);
   }
 
-  joinAGame() {
+  joinGameIntended() {
     console.debug("join a game clicked");
     if (!this.validatePlayerName()) {
       this.showErrorState("Please enter a username.");
       return;
     }
 
-    this.showState(GameLobbyState.COMPLETE);
+    this.showState(GameLobbyState.JOINING);
+  }
+
+  joinGame() {
+    if (!this.validateGameId()) {
+      this.showErrorState("Please enter a game id");
+      return;
+    }
+
+    console.log("joining game");
 
     this.props.onJoinGame({
       playerName: this.state.desiredPlayerName,
+      gameId: this.state.desiredGameId,
     });
   }
 
@@ -125,6 +140,15 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
     return true;
   }
 
+  validateGameId(): boolean {
+    console.log(this.state.desiredGameId, !!!this.state.desiredGameId, this.state.desiredGameId.length === 0);
+    if (!this.state.desiredGameId || this.state.desiredGameId.length === 0) {
+      return false;
+    }
+
+    return true;
+  }
+
   showErrorState(errorMessage: string) {
     this.setState({
       errorMessage: errorMessage,
@@ -136,6 +160,12 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
     this.setState({
       gameLobbyState: state,
       errorMessage: "",
+    });
+  }
+
+  onGameIdChanged(newGameId: string) {
+    this.setState({
+      desiredGameId: newGameId,
     });
   }
 
@@ -151,7 +181,7 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
           display={this.state.gameLobbyState === GameLobbyState.STARTING}
           playerName={this.state.desiredPlayerName}
           onCreateGameClicked={this.createGame}
-          onJoinGameClicked={this.joinAGame}
+          onJoinGameClicked={this.joinGameIntended}
           playerNameChanged={this.playerNameChanged}
         />
         <PlayerTagSettingSection
@@ -160,6 +190,12 @@ class GameLobbyPage extends React.Component<GameLobbyPageProps, State> {
           desiredPlayerTag={this.state.desiredPlayerTag}
           desiredPlayerTagChanged={this.desiredPlayerTagSelected}
           onComplete={this.onPlayerTagSelectionComplete}
+        />
+        <JoinGameSection
+          display={this.state.gameLobbyState === GameLobbyState.JOINING}
+          gameId={this.state.desiredGameId}
+          onGameIdChanged={this.onGameIdChanged}
+          onJoinGame={this.joinGame}
         />
       </Container>
     );

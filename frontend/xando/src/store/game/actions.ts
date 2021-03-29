@@ -57,13 +57,6 @@ export function makeMoveSuccess(game: Game): GameActions {
   }
 }
 
-export function joinGame(config: JoinGameConfig): GameActions {
-  return {
-    type: JOIN_GAME,
-    payload: config,
-  };
-}
-
 export function gameSubscriptionSuccess(subscription: GameEventsListener): GameActions {
   return {
     type: GAME_SUBSCRIPTION_SUCCESS,
@@ -136,6 +129,17 @@ export const callMakeMove = (move: Move): GameThunk<void> => async (dispatch, ge
   dispatch(makeMoveSuccess(game));
 
   console.log("Make a move request");
+}
+
+export const joinGame = (config: JoinGameConfig): GameThunk<void> => async (dispatch, getState) => {
+  console.log("joining game");
+
+  dispatch({
+    type: JOIN_GAME,
+    payload: config,
+  })
+
+  dispatch(push(`/games/${config.gameId}/join`));
 }
 
 export const loadGame = (gameId: string): GameThunk<void> => async (dispatch, getState) => {
