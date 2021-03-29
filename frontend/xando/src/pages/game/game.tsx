@@ -9,7 +9,7 @@ import { Game, IN_PROGRESS_STATE, Move, Player, X_TAG, GameStatusState, CREATED_
 import './game.css';
 
 import { RootState } from "../../store/store";
-import { callMakeMove, loadGame, subscibeToGameEvents } from "../../store/game/actions";
+import { callMakeMove, loadGame, subscibeToGameEvents, unsubscribeToGameEvents } from "../../store/game/actions";
 import { Action } from "redux";
 import ScoreBoardSection from "./scoreBoardSection";
 import TieHistorySection from "./tieHistorySection";
@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<s
   onMakeMove: (move: Move) => dispatch(callMakeMove(move)),
   loadGame: (gameId: string) => dispatch(loadGame(gameId)),
   subscribeToGameEvents: (gameId: string) => dispatch(subscibeToGameEvents(gameId)),
+  unsubscribeToGameEvents: () => dispatch(unsubscribeToGameEvents()),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -66,6 +67,10 @@ class GamePage extends React.Component<GamePageProps, State> {
     }
 
     this.props.subscribeToGameEvents(gameId);
+  }
+
+  componentWillUnmount() {
+    this.props.unsubscribeToGameEvents();
   }
 
   private canPlay() {

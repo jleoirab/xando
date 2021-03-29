@@ -1,8 +1,7 @@
 import { Client, Message, StompSubscription } from '@stomp/stompjs';
 
 import { toGameEvent } from './protobuf_mapper';
-import { Game, Move, GameService, Player, GameEvent, GameEventsListener, GameEventHandler } from "../../application/types";
-import { ApiPlayer, ApiGame } from './type';
+import {  Player, GameEventsListener, GameEventHandler } from "../../application/types";
 
 
 const WEB_SOCKET_ENDPOINT = "ws://localhost:8082/ws";

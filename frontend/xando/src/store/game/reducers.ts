@@ -9,6 +9,7 @@ import {
   LOAD_GAME_SUCCESS,
   PLAYER_JOINED_GAME,
   MOVE_RECEIVED,
+  GAME_SUBSCRIPTION_SUCCESS,
 } from './types';
 
 import { createReducer } from '../util';
@@ -59,6 +60,12 @@ function handleLoadGameSuccess(state: GameState, action: GameActions): GameState
   return newState;
 }
 
+function handleGameSubsciptionSuccess(state: GameState, action: GameActions): GameState {
+  return Object.assign({}, state, {
+    gameSubscription: undefined,
+  })
+}
+
 function handlePlayerJoinedGame(state: GameState, action: GameActions): GameState {
   console.log("handling player joined game action");
   const game = (action.payload as GameEvent).game;
@@ -84,6 +91,7 @@ export const gameReducer = createReducer<string, GameState, GameActions>(initial
   [MAKE_MOVE, handleMakeMove],
   [MAKE_MOVE_SUCCESS, handleMakeMoveSuccess],
   [LOAD_GAME_SUCCESS, handleLoadGameSuccess],
+  [GAME_SUBSCRIPTION_SUCCESS, handleGameSubsciptionSuccess],
   [PLAYER_JOINED_GAME, handlePlayerJoinedGame],
   [MOVE_RECEIVED, handleMoveReceived],
 ]);

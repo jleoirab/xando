@@ -23,6 +23,7 @@ import {
   LOAD_GAME_SUCCESS,
   PLAYER_JOINED_GAME,
   MOVE_RECEIVED,
+  GAME_SUBSCRIPTION_REMOVED,
 } from './types'
 import { EngineServiceBackedGameService } from '../../services/engineService/engineService';
 import { updatePlayerInfo, } from '../system/actions';
@@ -68,6 +69,13 @@ export function gameSubscriptionSuccess(subscription: GameEventsListener): GameA
     type: GAME_SUBSCRIPTION_SUCCESS,
     payload: subscription,
   }
+}
+
+export function gameSubscriptionRemoved(gameSubscription: GameEventsListener): GameActions {
+  return {
+    type: GAME_SUBSCRIPTION_REMOVED,
+    payload: gameSubscription,
+  };
 }
 
 export function loadGameSuccess(game: Game): GameActions {
@@ -175,4 +183,13 @@ export const subscibeToGameEvents = (gameId: string): GameThunk<void> => async (
   });
 
   dispatch(gameSubscriptionSuccess(subscription));
+}
+
+export const unsubscribeToGameEvents = (): GameThunk<void> => async (dispatch, getState) => {
+  const gameSubscription = getState().game.gameSubscription;
+
+  if (gameSubscription) {
+    gameSubscription.disconnect();
+    dispatch(gameSubscriptionRemoved(gameSubscription));
+  }
 }

@@ -1,8 +1,5 @@
-import axios from 'axios';
-import { Client, Message, StompSubscription } from '@stomp/stompjs';
-
 import { toPlayer, toGame, toApiPlayerTag } from './mapper';
-import { Game, Move, GameService, Player, GameEvent, GameEventsListener, GameEventHandler } from "../../application/types";
+import { Game, Move, GameService, Player, GameEventsListener } from "../../application/types";
 import { EngineServiceV1, Response } from "./EngineServiceV1API";
 import { ApiPlayer, ApiGame } from './type';
 import { createStompClient, WebSocketGameEventsListener } from './websocketTransport';

@@ -11,6 +11,7 @@ export const MAKE_MOVE_SUCCESS = 'MAKE_MOVE_SUCCESS';
 export const GAME_SUBSCRIPTION_SUCCESS = 'GAME_SUBSCRIPTION_SUCCESS';
 export const PLAYER_JOINED_GAME = 'PLAYER_JOINED_GAME';
 export const MOVE_RECEIVED = 'MOVE_RECEIVED';
+export const GAME_SUBSCRIPTION_REMOVED = 'GAME_SUBSCRIPTION_REMOVED';
 
 interface CreateGameAction {
   type: typeof CREATE_GAME;
@@ -62,9 +63,14 @@ interface MoveReceivedAction {
   payload: GameEvent;
 }
 
+interface GameSubscriptionRemovedAction {
+  type: typeof GAME_SUBSCRIPTION_REMOVED;
+  payload: GameEventsListener;
+}
+
 export type GameActions = CreateGameAction | CreateGameSuccessAction | JoinGameAction | MakeMoveAction
   | MoveMoveSuccessAction | GameSubscriptionSuccessAction | LoadGameAction | LoadGameSuccessAction
-  | PlayerJoinedGameAction | MoveReceivedAction;
+  | PlayerJoinedGameAction | MoveReceivedAction | GameSubscriptionRemovedAction;
 
 export interface GameState {
   playerTagOptions: Array<PlayerTagOption>
