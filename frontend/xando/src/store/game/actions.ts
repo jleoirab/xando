@@ -1,11 +1,32 @@
 import { ThunkAction } from 'redux-thunk';
 import { push } from 'connected-react-router';
-import { Game, Move, GameCreationConfig, JoinGameConfig, GameEventsListener } from '../../application/types'
+import {
+  Game,
+  Move,
+  GameCreationConfig,
+  JoinGameConfig,
+  GameEventsListener,
+  JoinGameEvent,
+  MoveEvent,
+  GameEvent,
+} from '../../application/types'
 import { Action } from 'redux';
 import { RootState } from '../store';
-import { CREATE_GAME, JOIN_GAME, CREATE_GAME_SUCCESS, MAKE_MOVE, GameActions, MAKE_MOVE_SUCCESS, GAME_SUBSCRIPTION_SUCCESS, LOAD_GAME_SUCCESS } from './types'
+import {
+  CREATE_GAME,
+  JOIN_GAME,
+  CREATE_GAME_SUCCESS,
+  MAKE_MOVE,
+  GameActions,
+  MAKE_MOVE_SUCCESS,
+  GAME_SUBSCRIPTION_SUCCESS,
+  LOAD_GAME_SUCCESS,
+  PLAYER_JOINED_GAME,
+  MOVE_RECEIVED,
+} from './types'
 import { EngineServiceBackedGameService } from '../../services/engineService/engineService';
 import { updatePlayerInfo, } from '../system/actions';
+import { toEventType } from '../../services/engineService/protobuf_mapper';
 
 export function createGame(config: GameCreationConfig): GameActions {
   return {
@@ -53,6 +74,20 @@ export function loadGameSuccess(game: Game): GameActions {
   return {
     type: LOAD_GAME_SUCCESS,
     payload: game,
+  };
+}
+
+export function playerJoinedGameAction(event: GameEvent): GameActions {
+  return {
+    type: PLAYER_JOINED_GAME,
+    payload: event,
+  };
+}
+
+export function moveReceivedAction(event: GameEvent): GameActions {
+  return {
+    type: MOVE_RECEIVED,
+    payload: event,
   };
 }
 
@@ -113,16 +148,31 @@ export const loadGame = (gameId: string): GameThunk<void> => async (dispatch, ge
   }
 
   console.log(game);
-
   dispatch(loadGameSuccess(game));
 
-  const subscription = gameService.subscribeToGameEvents(game, systemPlayer);
+  console.log("Loaded game");
+}
+
+export const subscibeToGameEvents = (gameId: string): GameThunk<void> => async (dispatch, getState) => {
+  console.log(getState());
+
+  const systemPlayer = getState().system.systemPlayer;
+
+  const subscription = gameService.subscribeToGameEvents(gameId, systemPlayer);
 
   subscription.onGameEvent(event => {
     console.log("handling game event", event);
+    switch(event.eventType) {
+      case JoinGameEvent:
+        dispatch(playerJoinedGameAction(event));
+        break;
+      case MoveEvent:
+        dispatch(moveReceivedAction(event));
+        break;
+      default:
+        break;
+    }
   });
 
   dispatch(gameSubscriptionSuccess(subscription));
-
-  console.log("Loaded game");
 }

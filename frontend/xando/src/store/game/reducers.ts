@@ -7,10 +7,12 @@ import {
   MAKE_MOVE,
   MAKE_MOVE_SUCCESS,
   LOAD_GAME_SUCCESS,
+  PLAYER_JOINED_GAME,
+  MOVE_RECEIVED,
 } from './types';
 
 import { createReducer } from '../util';
-import { IN_PROGRESS_STATE, PLAYER_TAG_OPTIONS, X_TAG, O_TAG } from '../../application/types';
+import { IN_PROGRESS_STATE, PLAYER_TAG_OPTIONS, X_TAG, O_TAG, GameEvent } from '../../application/types';
 
 
 const initialState: GameState = {
@@ -57,6 +59,24 @@ function handleLoadGameSuccess(state: GameState, action: GameActions): GameState
   return newState;
 }
 
+function handlePlayerJoinedGame(state: GameState, action: GameActions): GameState {
+  console.log("handling player joined game action");
+  const game = (action.payload as GameEvent).game;
+
+  return Object.assign({}, state, {
+    currentGame: game,
+  });
+}
+
+function handleMoveReceived(state: GameState, action: GameActions): GameState {
+  console.log("handling move received action");
+  const game = (action.payload as GameEvent).game;
+
+  return Object.assign({}, state, {
+    currentGame: game,
+  });
+}
+
 export const gameReducer = createReducer<string, GameState, GameActions>(initialState, [
   [CREATE_GAME, handleCreateGame],
   [CREATE_GAME_SUCCESS, handleCreateGameSuccess],
@@ -64,4 +84,6 @@ export const gameReducer = createReducer<string, GameState, GameActions>(initial
   [MAKE_MOVE, handleMakeMove],
   [MAKE_MOVE_SUCCESS, handleMakeMoveSuccess],
   [LOAD_GAME_SUCCESS, handleLoadGameSuccess],
+  [PLAYER_JOINED_GAME, handlePlayerJoinedGame],
+  [MOVE_RECEIVED, handleMoveReceived],
 ]);

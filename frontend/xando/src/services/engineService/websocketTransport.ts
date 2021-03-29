@@ -1,6 +1,6 @@
 import { Client, Message, StompSubscription } from '@stomp/stompjs';
 
-import { toPlayer, toGame, toApiPlayerTag } from './mapper';
+import { toGameEvent } from './protobuf_mapper';
 import { Game, Move, GameService, Player, GameEvent, GameEventsListener, GameEventHandler } from "../../application/types";
 import { ApiPlayer, ApiGame } from './type';
 
@@ -19,13 +19,13 @@ export const createStompClient = () => {
 export class WebSocketGameEventsListener implements GameEventsListener {
   private client: Client;
   private subscription: StompSubscription
-  private game: Game;
+  private gameId: string;
   private player: Player;
   private handler: GameEventHandler;
 
-  constructor(client: Client, game: Game, player: Player) {
+  constructor(client: Client, gameId: string, player: Player) {
     this.client = client;
-    this.game = game;
+    this.gameId = gameId;
     this.player = player;
     this.handleGameEvent = this.handleGameEvent.bind(this);
 
@@ -35,7 +35,7 @@ export class WebSocketGameEventsListener implements GameEventsListener {
   private subscribe(): void {
 
     this.client.onConnect = frame => {
-      this.client.subscribe(`/queue/${this.game.id}`, this.handleGameEvent);
+      this.client.subscribe(`/queue/${this.gameId}`, this.handleGameEvent);
     }
 
     this.client.activate();
@@ -54,8 +54,7 @@ export class WebSocketGameEventsListener implements GameEventsListener {
 
     if (this.handler === undefined) return;
 
-    // convert proto to frontend domain representation.
-    console.log("Call the handler with the protobuf gen gen.");
+    this.handler(toGameEvent(message.binaryBody));
   }
 
 }

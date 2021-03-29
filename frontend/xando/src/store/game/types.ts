@@ -1,4 +1,4 @@
-import { Game, GameCreationConfig, GameEventsListener, JoinGameConfig, Move, PlayerTagOption } from '../../application/types'
+import { Game, GameCreationConfig, GameEvent, GameEventsListener, JoinGameConfig, Move, PlayerTagOption } from '../../application/types'
 
 
 export const CREATE_GAME = 'CREATE_GAME';
@@ -9,6 +9,8 @@ export const JOIN_GAME = 'JOIN_GAME';
 export const MAKE_MOVE = 'MAKE_MOVE';
 export const MAKE_MOVE_SUCCESS = 'MAKE_MOVE_SUCCESS';
 export const GAME_SUBSCRIPTION_SUCCESS = 'GAME_SUBSCRIPTION_SUCCESS';
+export const PLAYER_JOINED_GAME = 'PLAYER_JOINED_GAME';
+export const MOVE_RECEIVED = 'MOVE_RECEIVED';
 
 interface CreateGameAction {
   type: typeof CREATE_GAME;
@@ -50,8 +52,19 @@ interface GameSubscriptionSuccessAction {
   payload: GameEventsListener;
 }
 
+interface PlayerJoinedGameAction {
+  type: typeof PLAYER_JOINED_GAME;
+  payload: GameEvent;
+}
+
+interface MoveReceivedAction {
+  type: typeof MOVE_RECEIVED;
+  payload: GameEvent;
+}
+
 export type GameActions = CreateGameAction | CreateGameSuccessAction | JoinGameAction | MakeMoveAction
-  | MoveMoveSuccessAction | GameSubscriptionSuccessAction | LoadGameAction | LoadGameSuccessAction;
+  | MoveMoveSuccessAction | GameSubscriptionSuccessAction | LoadGameAction | LoadGameSuccessAction
+  | PlayerJoinedGameAction | MoveReceivedAction;
 
 export interface GameState {
   playerTagOptions: Array<PlayerTagOption>

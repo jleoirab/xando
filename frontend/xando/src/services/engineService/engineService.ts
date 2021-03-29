@@ -56,9 +56,9 @@ export class EngineServiceBackedGameService implements GameService {
     return toGame(response.data);
   }
 
-  subscribeToGameEvents(game: Game, player: Player): GameEventsListener {
+  subscribeToGameEvents(gameId: string, player: Player): GameEventsListener {
     const client = createStompClient();
-    return new WebSocketGameEventsListener(client, game, player);
+    return new WebSocketGameEventsListener(client, gameId, player);
   }
 
   private getAuthorization(id: string, playerName: string) {

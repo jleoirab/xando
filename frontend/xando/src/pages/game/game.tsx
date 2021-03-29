@@ -4,21 +4,20 @@ import { ThunkDispatch } from 'redux-thunk';
 import { RouteComponentProps } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
-import { Game, IN_PROGRESS_STATE, Move, Player, X_TAG } from '../../application/types';
+import { Game, IN_PROGRESS_STATE, Move, Player, X_TAG, GameStatusState, CREATED_STATE } from '../../application/types';
 
 import './game.css';
 
 import { RootState } from "../../store/store";
-import { callMakeMove, loadGame } from "../../store/game/actions";
+import { callMakeMove, loadGame, subscibeToGameEvents } from "../../store/game/actions";
 import { Action } from "redux";
 import ScoreBoardSection from "./scoreBoardSection";
 import TieHistorySection from "./tieHistorySection";
 import GameOptionsSection from "./gameOptionsSection";
 import GameBoardSection from "./gameBoardSection";
-import { Client } from '@stomp/stompjs';
+import WaitingLobbySection from "./waitingLobbySection";
 
 interface State {
-
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -29,6 +28,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<string>>) => ({
   onMakeMove: (move: Move) => dispatch(callMakeMove(move)),
   loadGame: (gameId: string) => dispatch(loadGame(gameId)),
+  subscribeToGameEvents: (gameId: string) => dispatch(subscibeToGameEvents(gameId)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -59,7 +59,13 @@ class GamePage extends React.Component<GamePageProps, State> {
 
   componentDidMount() {
     const gameId = this.props.match.params["gameId"];
-    this.props.loadGame(gameId);
+    console.log(this.props.currentGame);
+
+    if (!this.props.currentGame) {
+      this.props.loadGame(gameId);
+    }
+
+    this.props.subscribeToGameEvents(gameId);
   }
 
   private canPlay() {
@@ -74,23 +80,48 @@ class GamePage extends React.Component<GamePageProps, State> {
     return currentPlayer.id === playerToPlay.id;
   }
 
+  private renderGame() {
+    return (
+      <Container fluid className="page gamePageSections">
+        {/* TODO: Implement these.
+          <div className="sidebar">
+          <ScoreBoardSection />
+          <TieHistorySection />
+          <GameOptionsSection />
+        </div> */}
+        <GameBoardSection
+          game={this.props.currentGame}
+          onMakeMove={this.onMakeMove}
+          canPlay={this.canPlay()}
+        />
+      </Container>
+    );
+  }
+
+  private renderWaitingRoom() {
+    return (
+      <WaitingLobbySection />
+    );
+  }
+
+  private renderSection() {
+    const gameState = this.props.currentGame?.gameStatus.state;
+
+    switch(gameState) {
+      case CREATED_STATE:
+        return this.renderWaitingRoom();
+      case IN_PROGRESS_STATE:
+        return this.renderGame();
+      default:
+        return (null);
+    }
+  }
+
   render() {
     return (
       <Container fluid className="page gamePage">
         <h1>XandO</h1>
-        <Container fluid className="page gamePageSections">
-          {/* TODO: Implement these.
-           <div className="sidebar">
-            <ScoreBoardSection />
-            <TieHistorySection />
-            <GameOptionsSection />
-          </div> */}
-          <GameBoardSection
-            game={this.props.currentGame}
-            onMakeMove={this.onMakeMove}
-            canPlay={this.canPlay()}
-          />
-        </Container>
+        {this.renderSection()}
       </Container>
     );
   }

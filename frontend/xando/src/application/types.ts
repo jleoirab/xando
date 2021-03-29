@@ -109,6 +109,6 @@ export interface GameService {
   createGame(player: Player): Promise<Game>;
   joingGame(player: Player, gameId: string): Promise<Game>;
   makeMove(move: Move): Promise<Game>;
-  subscribeToGameEvents(game: Game, player: Player): GameEventsListener;
+  subscribeToGameEvents(gameId: string, player: Player): GameEventsListener;
   getGame(player: Player, gameId: string): Promise<Game>;
 }

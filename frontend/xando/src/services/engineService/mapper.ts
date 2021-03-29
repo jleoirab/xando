@@ -1,4 +1,4 @@
-import { Player, Game, GamePlayer, PlayerTag, GameStatus, GameStatusState } from "../../application/types";
+import { Player, Game, GamePlayer, PlayerTag, GameStatus, GameStatusState} from "../../application/types";
 import { ApiGame, ApiGamePlayer, ApiGameState, ApiGameStatus, ApiPlayer, ApiPlayerTag } from "./type";
 
 export function toPlayer(apiPlayer: ApiPlayer): Player {
