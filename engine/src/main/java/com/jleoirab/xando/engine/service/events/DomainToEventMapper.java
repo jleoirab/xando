@@ -1,11 +1,10 @@
 package com.jleoirab.xando.engine.service.events;
 
-import com.jleoirab.xando.engine.domain.model.PlayerTag;
 import com.jleoirab.xando.engine.domain.model.Player;
+import com.jleoirab.xando.engine.domain.model.PlayerTag;
 import com.jleoirab.xando.protos.models.*;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 /**
  * Created by jleoirab on 2021-03-14
