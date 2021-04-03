@@ -131,7 +131,7 @@ export const callMakeMove = (move: Move): GameThunk<void> => async (dispatch, ge
   console.log("Make a move request");
 }
 
-export const joinGame = (config: JoinGameConfig): GameThunk<void> => async (dispatch, getState) => {
+export const registerJoinGameIntent = (config: JoinGameConfig): GameThunk<void> => async (dispatch, getState) => {
   console.log("joining game");
 
   dispatch({
@@ -196,4 +196,25 @@ export const unsubscribeToGameEvents = (): GameThunk<void> => async (dispatch, g
     gameSubscription.disconnect();
     dispatch(gameSubscriptionRemoved(gameSubscription));
   }
+}
+
+export const createPlayer = (desiredPlayerName: string): GameThunk<void> => async (dispatch, getState) => {
+  const systemPlayer = await gameService.createPlayer(desiredPlayerName);
+  dispatch(updatePlayerInfo(systemPlayer));
+}
+
+export const joinGame = (gameId: string): GameThunk<void> => async (dispatch, getState) => {
+  console.log("Joining game");
+
+  let systemPlayer = getState().system.systemPlayer;
+
+  if (!systemPlayer) {
+    throw new Error("There is no system player. Weird");
+  }
+
+  const game = await gameService.joingGame(systemPlayer, gameId);
+
+  // dispatch join game success
+
+  dispatch(push(`/games/${game.id}`));
 }

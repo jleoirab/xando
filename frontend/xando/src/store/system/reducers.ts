@@ -6,6 +6,7 @@ import {
 
 import { createReducer } from '../util';
 import { Player } from '../../application/types';
+import { playerJoinedGameAction } from '../game/actions';
 
 const PLAYER_KEY = 'player';
 
@@ -29,8 +30,10 @@ const initialState: SystemState = {
 
 function handleUpdatePlayerInfo(state: SystemState, action: SystemActions): SystemState {
   console.log("handling update player info", state, action);
-  savePlayerToLocalStorage(action.payload)
-  return state;
+  const systemPlayer = action.payload;
+  savePlayerToLocalStorage(systemPlayer)
+
+  return { systemPlayer };
 }
 
 export const systemReducer = createReducer<string, SystemState, SystemActions>(initialState, [

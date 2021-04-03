@@ -11,7 +11,7 @@ import { GameCreationConfig, JoinGameConfig, PlayerTagSelection, PlayerTagOption
 
 import './home.css'
 import { RootState } from "../../store/store";
-import { callCreateGame, joinGame } from "../../store/game/actions";
+import { callCreateGame, registerJoinGameIntent } from "../../store/game/actions";
 import { Action } from "redux";
 import JoinGameSection from "./joinGameSection";
 
@@ -30,7 +30,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<string>>) => ({
   onCreateGame: (config: GameCreationConfig) => dispatch(callCreateGame(config)),
-  onJoinGame: (config: JoinGameConfig) => dispatch(joinGame(config)),
+  onJoinGame: (config: JoinGameConfig) => dispatch(registerJoinGameIntent(config)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

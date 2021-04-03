@@ -35,7 +35,7 @@ const CREATE_GAME_ENDPOINT: Endpoint = {
 
 const JOIN_GAME_ENDPOINT: Endpoint = {
   method: PUT,
-  path: "/games/{gameId}",
+  path: "/games/{gameId}/join",
 }
 
 const MAKE_MOVE_ENDPOINT: Endpoint = {

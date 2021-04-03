@@ -33,12 +33,12 @@ public class Game {
      * @throws XAndOGameError Exception thrown if there was a problem accepting the player into the game.
      */
     public void acceptPlayer(Player player) throws XAndOGameError {
-        verifyGameState(GameState.CREATED, GameAlreadyStartedException::new);
-
         String playerId = player.getPlayerId();
 
-        if (gameCreatorPlayerId.equals(playerId)) {
-            throw new PlayerIsCreatorException();
+        // player is already in the game do nothing.
+        if ((playerX != null && playerX.getPlayerId().equals(playerId)) ||
+                (playerO != null && playerO.getPlayerId().equals(playerId))) {
+            return;
         }
 
         GamePlayer gamePlayer = GamePlayer.from(player);
@@ -48,7 +48,7 @@ public class Game {
         } else if (playerO == null) {
             playerO = gamePlayer;
         } else {
-            throw new IllegalStateException("All spots are taken but game has not started. This is weird.");
+            throw new CannotJoinGameException();
         }
 
         GameStatus currentStatus = getGameStatus();
