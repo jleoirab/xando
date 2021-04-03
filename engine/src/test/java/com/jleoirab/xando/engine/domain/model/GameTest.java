@@ -1,6 +1,5 @@
 package com.jleoirab.xando.engine.domain.model;
 
-import com.jleoirab.xando.domain.errors.*;
 import com.jleoirab.xando.engine.domain.errors.*;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;

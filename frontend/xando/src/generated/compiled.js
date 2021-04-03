@@ -1273,6 +1273,217 @@ export const com = $root.com = (() => {
                     return values;
                 })();
 
+                protos.WinLine = (function() {
+
+                    /**
+                     * Properties of a WinLine.
+                     * @memberof com.jleoirab.xando.protos
+                     * @interface IWinLine
+                     * @property {Array.<number>|null} [cell] WinLine cell
+                     */
+
+                    /**
+                     * Constructs a new WinLine.
+                     * @memberof com.jleoirab.xando.protos
+                     * @classdesc Represents a WinLine.
+                     * @implements IWinLine
+                     * @constructor
+                     * @param {com.jleoirab.xando.protos.IWinLine=} [properties] Properties to set
+                     */
+                    function WinLine(properties) {
+                        this.cell = [];
+                        if (properties)
+                            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * WinLine cell.
+                     * @member {Array.<number>} cell
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @instance
+                     */
+                    WinLine.prototype.cell = $util.emptyArray;
+
+                    /**
+                     * Creates a new WinLine instance using the specified properties.
+                     * @function create
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {com.jleoirab.xando.protos.IWinLine=} [properties] Properties to set
+                     * @returns {com.jleoirab.xando.protos.WinLine} WinLine instance
+                     */
+                    WinLine.create = function create(properties) {
+                        return new WinLine(properties);
+                    };
+
+                    /**
+                     * Encodes the specified WinLine message. Does not implicitly {@link com.jleoirab.xando.protos.WinLine.verify|verify} messages.
+                     * @function encode
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {com.jleoirab.xando.protos.IWinLine} message WinLine message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    WinLine.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.cell != null && message.cell.length) {
+                            writer.uint32(/* id 1, wireType 2 =*/10).fork();
+                            for (let i = 0; i < message.cell.length; ++i)
+                                writer.int32(message.cell[i]);
+                            writer.ldelim();
+                        }
+                        return writer;
+                    };
+
+                    /**
+                     * Encodes the specified WinLine message, length delimited. Does not implicitly {@link com.jleoirab.xando.protos.WinLine.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {com.jleoirab.xando.protos.IWinLine} message WinLine message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    WinLine.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+
+                    /**
+                     * Decodes a WinLine message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {com.jleoirab.xando.protos.WinLine} WinLine
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    WinLine.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.com.jleoirab.xando.protos.WinLine();
+                        while (reader.pos < end) {
+                            let tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1:
+                                if (!(message.cell && message.cell.length))
+                                    message.cell = [];
+                                if ((tag & 7) === 2) {
+                                    let end2 = reader.uint32() + reader.pos;
+                                    while (reader.pos < end2)
+                                        message.cell.push(reader.int32());
+                                } else
+                                    message.cell.push(reader.int32());
+                                break;
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Decodes a WinLine message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {com.jleoirab.xando.protos.WinLine} WinLine
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    WinLine.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+
+                    /**
+                     * Verifies a WinLine message.
+                     * @function verify
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    WinLine.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.cell != null && message.hasOwnProperty("cell")) {
+                            if (!Array.isArray(message.cell))
+                                return "cell: array expected";
+                            for (let i = 0; i < message.cell.length; ++i)
+                                if (!$util.isInteger(message.cell[i]))
+                                    return "cell: integer[] expected";
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a WinLine message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {com.jleoirab.xando.protos.WinLine} WinLine
+                     */
+                    WinLine.fromObject = function fromObject(object) {
+                        if (object instanceof $root.com.jleoirab.xando.protos.WinLine)
+                            return object;
+                        let message = new $root.com.jleoirab.xando.protos.WinLine();
+                        if (object.cell) {
+                            if (!Array.isArray(object.cell))
+                                throw TypeError(".com.jleoirab.xando.protos.WinLine.cell: array expected");
+                            message.cell = [];
+                            for (let i = 0; i < object.cell.length; ++i)
+                                message.cell[i] = object.cell[i] | 0;
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a WinLine message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @static
+                     * @param {com.jleoirab.xando.protos.WinLine} message WinLine
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    WinLine.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        let object = {};
+                        if (options.arrays || options.defaults)
+                            object.cell = [];
+                        if (message.cell && message.cell.length) {
+                            object.cell = [];
+                            for (let j = 0; j < message.cell.length; ++j)
+                                object.cell[j] = message.cell[j];
+                        }
+                        return object;
+                    };
+
+                    /**
+                     * Converts this WinLine to JSON.
+                     * @function toJSON
+                     * @memberof com.jleoirab.xando.protos.WinLine
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    WinLine.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    return WinLine;
+                })();
+
                 protos.GameStatus = (function() {
 
                     /**
@@ -1281,6 +1492,7 @@ export const com = $root.com = (() => {
                      * @interface IGameStatus
                      * @property {com.jleoirab.xando.protos.GameState|null} [state] GameStatus state
                      * @property {com.jleoirab.xando.protos.PlayerTag|null} [winner] GameStatus winner
+                     * @property {com.jleoirab.xando.protos.IWinLine|null} [winLine] GameStatus winLine
                      */
 
                     /**
@@ -1315,6 +1527,14 @@ export const com = $root.com = (() => {
                     GameStatus.prototype.winner = 0;
 
                     /**
+                     * GameStatus winLine.
+                     * @member {com.jleoirab.xando.protos.IWinLine|null|undefined} winLine
+                     * @memberof com.jleoirab.xando.protos.GameStatus
+                     * @instance
+                     */
+                    GameStatus.prototype.winLine = null;
+
+                    /**
                      * Creates a new GameStatus instance using the specified properties.
                      * @function create
                      * @memberof com.jleoirab.xando.protos.GameStatus
@@ -1342,6 +1562,8 @@ export const com = $root.com = (() => {
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.state);
                         if (message.winner != null && Object.hasOwnProperty.call(message, "winner"))
                             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.winner);
+                        if (message.winLine != null && Object.hasOwnProperty.call(message, "winLine"))
+                            $root.com.jleoirab.xando.protos.WinLine.encode(message.winLine, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                         return writer;
                     };
 
@@ -1381,6 +1603,9 @@ export const com = $root.com = (() => {
                                 break;
                             case 2:
                                 message.winner = reader.int32();
+                                break;
+                            case 3:
+                                message.winLine = $root.com.jleoirab.xando.protos.WinLine.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -1436,6 +1661,11 @@ export const com = $root.com = (() => {
                             case 2:
                                 break;
                             }
+                        if (message.winLine != null && message.hasOwnProperty("winLine")) {
+                            let error = $root.com.jleoirab.xando.protos.WinLine.verify(message.winLine);
+                            if (error)
+                                return "winLine." + error;
+                        }
                         return null;
                     };
 
@@ -1483,6 +1713,11 @@ export const com = $root.com = (() => {
                             message.winner = 2;
                             break;
                         }
+                        if (object.winLine != null) {
+                            if (typeof object.winLine !== "object")
+                                throw TypeError(".com.jleoirab.xando.protos.GameStatus.winLine: object expected");
+                            message.winLine = $root.com.jleoirab.xando.protos.WinLine.fromObject(object.winLine);
+                        }
                         return message;
                     };
 
@@ -1502,11 +1737,14 @@ export const com = $root.com = (() => {
                         if (options.defaults) {
                             object.state = options.enums === String ? "GAME_STATE_UNKNOWN" : 0;
                             object.winner = options.enums === String ? "PLAYER_TAG_UNKNOWN" : 0;
+                            object.winLine = null;
                         }
                         if (message.state != null && message.hasOwnProperty("state"))
                             object.state = options.enums === String ? $root.com.jleoirab.xando.protos.GameState[message.state] : message.state;
                         if (message.winner != null && message.hasOwnProperty("winner"))
                             object.winner = options.enums === String ? $root.com.jleoirab.xando.protos.PlayerTag[message.winner] : message.winner;
+                        if (message.winLine != null && message.hasOwnProperty("winLine"))
+                            object.winLine = $root.com.jleoirab.xando.protos.WinLine.toObject(message.winLine, options);
                         return object;
                     };
 

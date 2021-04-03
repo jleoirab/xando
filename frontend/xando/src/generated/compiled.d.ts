@@ -524,6 +524,96 @@ export namespace com {
                     GAME_STATE_FINISHED = 3
                 }
 
+                /** Properties of a WinLine. */
+                interface IWinLine {
+
+                    /** WinLine cell */
+                    cell?: (number[]|null);
+                }
+
+                /** Represents a WinLine. */
+                class WinLine implements IWinLine {
+
+                    /**
+                     * Constructs a new WinLine.
+                     * @param [properties] Properties to set
+                     */
+                    constructor(properties?: com.jleoirab.xando.protos.IWinLine);
+
+                    /** WinLine cell. */
+                    public cell: number[];
+
+                    /**
+                     * Creates a new WinLine instance using the specified properties.
+                     * @param [properties] Properties to set
+                     * @returns WinLine instance
+                     */
+                    public static create(properties?: com.jleoirab.xando.protos.IWinLine): com.jleoirab.xando.protos.WinLine;
+
+                    /**
+                     * Encodes the specified WinLine message. Does not implicitly {@link com.jleoirab.xando.protos.WinLine.verify|verify} messages.
+                     * @param message WinLine message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encode(message: com.jleoirab.xando.protos.IWinLine, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Encodes the specified WinLine message, length delimited. Does not implicitly {@link com.jleoirab.xando.protos.WinLine.verify|verify} messages.
+                     * @param message WinLine message or plain object to encode
+                     * @param [writer] Writer to encode to
+                     * @returns Writer
+                     */
+                    public static encodeDelimited(message: com.jleoirab.xando.protos.IWinLine, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                    /**
+                     * Decodes a WinLine message from the specified reader or buffer.
+                     * @param reader Reader or buffer to decode from
+                     * @param [length] Message length if known beforehand
+                     * @returns WinLine
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): com.jleoirab.xando.protos.WinLine;
+
+                    /**
+                     * Decodes a WinLine message from the specified reader or buffer, length delimited.
+                     * @param reader Reader or buffer to decode from
+                     * @returns WinLine
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): com.jleoirab.xando.protos.WinLine;
+
+                    /**
+                     * Verifies a WinLine message.
+                     * @param message Plain object to verify
+                     * @returns `null` if valid, otherwise the reason why it is not
+                     */
+                    public static verify(message: { [k: string]: any }): (string|null);
+
+                    /**
+                     * Creates a WinLine message from a plain object. Also converts values to their respective internal types.
+                     * @param object Plain object
+                     * @returns WinLine
+                     */
+                    public static fromObject(object: { [k: string]: any }): com.jleoirab.xando.protos.WinLine;
+
+                    /**
+                     * Creates a plain object from a WinLine message. Also converts values to other types if specified.
+                     * @param message WinLine
+                     * @param [options] Conversion options
+                     * @returns Plain object
+                     */
+                    public static toObject(message: com.jleoirab.xando.protos.WinLine, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                    /**
+                     * Converts this WinLine to JSON.
+                     * @returns JSON object
+                     */
+                    public toJSON(): { [k: string]: any };
+                }
+
                 /** Properties of a GameStatus. */
                 interface IGameStatus {
 
@@ -532,6 +622,9 @@ export namespace com {
 
                     /** GameStatus winner */
                     winner?: (com.jleoirab.xando.protos.PlayerTag|null);
+
+                    /** GameStatus winLine */
+                    winLine?: (com.jleoirab.xando.protos.IWinLine|null);
                 }
 
                 /** Represents a GameStatus. */
@@ -548,6 +641,9 @@ export namespace com {
 
                     /** GameStatus winner. */
                     public winner: com.jleoirab.xando.protos.PlayerTag;
+
+                    /** GameStatus winLine. */
+                    public winLine?: (com.jleoirab.xando.protos.IWinLine|null);
 
                     /**
                      * Creates a new GameStatus instance using the specified properties.

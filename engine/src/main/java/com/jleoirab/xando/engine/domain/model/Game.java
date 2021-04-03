@@ -114,13 +114,17 @@ public class Game {
     }
 
     private void evaluateGameStatus() {
-        Optional<PlayerTag> winner = checkForWinner();
+        Optional<WinState> winState = checkForWinner();
 
-        GameState state = (spotsLeftOnBoard() && winner.isEmpty()) ? GameState.IN_PROGRESS : GameState.FINISHED;
+        GameState state = (spotsLeftOnBoard() && winState.isEmpty()) ? GameState.IN_PROGRESS : GameState.FINISHED;
+
+        PlayerTag winner = winState.map(WinState::getWinner).orElse(null);
+        int[] winLine = winState.map(WinState::getWinLine).orElse(null);
 
         gameStatus = GameStatus.builder()
                 .state(state)
-                .winner(winner.orElse(null))
+                .winner(winner)
+                .winLine(winLine)
                 .build();
     }
 
@@ -142,53 +146,82 @@ public class Game {
      * whatever the current game status says.
      * @return Optional player tag of the winner. It will be empty if there is no winner.
      */
-    public Optional<PlayerTag> checkForWinner() {
-        if (gameStatus.getState() != GameState.IN_PROGRESS) return Optional.ofNullable(gameStatus.getWinner());
+    public Optional<WinState> checkForWinner() {
+        if (gameStatus.getState() != GameState.IN_PROGRESS) {
+            return Optional.ofNullable((WinState.builder()
+                    .winner(getGameStatus().getWinner())
+                    .winLine(getGameStatus().getWinLine())
+                    .build()));
+        }
 
         return checkForWinnerInRows()
                 .or(this::checkForWinnerInColumns)
                 .or(this::checkForWinnerInDiagonals);
     }
 
-    private Optional<PlayerTag> checkForWinnerInRows() {
+    private Optional<WinState> checkForWinnerInRows() {
         if (Strings.isNotBlank(gameBoard[0]) && gameBoard[0].equals(gameBoard[1]) && gameBoard[0].equals(gameBoard[2])) {
-            return Optional.of(PlayerTag.from(gameBoard[0]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[0]))
+                    .winLine(GameBoardLine.GameBoardLines.COL_1.getCellIndexes())
+                    .build());
         }
 
         if (Strings.isNotBlank(gameBoard[3]) && gameBoard[3].equals(gameBoard[4]) && gameBoard[3].equals(gameBoard[5])) {
-            return Optional.of(PlayerTag.from(gameBoard[3]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[3]))
+                    .winLine(GameBoardLine.GameBoardLines.COL_2.getCellIndexes())
+                    .build());
         }
 
         if (Strings.isNotBlank(gameBoard[6]) && gameBoard[6].equals(gameBoard[7]) && gameBoard[6].equals(gameBoard[8])) {
-            return Optional.of(PlayerTag.from(gameBoard[6]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[6]))
+                    .winLine(GameBoardLine.GameBoardLines.COL_3.getCellIndexes())
+                    .build());
         }
 
         return Optional.empty();
     }
 
-    private Optional<PlayerTag> checkForWinnerInColumns() {
+    private Optional<WinState> checkForWinnerInColumns() {
         if (Strings.isNotBlank(gameBoard[0]) && gameBoard[0].equals(gameBoard[3]) && gameBoard[0].equals(gameBoard[6])) {
-            return Optional.of(PlayerTag.from(gameBoard[0]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[0]))
+                    .winLine(GameBoardLine.GameBoardLines.ROW_1.getCellIndexes())
+                    .build());
         }
 
         if (Strings.isNotBlank(gameBoard[1]) && gameBoard[1].equals(gameBoard[4]) && gameBoard[1].equals(gameBoard[7])) {
-            return Optional.of(PlayerTag.from(gameBoard[1]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[1]))
+                    .winLine(GameBoardLine.GameBoardLines.ROW_2.getCellIndexes())
+                    .build());
         }
 
         if (Strings.isNotBlank(gameBoard[2]) && gameBoard[2].equals(gameBoard[5]) && gameBoard[2].equals(gameBoard[8])) {
-            return Optional.of(PlayerTag.from(gameBoard[2]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[2]))
+                    .winLine(GameBoardLine.GameBoardLines.COL_3.getCellIndexes())
+                    .build());
         }
 
         return Optional.empty();
     }
 
-    private Optional<PlayerTag> checkForWinnerInDiagonals() {
+    private Optional<WinState> checkForWinnerInDiagonals() {
         if (Strings.isNotBlank(gameBoard[0]) && gameBoard[0].equals(gameBoard[4]) && gameBoard[0].equals(gameBoard[8])) {
-            return Optional.of(PlayerTag.from(gameBoard[0]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[0]))
+                    .winLine(GameBoardLine.GameBoardLines.DIAG_1.getCellIndexes())
+                    .build());
         }
 
         if (Strings.isNotBlank(gameBoard[2]) && gameBoard[2].equals(gameBoard[4]) && gameBoard[2].equals(gameBoard[6])) {
-            return Optional.of(PlayerTag.from(gameBoard[2]));
+            return Optional.of(WinState.builder()
+                    .winner(PlayerTag.from(gameBoard[2]))
+                    .winLine(GameBoardLine.GameBoardLines.DIAG_2.getCellIndexes())
+                    .build());
         }
 
         return Optional.empty();

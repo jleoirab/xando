@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Game, PlayerTag, X_TAG } from "../../application/types";
 
 const playerTagHTML = (tag: PlayerTag) => {
@@ -13,6 +13,7 @@ interface CellProps {
   tag: PlayerTag | null;
   index: number;
   canPlay: boolean;
+  inWinLine: boolean;
   onClick(index: number): void;
 }
 
@@ -20,12 +21,12 @@ const Cell: React.FC<CellProps> = (props: CellProps) => {
   const occupied = props.tag != null;
   const tag = occupied ? playerTagHTML(props.tag) : "";
   const cellDisabled = occupied || !props.canPlay;
-  const className = `cell ${cellDisabled ? 'disabled' : 'free'}`;
+  const className = `cell ${props.inWinLine ? 'cell-in-win-line' : ''} ${cellDisabled ? 'disabled' : 'free'}`;
   const onClick = () => {
     if (cellDisabled) return;
     props.onClick(props.index);
   }
-  return (<td className={className} onClick={onClick}>{tag}</td>);
+  return (<td id={`cell-${props.index}`} className={className} onClick={onClick}>{tag}</td>);
 }
 
 interface Props {
@@ -36,6 +37,7 @@ interface Props {
 
 const GameBoardSection: React.FC<Props> = (props: Props) => {
   const gameBoard = props.game ? props.game.gameBoard : EMPTY_BOARD
+  const winLine = props.game?.gameStatus.winLine ? props.game.gameStatus.winLine : [];
 
   const cells = gameBoard.map((tag, i) => {
     return (<Cell
@@ -44,6 +46,7 @@ const GameBoardSection: React.FC<Props> = (props: Props) => {
       canPlay={props.canPlay}
       tag={tag}
       index={i}
+      inWinLine={winLine.includes(i)}
     />)
   });
 

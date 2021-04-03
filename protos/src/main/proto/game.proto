@@ -34,9 +34,13 @@ enum GameState {
   GAME_STATE_FINISHED = 3;
 }
 
+message WinLine {
+  repeated int32 cell = 1;
+}
 message GameStatus {
   GameState state = 1;
   PlayerTag winner = 2;
+  WinLine winLine = 3;
 }
 
 message Game {

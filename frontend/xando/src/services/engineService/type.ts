@@ -23,6 +23,7 @@ export interface ApiGamePlayer {
 export interface ApiGameStatus {
     state: ApiGameState;
     winner: ApiPlayerTag | null;
+    winLine: Array<number> | null;
 }
 
 export type ApiPlayerTag = "X" | "O";

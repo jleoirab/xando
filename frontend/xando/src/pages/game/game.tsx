@@ -89,12 +89,14 @@ class GamePage extends React.Component<GamePageProps, State> {
   private renderGame() {
     return (
       <Container fluid className="page gamePageSections">
-        {/* TODO: Implement these.
           <div className="sidebar">
-          <ScoreBoardSection />
+          <ScoreBoardSection
+            game={this.props.currentGame}
+            systemPlayer={this.props.playerInSession}
+          />
           <TieHistorySection />
           <GameOptionsSection />
-        </div> */}
+        </div>
         <GameBoardSection
           game={this.props.currentGame}
           onMakeMove={this.onMakeMove}
@@ -116,10 +118,8 @@ class GamePage extends React.Component<GamePageProps, State> {
     switch(gameState) {
       case CREATED_STATE:
         return this.renderWaitingRoom();
-      case IN_PROGRESS_STATE:
-        return this.renderGame();
       default:
-        return (null);
+        return this.renderGame();
     }
   }
 

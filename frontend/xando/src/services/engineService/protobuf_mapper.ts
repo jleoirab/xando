@@ -92,6 +92,7 @@ export function toGameStatus(gameStatusMessage: GameStatusMessage): GameStatus {
   return {
     winner: toNullablePlayerTag(gameStatusMessage.winner),
     state: toGameState(gameStatusMessage.state),
+    winLine: gameStatusMessage.winLine.cell,
   }
 }
 

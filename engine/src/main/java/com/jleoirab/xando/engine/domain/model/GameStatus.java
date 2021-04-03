@@ -9,4 +9,5 @@ import lombok.Value;
 public class GameStatus {
     @Builder.Default GameState state = GameState.CREATED;
     @Builder.Default PlayerTag winner = null;
+    @Builder.Default int[] winLine = null;
 }

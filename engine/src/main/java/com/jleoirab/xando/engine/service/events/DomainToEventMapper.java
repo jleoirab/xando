@@ -5,6 +5,7 @@ import com.jleoirab.xando.engine.domain.model.Player;
 import com.jleoirab.xando.protos.models.*;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 /**
  * Created by jleoirab on 2021-03-14
@@ -66,6 +67,14 @@ final class DomainToEventMapper {
 
         if (gameStatus.getWinner() != null) {
             builder.setWinner(from(gameStatus.getWinner()));
+
+            int[] winLine = gameStatus.getWinLine();
+
+            builder.setWinLine(WinLine.newBuilder()
+                    .addCell(winLine[0])
+                    .addCell(winLine[1])
+                    .addCell(winLine[2])
+                    .build());
         }
 
         return builder.build();

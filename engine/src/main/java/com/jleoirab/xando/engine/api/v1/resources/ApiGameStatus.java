@@ -10,6 +10,7 @@ import lombok.Value;
 public class ApiGameStatus {
     ApiGameState state;
     ApiPlayerTag winner;
+    int[] winLine;
 
     public static ApiGameStatus from(GameStatus gameStatus) {
         if (gameStatus == null) return null;
@@ -17,6 +18,7 @@ public class ApiGameStatus {
         return ApiGameStatus.builder()
                 .state(ApiGameState.from(gameStatus.getState()))
                 .winner(ApiPlayerTag.from(gameStatus.getWinner()))
+                .winLine(gameStatus.getWinLine())
                 .build();
     }
 }

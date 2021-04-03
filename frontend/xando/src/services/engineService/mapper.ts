@@ -52,6 +52,7 @@ export function toGameStatus(apiGameStatus: ApiGameStatus): GameStatus {
   return {
     winner: apiGameStatus.winner ? toPlayerTag(apiGameStatus.winner) : null,
     state: toStatusState(apiGameStatus.state),
+    winLine: apiGameStatus.winLine,
   }
 }
 

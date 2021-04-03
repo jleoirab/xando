@@ -65,6 +65,7 @@ export const FINISHED_STATE: GameStatusState = "FINISHED"
 export interface GameStatus {
   state: GameStatusState;
   winner: PlayerTag | null;
+  winLine: Array<number> | null;
 }
 
 export interface Game {
