@@ -12,11 +12,11 @@
 }
 
 .sidebar {
-  border-right: 3px solid #dedbdb;
-  border-top: 3px solid #dedbdb;
+  border-right: 3px solid var(--mid-grey);
+  border-top: 3px solid var(--mid-grey);
   height: 100%;
   width: 300px;
-  background-color: #f5f5f5;
+  background-color: var(--light-grey);
 }
 
 .gameBoard {
@@ -36,11 +36,11 @@
   width: 200px;
   font-size: 100px;
   cursor: pointer;
-  color: #545454;
+  color: var(--black-shade);
 }
 
 .gameBoardTable .cell.free:hover {
-  background-color: grey;
+  background-color: var(--mid-grey);
 }
 
 .gameBoardTable .cell.disabled {
@@ -52,24 +52,24 @@
 }
 
 .gameBoardTable .cell.cell-in-win-line {
-  background-color: #c961d6;
+  background-color: var(--winner-color);
 }
 
 .gameBoardTable tr:nth-child(2) {
-  border-top: 4px solid #545454;
-  border-bottom: 4px solid #545454;
+  border-top: 4px solid var(--black-shade);
+  border-bottom: 4px solid var(--black-shade);
 }
 
 .gameBoardTable tr td:nth-child(2) {
-  border-left: 4px solid #545454;
-  border-right: 4px solid #545454;
+  border-left: 4px solid var(--black-shade);
+  border-right: 4px solid var(--black-shade);
 }
 
 .scoreBoard {
   padding: 8px 0 8px 0;
   display: flex;
   flex-direction: column;
-  border-bottom: 3px solid #dedbdb;
+  border-bottom: 3px solid var(--mid-grey);
 }
 
 .player {
@@ -80,5 +80,5 @@
 }
 
 .player.player-has-turn {
-  background-color: aquamarine;
+  background-color: var(--current-player-turn-color);
 }

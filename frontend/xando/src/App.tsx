@@ -9,6 +9,8 @@ import GameLobbyPage from './pages/home/home';
 import GamePage from './pages/game/game';
 import JoinGameLobby from './pages/game/joinGameLobby';
 
+import './App.css';
+
 function App() {
   return (
     <Provider store={store}>

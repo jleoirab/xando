@@ -1,3 +1,11 @@
+:root {
+  --black-shade: #545454;
+  --winner-color: #c961d6;
+  --current-player-turn-color: aquamarine;
+  --mid-grey: #dedbdb;
+  --light-grey: #f5f5f5;
+}
+
 .App {
   text-align: center;
 }
