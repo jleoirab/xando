@@ -69,8 +69,8 @@ public class Game {
         verifyGameState(GameState.IN_PROGRESS, () -> new IllegalGameState(GameState.IN_PROGRESS));
         verifyPlayerMove(move);
         applyMove(move.getCellIndex(), move.getPlayerTag());
-        setNextPlayerTurn();
         evaluateGameStatus();
+        setNextPlayerTurn();
     }
 
     private void verifyGameState(GameState expectedState, Supplier<XAndOGameError> errorSupplier) throws XAndOGameError {
@@ -110,7 +110,7 @@ public class Game {
     }
 
     private void setNextPlayerTurn() {
-        currentPlayerTurn = currentPlayerTurn.opponent();
+        currentPlayerTurn = gameStatus.getState() != GameState.FINISHED ? currentPlayerTurn.opponent() : null;
     }
 
     private void evaluateGameStatus() {
