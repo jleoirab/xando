@@ -8,6 +8,10 @@
   justify-content: center;
 }
 
+.joinGameSection {
+  min-width: 500px;
+}
+
 .mainLobbySectionForm {
   width: 100%;
 }

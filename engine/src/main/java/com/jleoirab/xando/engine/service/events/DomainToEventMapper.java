@@ -19,7 +19,7 @@ final class DomainToEventMapper {
                 .setPlayerX(from(game.getPlayerX()))
                 .setPlayerO(from(game.getPlayerO()))
                 .setGameBoard(from(game.getGameBoard()))
-                .setCurrentPlayerTurn(from(game.getCurrentPlayerTurn()))
+                .setCurrentPlayerTurn(fromNullable(game.getCurrentPlayerTurn()))
                 .setGameStatus(from(game.getGameStatus()))
                 .build();
     }
@@ -59,6 +59,12 @@ final class DomainToEventMapper {
         return playerTag == PlayerTag.PLAYER_X ? com.jleoirab.xando.protos.models.PlayerTag.PLAYER_TAG_X :
                 com.jleoirab.xando.protos.models.PlayerTag.PLAYER_TAG_O;
 
+    }
+
+    public static com.jleoirab.xando.protos.models.PlayerTag fromNullable(PlayerTag playerTag) {
+        if (playerTag == null) return com.jleoirab.xando.protos.models.PlayerTag.PLAYER_TAG_UNKNOWN;
+
+        return from(playerTag);
     }
 
     public static GameStatus from(com.jleoirab.xando.engine.domain.model.GameStatus gameStatus) {

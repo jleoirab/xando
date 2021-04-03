@@ -10,6 +10,7 @@ import {
   PLAYER_JOINED_GAME,
   MOVE_RECEIVED,
   GAME_SUBSCRIPTION_SUCCESS,
+  LEAVE_GAME,
 } from './types';
 
 import { createReducer } from '../util';
@@ -84,6 +85,10 @@ function handleMoveReceived(state: GameState, action: GameActions): GameState {
   });
 }
 
+function handleLeaveGame(state: GameState, action: GameActions): GameState {
+  return initialState;
+}
+
 export const gameReducer = createReducer<string, GameState, GameActions>(initialState, [
   [CREATE_GAME, handleCreateGame],
   [CREATE_GAME_SUCCESS, handleCreateGameSuccess],
@@ -94,4 +99,5 @@ export const gameReducer = createReducer<string, GameState, GameActions>(initial
   [GAME_SUBSCRIPTION_SUCCESS, handleGameSubsciptionSuccess],
   [PLAYER_JOINED_GAME, handlePlayerJoinedGame],
   [MOVE_RECEIVED, handleMoveReceived],
+  [LEAVE_GAME, handleLeaveGame],
 ]);

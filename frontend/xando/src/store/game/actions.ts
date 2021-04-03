@@ -24,6 +24,7 @@ import {
   PLAYER_JOINED_GAME,
   MOVE_RECEIVED,
   GAME_SUBSCRIPTION_REMOVED,
+  LEAVE_GAME,
 } from './types'
 import { EngineServiceBackedGameService } from '../../services/engineService/engineService';
 import { updatePlayerInfo, } from '../system/actions';
@@ -92,6 +93,13 @@ export function moveReceivedAction(event: GameEvent): GameActions {
   };
 }
 
+export function leaveGameAction(): GameActions {
+  return {
+    type: LEAVE_GAME,
+    payload: {},
+  }
+}
+
 export type GameThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
 
 const gameService = new EngineServiceBackedGameService();
@@ -128,7 +136,7 @@ export const callMakeMove = (move: Move): GameThunk<void> => async (dispatch, ge
 
   dispatch(makeMoveSuccess(game));
 
-  console.log("Make a move request");
+  console.log("Make a move request", game);
 }
 
 export const registerJoinGameIntent = (config: JoinGameConfig): GameThunk<void> => async (dispatch, getState) => {
@@ -217,4 +225,11 @@ export const joinGame = (gameId: string): GameThunk<void> => async (dispatch, ge
   // dispatch join game success
 
   dispatch(push(`/games/${game.id}`));
+}
+
+export const leaveGame = (): GameThunk<void> => async (dispatch, getState) => {
+  console.log("Leave game");
+  dispatch(leaveGameAction());
+  unsubscribeToGameEvents();
+  dispatch(push(`/`));
 }

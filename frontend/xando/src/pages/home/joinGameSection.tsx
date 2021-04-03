@@ -13,7 +13,7 @@ interface JoinGameSectionProps {
 
 const JoinGameSection: React.FC<JoinGameSectionProps> = (props: JoinGameSectionProps) => {
   return (
-    <section className={`joingGmaeSection ${props.display ? '' : 'd-none'}`}>
+    <section className={`joinGameSection ${props.display ? '' : 'd-none'}`}>
       <Form className="joinGameSectionForm">
         <Form.Group controlId="gameId">
           <Form.Control

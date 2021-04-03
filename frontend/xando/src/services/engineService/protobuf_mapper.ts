@@ -29,6 +29,7 @@ type GameStateMessage = Protos.com.jleoirab.xando.protos.GameState;
 const GameStateEnum = Protos.com.jleoirab.xando.protos.GameState;
 type GameBoardCellMessage = Protos.com.jleoirab.xando.protos.GameBoard.GameBoardCell;
 const GameBoardCellEnum = Protos.com.jleoirab.xando.protos.GameBoard.GameBoardCell;
+type WinLineMessage = Protos.com.jleoirab.xando.protos.IWinLine;
 
 export function toGame(gameMessage: GameMessage): Game {
   return {
@@ -38,7 +39,7 @@ export function toGame(gameMessage: GameMessage): Game {
     playerX: toGamePlayer(gameMessage.playerX),
     playerO: toGamePlayer(gameMessage.playerO),
     gameBoard: toGameBoard(gameMessage.gameBoard),
-    currentPlayerTurn: toPlayerTag(gameMessage.currentPlayerTurn),
+    currentPlayerTurn: toNullablePlayerTag(gameMessage.currentPlayerTurn),
     gameStatus: toGameStatus(gameMessage.gameStatus),
   };
 }
@@ -92,8 +93,14 @@ export function toGameStatus(gameStatusMessage: GameStatusMessage): GameStatus {
   return {
     winner: toNullablePlayerTag(gameStatusMessage.winner),
     state: toGameState(gameStatusMessage.state),
-    winLine: gameStatusMessage.winLine.cell,
+    winLine: toWinLine(gameStatusMessage.winLine),
   }
+}
+
+export function toWinLine(winLine?: WinLineMessage): Array<number> | null {
+  if (!winLine) return null;
+
+  return winLine.cell;
 }
 
 export function toGameState(gameStateMessage: GameStateMessage): GameStatusState {

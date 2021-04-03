@@ -163,21 +163,21 @@ public class Game {
         if (Strings.isNotBlank(gameBoard[0]) && gameBoard[0].equals(gameBoard[1]) && gameBoard[0].equals(gameBoard[2])) {
             return Optional.of(WinState.builder()
                     .winner(PlayerTag.from(gameBoard[0]))
-                    .winLine(GameBoardLine.GameBoardLines.COL_1.getCellIndexes())
+                    .winLine(GameBoardLine.GameBoardLines.ROW_1.getCellIndexes())
                     .build());
         }
 
         if (Strings.isNotBlank(gameBoard[3]) && gameBoard[3].equals(gameBoard[4]) && gameBoard[3].equals(gameBoard[5])) {
             return Optional.of(WinState.builder()
                     .winner(PlayerTag.from(gameBoard[3]))
-                    .winLine(GameBoardLine.GameBoardLines.COL_2.getCellIndexes())
+                    .winLine(GameBoardLine.GameBoardLines.ROW_2.getCellIndexes())
                     .build());
         }
 
         if (Strings.isNotBlank(gameBoard[6]) && gameBoard[6].equals(gameBoard[7]) && gameBoard[6].equals(gameBoard[8])) {
             return Optional.of(WinState.builder()
                     .winner(PlayerTag.from(gameBoard[6]))
-                    .winLine(GameBoardLine.GameBoardLines.COL_3.getCellIndexes())
+                    .winLine(GameBoardLine.GameBoardLines.ROW_3.getCellIndexes())
                     .build());
         }
 
@@ -188,14 +188,14 @@ public class Game {
         if (Strings.isNotBlank(gameBoard[0]) && gameBoard[0].equals(gameBoard[3]) && gameBoard[0].equals(gameBoard[6])) {
             return Optional.of(WinState.builder()
                     .winner(PlayerTag.from(gameBoard[0]))
-                    .winLine(GameBoardLine.GameBoardLines.ROW_1.getCellIndexes())
+                    .winLine(GameBoardLine.GameBoardLines.COL_1.getCellIndexes())
                     .build());
         }
 
         if (Strings.isNotBlank(gameBoard[1]) && gameBoard[1].equals(gameBoard[4]) && gameBoard[1].equals(gameBoard[7])) {
             return Optional.of(WinState.builder()
                     .winner(PlayerTag.from(gameBoard[1]))
-                    .winLine(GameBoardLine.GameBoardLines.ROW_2.getCellIndexes())
+                    .winLine(GameBoardLine.GameBoardLines.COL_2.getCellIndexes())
                     .build());
         }
 

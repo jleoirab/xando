@@ -4,12 +4,12 @@ import { ThunkDispatch } from 'redux-thunk';
 import { RouteComponentProps } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
-import { Game, IN_PROGRESS_STATE, Move, Player, X_TAG, GameStatusState, CREATED_STATE } from '../../application/types';
+import { Game, IN_PROGRESS_STATE, Move, Player, X_TAG, CREATED_STATE } from '../../application/types';
 
 import './game.css';
 
 import { RootState } from "../../store/store";
-import { callMakeMove, loadGame, subscibeToGameEvents, unsubscribeToGameEvents } from "../../store/game/actions";
+import { callMakeMove, loadGame, subscibeToGameEvents, unsubscribeToGameEvents, leaveGame } from "../../store/game/actions";
 import { Action } from "redux";
 import ScoreBoardSection from "./scoreBoardSection";
 import TieHistorySection from "./tieHistorySection";
@@ -30,6 +30,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, unknown, Action<s
   loadGame: (gameId: string) => dispatch(loadGame(gameId)),
   subscribeToGameEvents: (gameId: string) => dispatch(subscibeToGameEvents(gameId)),
   unsubscribeToGameEvents: () => dispatch(unsubscribeToGameEvents()),
+  leaveGame: () => dispatch(leaveGame()),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -95,7 +96,9 @@ class GamePage extends React.Component<GamePageProps, State> {
             systemPlayer={this.props.playerInSession}
           />
           <TieHistorySection />
-          <GameOptionsSection />
+          <GameOptionsSection
+            onClick={this.props.leaveGame}
+          />
         </div>
         <GameBoardSection
           game={this.props.currentGame}
