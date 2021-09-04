@@ -21,12 +21,16 @@ export class WebSocketGameEventsListener implements GameEventsListener {
   private gameId: string;
   private player: Player;
   private handler: GameEventHandler;
+  private onConnectHandler: () => void;
 
-  constructor(client: Client, gameId: string, player: Player) {
+  constructor(client: Client, gameId: string, player: Player, onConnect: () => void) {
     this.client = client;
     this.gameId = gameId;
     this.player = player;
+    this.onConnectHandler = onConnect;
+
     this.handleGameEvent = this.handleGameEvent.bind(this);
+    this.handleNewConnection = this.handleNewConnection.bind(this);
 
     this.subscribe();
   }
@@ -34,6 +38,7 @@ export class WebSocketGameEventsListener implements GameEventsListener {
   private subscribe(): void {
 
     this.client.onConnect = frame => {
+      this.handleNewConnection();
       this.client.subscribe(`/queue/${this.gameId}`, this.handleGameEvent);
     }
 
@@ -46,6 +51,10 @@ export class WebSocketGameEventsListener implements GameEventsListener {
 
   onGameEvent(handler: GameEventHandler): void {
     this.handler = handler;
+  }
+
+  private handleNewConnection(): void {
+    this.onConnectHandler();
   }
 
   private handleGameEvent(message: Message): void {

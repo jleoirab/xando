@@ -111,11 +111,15 @@ export interface GameEventsListener {
   onGameEvent(handler: GameEventHandler): void;
 }
 
+export interface OnConnectHandler {
+  (): void;
+}
+
 export interface GameService {
   createPlayer(playerName: string): Promise<Player>;
   createGame(player: Player): Promise<Game>;
   joingGame(player: Player, gameId: string): Promise<Game>;
   makeMove(move: Move): Promise<Game>;
-  subscribeToGameEvents(gameId: string, player: Player): GameEventsListener;
+  subscribeToGameEvents(gameId: string, player: Player, onConnect: OnConnectHandler): GameEventsListener;
   getGame(player: Player, gameId: string): Promise<Game>;
 }

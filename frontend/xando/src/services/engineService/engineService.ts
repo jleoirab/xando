@@ -1,5 +1,5 @@
 import { toPlayer, toGame, toApiPlayerTag } from './mapper';
-import { Game, Move, GameService, Player, GameEventsListener } from "../../application/types";
+import { Game, Move, GameService, Player, GameEventsListener, OnConnectHandler } from "../../application/types";
 import { EngineServiceV1, Response } from "./EngineServiceV1API";
 import { ApiPlayer, ApiGame } from './type';
 import { createStompClient, WebSocketGameEventsListener } from './websocketTransport';
@@ -53,9 +53,9 @@ export class EngineServiceBackedGameService implements GameService {
     return toGame(response.data);
   }
 
-  subscribeToGameEvents(gameId: string, player: Player): GameEventsListener {
+  subscribeToGameEvents(gameId: string, player: Player, onConnect: OnConnectHandler): GameEventsListener {
     const client = createStompClient();
-    return new WebSocketGameEventsListener(client, gameId, player);
+    return new WebSocketGameEventsListener(client, gameId, player, onConnect);
   }
 
   private getAuthorization(id: string, playerName: string) {

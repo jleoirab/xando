@@ -180,7 +180,11 @@ export const subscibeToGameEvents = (gameId: string): GameThunk<void> => async (
 
   const systemPlayer = getState().system.systemPlayer;
 
-  const subscription = gameService.subscribeToGameEvents(gameId, systemPlayer);
+  // force a load game to ensure that we're starting with as close to the latest revision
+  // of the game state as possbile. We might have missed some revisions while we were
+  // establishing the subscription. This is a rare case though.
+  const onConnect = () => loadGame(gameId);
+  const subscription = gameService.subscribeToGameEvents(gameId, systemPlayer, onConnect);
 
   subscription.onGameEvent(event => {
     console.log("handling game event", event);
@@ -195,11 +199,6 @@ export const subscibeToGameEvents = (gameId: string): GameThunk<void> => async (
         break;
     }
   });
-
-  // force a load game to ensure that we're starting with as close to the latest revision
-  // of the game state as possbile. We might have missed some revisions while we were
-  // establishing the subscription. This is a rare case though.
-  loadGame(gameId);
 
   dispatch(gameSubscriptionSuccess(subscription));
 }
