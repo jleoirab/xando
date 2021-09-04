@@ -1,0 +1,50 @@
+.home-section {
+  width: 100%;
+  text-align: center;
+}
+
+.starting-point-form {
+  max-width: 500px;
+  margin: auto;
+}
+
+.form-inputs {
+  text-align: center;
+  border: 3px solid var(--standard-grey);
+  border-radius: 8px;
+  height: 72px;
+  /* color: var(--primary-font-color); */
+  font-size: 36px;
+}
+
+.action-buttons {
+  position: relative;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-buttons > button {
+  font-size: 24px;
+}
+
+.action-buttons > button + button {
+  margin-left: 8px;
+}
+
+.item-enter {
+  opacity: 0;
+  display: block;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  display: none;
+}
+.item-exit-active {
+  display: none;
+}

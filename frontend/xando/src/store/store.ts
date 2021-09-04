@@ -6,8 +6,9 @@ import { createBrowserHistory } from 'history';
 
 import { systemReducer } from './system/reducers';
 import { gameReducer } from './game/reducers';
-import { GameActions } from './game/types';
-import { SystemActions } from './system/types';
+import { GameActions, GameState } from './game/types';
+import { SystemActions, SystemState } from './system/types';
+import { RouteComponentProps } from 'react-router';
 
 const createRootReducer = (history) => combineReducers({
   router: connectRouter(history),

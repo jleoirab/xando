@@ -12,14 +12,13 @@
 }
 
 .sidebar {
-  border-right: 3px solid var(--mid-grey);
-  border-top: 3px solid var(--mid-grey);
+  border-right: 1px solid var(--standard-grey);
   height: 100%;
   width: 300px;
-  background-color: var(--light-grey);
 }
 
 .gameBoard {
+  position: relative;
   display: flex;
   height: 100%;
   width: 100%;
@@ -40,7 +39,7 @@
 }
 
 .gameBoardTable .cell.free:hover {
-  background-color: var(--mid-grey);
+  background-color: var(--standard-grey);
 }
 
 .gameBoardTable .cell.disabled {
@@ -55,19 +54,27 @@
   background-color: var(--winner-color);
 }
 
+.gameBoardTable .cell.cell-x {
+  color: var(--standard-green);
+}
+
+.gameBoardTable .cell.cell-o {
+  color: var(--standard-blue);
+}
+
 .gameBoardTable tr:nth-child(2) {
-  border-top: 4px solid var(--black-shade);
-  border-bottom: 4px solid var(--black-shade);
+  border-top: 4px solid var(--standard-grey);
+  border-bottom: 4px solid var(--standard-grey);
 }
 
 .gameBoardTable tr td:nth-child(2) {
-  border-left: 4px solid var(--black-shade);
-  border-right: 4px solid var(--black-shade);
+  border-left: 4px solid var(--standard-grey);
+  border-right: 4px solid var(--standard-grey);
 }
 
 .scoreBoard,
 .gameOptionsSection {
-  padding: 8px 0;
+  padding: 24px 0;
   display: flex;
   flex-direction: column;
   border-bottom: 3px solid var(--mid-grey);
@@ -80,10 +87,24 @@
 .player {
   display: flex;
   height: 50px;
+  width: 200px;
   justify-content: center;
   align-items: center;
+  margin: auto;
+  border-radius: 8px;
+  background-color: var(--standard-grey);
+  font-weight: 600;
+  color: white;
 }
 
-.player.player-has-turn {
-  background-color: var(--current-player-turn-color);
+.player-x.player-has-turn {
+  background-color: var(--standard-green);
+}
+
+.player-o.player-has-turn {
+  background-color: var(--standard-blue);
+}
+
+.player + .player {
+  margin-top: 10px;
 }

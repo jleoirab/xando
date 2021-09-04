@@ -27,6 +27,7 @@ import {
   LEAVE_GAME,
 } from './types'
 import { EngineServiceBackedGameService } from '../../services/engineService/engineService';
+import { InMemoryGameService } from '../../services/engineService/inMemoryGameService';
 import { updatePlayerInfo, } from '../system/actions';
 import { toEventType } from '../../services/engineService/protobuf_mapper';
 
@@ -103,6 +104,7 @@ export function leaveGameAction(): GameActions {
 export type GameThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
 
 const gameService = new EngineServiceBackedGameService();
+// const gameService = new InMemoryGameService();
 
 export const callCreateGame = (config: GameCreationConfig): GameThunk<void> => async (dispatch, getState) => {
   console.log("Doing callCreateGame thunk");

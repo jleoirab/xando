@@ -1,0 +1,33 @@
+.header-v1 {
+  width: 100%;
+  height: var(--var-header-height);
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-bottom: 1px solid var(--standard-grey);
+}
+
+.logo-text {
+  font-weight: 600;
+  font-size: 72px;
+  user-select: none;
+}
+
+.logo-text a,a:hover {
+  text-decoration: none;
+}
+
+
+.logo-text-x {
+  color: var(--standard-green);
+}
+
+.logo-text-n {
+  color: var(--standard-gold);
+}
+
+.logo-text-o {
+  color: var(--standard-blue);
+}

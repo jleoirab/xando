@@ -1,0 +1,27 @@
+.alert-v1 {
+  display: block;
+  border: 1px solid var(--standard-grey);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  background-color: var(--error-red);
+  position: absolute;
+  max-width: 500px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 1000;
+}
+
+.alert-title {
+  font-weight: 600;
+  border-bottom: 1px solid var(--standard-grey);
+  margin-bottom: 8px;
+}
+
+.alert-title .close-icon::before {
+  content: ' ';
+}
+
+.alert-title .close-icon {
+  cursor: pointer;
+}

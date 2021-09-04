@@ -17,9 +17,11 @@ const PlayerScore: React.FC<PlayerProps> = (props: PlayerProps) => {
       .isSystemPlayer ? 'system-player' : ''} ${props
         .isPlayerTurn ? 'player-has-turn' : ''}`;
 
+    const playerName = (props.playerName.length > 6) ? `${props.playerName.slice(0, 6)}...` : props.playerName;
+
   return (
     <div className={className}>
-      <span>{`${props.playerName} (${props.tag})`}</span>
+      <span>{`${playerName} (${props.tag})`}</span>
     </div>
   );
 }
@@ -38,7 +40,6 @@ const ScoreBoardSection: React.FC<Props> = (props: Props) => {
 
   return (
     <section className="scoreBoard">
-      <h5>Players</h5>
       <PlayerScore
         tag={X_TAG}
         isSystemPlayer={props.systemPlayer.id === playerX.id}

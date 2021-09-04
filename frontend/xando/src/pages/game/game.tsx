@@ -37,6 +37,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GamePageProps = ConnectedProps<typeof connector> & RouteComponentProps;
 
 const defaultGameBoard = [null, null, null, null, null, null, null, null, null,];
+
 class GamePage extends React.Component<GamePageProps, State> {
   state: State = {};
 
@@ -90,7 +91,7 @@ class GamePage extends React.Component<GamePageProps, State> {
   private renderGame() {
     return (
       <Container fluid className="page gamePageSections">
-          <div className="sidebar">
+        <aside className="sidebar">
           <ScoreBoardSection
             game={this.props.currentGame}
             systemPlayer={this.props.playerInSession}
@@ -99,7 +100,7 @@ class GamePage extends React.Component<GamePageProps, State> {
           <GameOptionsSection
             onClick={this.props.leaveGame}
           />
-        </div>
+        </aside>
         <GameBoardSection
           game={this.props.currentGame}
           onMakeMove={this.onMakeMove}
@@ -129,7 +130,6 @@ class GamePage extends React.Component<GamePageProps, State> {
   render() {
     return (
       <Container fluid className="page gamePage">
-        <h1>XandO</h1>
         {this.renderSection()}
       </Container>
     );

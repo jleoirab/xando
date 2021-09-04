@@ -21,7 +21,10 @@ const Cell: React.FC<CellProps> = (props: CellProps) => {
   const occupied = props.tag != null;
   const tag = occupied ? playerTagHTML(props.tag) : "";
   const cellDisabled = occupied || !props.canPlay;
-  const className = `cell ${props.inWinLine ? 'cell-in-win-line' : ''} ${cellDisabled ? 'disabled' : 'free'}`;
+  const className = `cell ${props.inWinLine ? 'cell-in-win-line' : ''} ${cellDisabled ? 'disabled' : 'free'} ${
+    occupied ? `cell-${tag.toLocaleLowerCase()}` : ''
+  }`;
+
   const onClick = () => {
     if (cellDisabled) return;
     props.onClick(props.index);
@@ -36,6 +39,7 @@ interface Props {
 }
 
 const GameBoardSection: React.FC<Props> = (props: Props) => {
+  console.log("debug", props);
   const gameBoard = props.game ? props.game.gameBoard : EMPTY_BOARD
   const winLine = props.game?.gameStatus.winLine ? props.game.gameStatus.winLine : [];
 

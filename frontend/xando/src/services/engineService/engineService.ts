@@ -5,7 +5,7 @@ import { ApiPlayer, ApiGame } from './type';
 import { createStompClient, WebSocketGameEventsListener } from './websocketTransport';
 
 
-const ENDPOINT = "http://localhost:8080";
+const ENDPOINT = "http://192.168.2.28:8080";
 
 export class EngineServiceBackedGameService implements GameService {
   private engineService: EngineServiceV1;

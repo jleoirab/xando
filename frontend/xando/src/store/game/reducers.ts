@@ -44,7 +44,7 @@ function handleMakeMove(state: GameState, action: GameActions): GameState {
 }
 
 function handleMakeMoveSuccess(state: GameState, action: GameActions): GameState {
-  console.log("handling make  move success");
+  console.log("handling make move success");
   return Object.assign({}, state, {
     currentGame: action.payload,
   });

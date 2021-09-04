@@ -7,6 +7,11 @@ export enum PlayerTagSelection {
   O,
 }
 
+export enum OpponentType {
+  AI,
+  NOT_AI,
+}
+
 export interface PlayerTagOption {
   label: string;
   value: PlayerTagSelection;

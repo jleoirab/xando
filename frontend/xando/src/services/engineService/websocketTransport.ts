@@ -4,7 +4,7 @@ import { toGameEvent } from './protobuf_mapper';
 import {  Player, GameEventsListener, GameEventHandler } from "../../application/types";
 
 
-const WEB_SOCKET_ENDPOINT = "ws://localhost:8082/ws";
+const WEB_SOCKET_ENDPOINT = "ws://192.168.2.28:8082/ws";
 
 export const createStompClient = () => {
   const client = new Client({
