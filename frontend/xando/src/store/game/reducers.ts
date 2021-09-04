@@ -11,6 +11,7 @@ import {
   MOVE_RECEIVED,
   GAME_SUBSCRIPTION_SUCCESS,
   LEAVE_GAME,
+  LoadGameSuccessAction,
 } from './types';
 
 import { createReducer } from '../util';
@@ -52,6 +53,12 @@ function handleMakeMoveSuccess(state: GameState, action: GameActions): GameState
 
 function handleLoadGameSuccess(state: GameState, action: GameActions): GameState {
   console.log("handling load game success");
+
+  const actualAction = <LoadGameSuccessAction>action;
+  if (state.currentGame && state.currentGame.revision >= actualAction.payload.revision) {
+    return state;
+  }
+
   const newState = Object.assign({}, state, {
     currentGame: action.payload,
   });

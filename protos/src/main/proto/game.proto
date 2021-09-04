@@ -52,4 +52,5 @@ message Game {
   GameBoard game_board = 6;
   PlayerTag current_player_turn = 7;
   GameStatus game_status = 8;
+  int32 revision = 9;
 }

@@ -196,6 +196,11 @@ export const subscibeToGameEvents = (gameId: string): GameThunk<void> => async (
     }
   });
 
+  // force a load game to ensure that we're starting with as close to the latest revision
+  // of the game state as possbile. We might have missed some revisions while we were
+  // establishing the subscription. This is a rare case though.
+  loadGame(gameId);
+
   dispatch(gameSubscriptionSuccess(subscription));
 }
 

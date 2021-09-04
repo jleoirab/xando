@@ -16,6 +16,7 @@ public class ApiGame {
     String[] gameBoard;
     ApiPlayerTag currentPlayerTurn;
     ApiGameStatus gameStatus;
+    int revision;
 
     public static ApiGame from(Game game) {
         if (game == null) return null;
@@ -29,6 +30,7 @@ public class ApiGame {
                 .gameBoard(game.getGameBoard())
                 .currentPlayerTurn(ApiPlayerTag.from(game.getCurrentPlayerTurn()))
                 .gameStatus(ApiGameStatus.from(game.getGameStatus()))
+                .revision(game.getRevision())
                 .build();
     }
 }

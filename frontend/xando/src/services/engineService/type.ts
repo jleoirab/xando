@@ -6,7 +6,8 @@ export interface ApiGame {
     playerO: ApiGamePlayer | null;
     gameBoard: Array<ApiPlayerTag | null>;
     currentPlayerTurn: ApiPlayerTag | null;
-    gameStatus: ApiGameStatus
+    gameStatus: ApiGameStatus;
+    revision: number;
 }
 
 export interface ApiPlayer {

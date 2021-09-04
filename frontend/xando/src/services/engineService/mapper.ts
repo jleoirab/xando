@@ -19,6 +19,7 @@ export function toGame(apiGame: ApiGame): Game {
     gameBoard: toGameBoard(apiGame.gameBoard),
     currentPlayerTurn: toPlayerTag(apiGame.currentPlayerTurn),
     gameStatus: toGameStatus(apiGame.gameStatus),
+    revision: apiGame.revision,
   }
 }
 

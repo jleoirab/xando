@@ -82,6 +82,7 @@ export interface Game {
   gameBoard: Array<PlayerTag | null>;
   currentPlayerTurn: PlayerTag;
   gameStatus: GameStatus;
+  revision: number;
 }
 
 export interface Move {

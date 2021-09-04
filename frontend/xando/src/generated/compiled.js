@@ -1776,6 +1776,7 @@ export const com = $root.com = (() => {
                      * @property {com.jleoirab.xando.protos.IGameBoard|null} [gameBoard] Game gameBoard
                      * @property {com.jleoirab.xando.protos.PlayerTag|null} [currentPlayerTurn] Game currentPlayerTurn
                      * @property {com.jleoirab.xando.protos.IGameStatus|null} [gameStatus] Game gameStatus
+                     * @property {number|null} [revision] Game revision
                      */
 
                     /**
@@ -1858,6 +1859,14 @@ export const com = $root.com = (() => {
                     Game.prototype.gameStatus = null;
 
                     /**
+                     * Game revision.
+                     * @member {number} revision
+                     * @memberof com.jleoirab.xando.protos.Game
+                     * @instance
+                     */
+                    Game.prototype.revision = 0;
+
+                    /**
                      * Creates a new Game instance using the specified properties.
                      * @function create
                      * @memberof com.jleoirab.xando.protos.Game
@@ -1897,6 +1906,8 @@ export const com = $root.com = (() => {
                             writer.uint32(/* id 7, wireType 0 =*/56).int32(message.currentPlayerTurn);
                         if (message.gameStatus != null && Object.hasOwnProperty.call(message, "gameStatus"))
                             $root.com.jleoirab.xando.protos.GameStatus.encode(message.gameStatus, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                        if (message.revision != null && Object.hasOwnProperty.call(message, "revision"))
+                            writer.uint32(/* id 9, wireType 0 =*/72).int32(message.revision);
                         return writer;
                     };
 
@@ -1954,6 +1965,9 @@ export const com = $root.com = (() => {
                                 break;
                             case 8:
                                 message.gameStatus = $root.com.jleoirab.xando.protos.GameStatus.decode(reader, reader.uint32());
+                                break;
+                            case 9:
+                                message.revision = reader.int32();
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -2028,6 +2042,9 @@ export const com = $root.com = (() => {
                             if (error)
                                 return "gameStatus." + error;
                         }
+                        if (message.revision != null && message.hasOwnProperty("revision"))
+                            if (!$util.isInteger(message.revision))
+                                return "revision: integer expected";
                         return null;
                     };
 
@@ -2083,6 +2100,8 @@ export const com = $root.com = (() => {
                                 throw TypeError(".com.jleoirab.xando.protos.Game.gameStatus: object expected");
                             message.gameStatus = $root.com.jleoirab.xando.protos.GameStatus.fromObject(object.gameStatus);
                         }
+                        if (object.revision != null)
+                            message.revision = object.revision | 0;
                         return message;
                     };
 
@@ -2108,6 +2127,7 @@ export const com = $root.com = (() => {
                             object.gameBoard = null;
                             object.currentPlayerTurn = options.enums === String ? "PLAYER_TAG_UNKNOWN" : 0;
                             object.gameStatus = null;
+                            object.revision = 0;
                         }
                         if (message.uid != null && message.hasOwnProperty("uid"))
                             object.uid = message.uid;
@@ -2125,6 +2145,8 @@ export const com = $root.com = (() => {
                             object.currentPlayerTurn = options.enums === String ? $root.com.jleoirab.xando.protos.PlayerTag[message.currentPlayerTurn] : message.currentPlayerTurn;
                         if (message.gameStatus != null && message.hasOwnProperty("gameStatus"))
                             object.gameStatus = $root.com.jleoirab.xando.protos.GameStatus.toObject(message.gameStatus, options);
+                        if (message.revision != null && message.hasOwnProperty("revision"))
+                            object.revision = message.revision;
                         return object;
                     };
 

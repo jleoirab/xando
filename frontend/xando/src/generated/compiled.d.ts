@@ -742,6 +742,9 @@ export namespace com {
 
                     /** Game gameStatus */
                     gameStatus?: (com.jleoirab.xando.protos.IGameStatus|null);
+
+                    /** Game revision */
+                    revision?: (number|null);
                 }
 
                 /** Represents a Game. */
@@ -776,6 +779,9 @@ export namespace com {
 
                     /** Game gameStatus. */
                     public gameStatus?: (com.jleoirab.xando.protos.IGameStatus|null);
+
+                    /** Game revision. */
+                    public revision: number;
 
                     /**
                      * Creates a new Game instance using the specified properties.

@@ -29,7 +29,7 @@ interface LoadGameAction {
   payload: string;
 }
 
-interface LoadGameSuccessAction {
+export interface LoadGameSuccessAction {
   type: typeof LOAD_GAME_SUCCESS;
   payload: Game;
 }

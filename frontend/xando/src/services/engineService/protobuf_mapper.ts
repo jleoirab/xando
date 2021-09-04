@@ -41,6 +41,7 @@ export function toGame(gameMessage: GameMessage): Game {
     gameBoard: toGameBoard(gameMessage.gameBoard),
     currentPlayerTurn: toNullablePlayerTag(gameMessage.currentPlayerTurn),
     gameStatus: toGameStatus(gameMessage.gameStatus),
+    revision: (gameMessage.revision !== null) ? gameMessage.revision : 1,
   };
 }
 

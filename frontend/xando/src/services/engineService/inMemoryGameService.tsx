@@ -36,7 +36,8 @@ export class InMemoryGameService implements GameService {
         state: IN_PROGRESS_STATE,
         winner: null,
         winLine: null,
-      }
+      },
+      revision: 1,
     }
 
     return this.game;
@@ -61,7 +62,8 @@ export class InMemoryGameService implements GameService {
         state: IN_PROGRESS_STATE,
         winner: null,
         winLine: null,
-      }
+      },
+      revision: 1,
     }
 
     return this.game;
@@ -94,7 +96,8 @@ export class InMemoryGameService implements GameService {
         state: IN_PROGRESS_STATE,
         winner: null,
         winLine: null,
-      }
+      },
+      revision: 1,
     }
 
     return this.game;

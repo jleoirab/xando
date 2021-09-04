@@ -21,9 +21,10 @@ public class Game {
     private GamePlayer playerX;
     private GamePlayer playerO;
     @Setter(AccessLevel.PACKAGE)
-    @Builder.Default private @NonNull String[] gameBoard = new String[9];
+    @NonNull @Builder.Default private String[] gameBoard = new String[9];
     @Builder.Default PlayerTag currentPlayerTurn = PlayerTag.PLAYER_X;
     @NonNull @Builder.Default private GameStatus gameStatus = GameStatus.builder().build();
+    @Builder.Default private int revision = 1;
 
     /**
      * Used to accept a player into the game. If the player is already in the game, this will
@@ -57,6 +58,8 @@ public class Game {
                 .state(GameState.IN_PROGRESS)
                 .winner(currentStatus.getWinner())
                 .build());
+
+        incrementRevision();
     }
 
     /**
@@ -71,6 +74,7 @@ public class Game {
         applyMove(move.getCellIndex(), move.getPlayerTag());
         evaluateGameStatus();
         setNextPlayerTurn();
+        incrementRevision();
     }
 
     private void verifyGameState(GameState expectedState, Supplier<XAndOGameError> errorSupplier) throws XAndOGameError {
@@ -79,6 +83,10 @@ public class Game {
         }
 
         throw errorSupplier.get();
+    }
+
+    private void incrementRevision() {
+        revision++;
     }
 
     private void verifyPlayerMove(Move move) throws XAndOGameError {
